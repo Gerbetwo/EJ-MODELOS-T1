@@ -1,33 +1,38 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 require_once 'config/Connectdb.php';
 
 // Obtener término de búsqueda
 $buscar = isset($_GET['buscar']) ? trim($_GET['buscar']) : '';
 
-// Construir consulta con filtro si hay búsqueda
+// Obtener todas las columnas de Clientes
+$colResult = $conn->query("SHOW COLUMNS FROM Clientes");
+$columnas = [];
+while ($col = $colResult->fetch_assoc()) {
+    $columnas[] = $col['Field'];
+}
+
+// Construir consulta
+$sql = "SELECT * FROM Clientes";
+
 if (!empty($buscar)) {
     $buscar_escapado = $conn->real_escape_string($buscar);
-    
-    // Obtener todas las columnas de la tabla Clientes
-    $colResult = $conn->query("SHOW COLUMNS FROM Clientes");
-    $columnas = [];
-    while ($col = $colResult->fetch_assoc()) {
-        $columnas[] = $col['Field'];
-    }
-    
-    // Crear condiciones WHERE para cada columna
     $condiciones = [];
     foreach ($columnas as $col) {
         $condiciones[] = "`$col` LIKE '%$buscar_escapado%'";
     }
-    $where = "WHERE " . implode(" OR ", $condiciones);
-    $sql = "SELECT * FROM Clientes $where";
-} else {
-    $sql = "SELECT * FROM Clientes";
+    $sql .= " WHERE " . implode(" OR ", $condiciones);
 }
 
+// Ejecutar consulta
 $result = $conn->query($sql);
-$fields = $result->fetch_fields();
+if (!$result) {
+    die("Error en consulta SQL: " . $conn->error);
+}
+
+// Obtener campos para la tabla (si hay registros)
+$fields = $result->num_rows > 0 ? $result->fetch_fields() : [];
 
 include 'includes/header.php';
 
@@ -50,7 +55,9 @@ if (isset($_GET['mensaje'])) {
     }
 }
 
-include 'includes/table.php';
-include 'includes/footer.php';
-$conn->close();
 ?>
+<div id="tablaResultados">
+    <?php include 'includes/table.php'; ?>
+</div>
+<?php
+include 'includes/footer.php';

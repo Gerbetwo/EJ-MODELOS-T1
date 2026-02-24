@@ -1,30 +1,7 @@
-<?php
-require_once 'config/Connectdb.php';
-
-$buscar = isset($_GET['buscar']) ? $_GET['buscar'] : '';
-
-// Consulta filtrada si hay búsqueda
-$sql = "SELECT * FROM Clientes";
-$params = [];
-$types = '';
-if ($buscar !== '') {
-    $sql .= " WHERE ";
-    $sql .= "nombre LIKE ? OR email LIKE ?"; // Cambia 'nombre' y 'email' por las columnas que quieras buscar
-    $like = "%$buscar%";
-    $params = [$like, $like];
-    $types = "ss";
-}
-
-$stmt = $conn->prepare($sql);
-if (!empty($params)) {
-    $stmt->bind_param($types, ...$params);
-}
-$stmt->execute();
-$result = $stmt->get_result();
-$fields = $result->fetch_fields();
-$primerColumna = $fields[0]->name;
+<?php if ($result && $result->num_rows > 0): 
+    // Definir el nombre de la primera columna si no está definido
+    $primerColumna = $fields[0]->name ?? null;
 ?>
-<?php if ($result && $result->num_rows > 0): ?>
 <table class="data-table">
     <thead>
         <tr>
@@ -59,4 +36,3 @@ $primerColumna = $fields[0]->name;
     <p>No se encontraron registros.</p>
 </div>
 <?php endif; ?>
-<?php $stmt->close(); $conn->close(); ?>

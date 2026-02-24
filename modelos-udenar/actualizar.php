@@ -43,10 +43,9 @@ $parametros[] = $id; // añadimos el ID al final
 $stmt->bind_param($tipos, ...$parametros);
 
 if ($stmt->execute()) {
-    // Redirigir a la página principal con mensaje de éxito
-    header('Location: index.php?mensaje=actualizado');
+    echo "ok"; // Para AJAX
 } else {
-    echo "Error al actualizar: " . $stmt->error;
+    echo "Error: " . $stmt->error;
 }
 
 $stmt->close();
