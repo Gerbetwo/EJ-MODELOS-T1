@@ -23,7 +23,7 @@ if (!empty($buscar)) {
 
 $result = $conn->query($sql);
 $fields = $result->num_rows > 0 ? $result->fetch_fields() : [];
-$primerColumna = $fields[0]->name ?? null;
+$primerColumna = $fields[0]->name ?? null; // <-- AÑADE ESTO
 
 include 'includes/table.php';
 $conn->close();

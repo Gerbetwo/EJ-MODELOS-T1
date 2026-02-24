@@ -2,39 +2,33 @@
 // includes/footer.php
 ?>
         </div> <!-- Cierra table-wrapper -->
-    </div> <!-- Cierra container -->
-
-    <div class="footer">
+           <div class="footer">
         <p>&copy; <?php echo date('Y'); ?> Sistema de Gestión Udenar | Acceso: Gebert</p>
     </div>
+    </div> <!-- Cierra container -->
 
-    <!-- Scripts -->
+ 
+
     <script>
-        // Función para editar con modal
         function editarRegistro(id) {
             fetch('editar.php?id=' + encodeURIComponent(id))
                 .then(response => response.text())
                 .then(html => {
                     document.getElementById('modal-body').innerHTML = html;
                     document.getElementById('modalEditar').style.display = 'block';
-
                     const form = document.querySelector('#modal-body form');
                     if (form) {
                         form.addEventListener('submit', function(e) {
                             e.preventDefault();
                             const formData = new FormData(form);
-                            fetch(form.action, {
-                                method: form.method,
-                                body: formData
-                            })
-                            .then(resp => resp.text())
-                            .then(data => {
-                                alert('Registro actualizado correctamente');
-                                cerrarModal();
-                                // Recargar la tabla dinámicamente
-                                document.getElementById('buscar').dispatchEvent(new Event('input'));
-                            })
-                            .catch(err => console.error(err));
+                            fetch(form.action, { method: form.method, body: formData })
+                                .then(resp => resp.text())
+                                .then(data => {
+                                    alert('Registro actualizado correctamente');
+                                    cerrarModal();
+                                    document.getElementById('buscar').dispatchEvent(new Event('input'));
+                                })
+                                .catch(err => console.error(err));
                         });
                     }
                 })
@@ -57,7 +51,6 @@
                 .then(html => {
                     document.getElementById('modal-body-crear').innerHTML = html;
                     document.getElementById('modalCrear').style.display = 'block';
-
                     const form = document.querySelector('#modal-body-crear form');
                     if (form) {
                         form.addEventListener('submit', function(e) {
@@ -109,9 +102,7 @@
                 let y = e.clientY - e.target.getBoundingClientRect().top;
                 ripple.style.left = `${x}px`;
                 ripple.style.top = `${y}px`;
-                setTimeout(() => {
-                    ripple.remove();
-                }, 600);
+                setTimeout(() => ripple.remove(), 600);
             });
         });
     </script>
@@ -131,7 +122,6 @@
         </div>
     </div>
 
-    <!-- Estilos de los modales -->
     <style>
         .modal {
             display: none;
@@ -141,7 +131,6 @@
             width: 100%; height: 100%;
             background: rgba(0,0,0,0.5);
         }
-
         .modal-content {
             background: white;
             padding: 30px;
@@ -151,21 +140,17 @@
             border-radius: 12px;
             position: relative;
         }
-
         .close {
             position: absolute;
             top: 10px; right: 15px;
             font-size: 24px;
             cursor: pointer;
         }
-
         .form-group { margin-bottom: 15px; }
         label { display: block; margin-bottom: 5px; font-weight: 500; }
         input { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; }
-
         .btn-submit { background: #5f72e4; color: white; padding: 10px 20px; border: none; border-radius:6px; cursor: pointer; margin-right: 10px;}
         .btn-cancel { background: #ccc; color: #333; padding: 10px 20px; border:none; border-radius:6px; cursor:pointer;}
     </style>
-
 </body>
 </html>
