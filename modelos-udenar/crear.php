@@ -1,139 +1,29 @@
 <?php
-// crear.php
 require_once 'config/Connectdb.php';
 
-// Obtener todas las columnas de la tabla Clientes
+// Obtener columnas
 $resultCol = $conn->query("SHOW COLUMNS FROM Clientes");
 $columnas = [];
-while ($col = $resultCol->fetch_assoc()) {
-    $columnas[] = $col;
-}
-$primeraColumna = $columnas[0]['Field']; // La primera columna (usualmente ID)
+while ($col = $resultCol->fetch_assoc()) $columnas[] = $col;
+
+$primeraColumna = $columnas[0]['Field'];
 ?>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Nuevo Cliente</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-        .form-container {
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
-            padding: 40px;
-            width: 100%;
-            max-width: 600px;
-            animation: fadeInUp 0.6s ease-out;
-        }
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        h2 {
-            color: #1e293b;
-            margin-bottom: 30px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .form-group {
-            margin-bottom: 20px;
-        }
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-            color: #334155;
-        }
-        input, textarea, select {
-            width: 100%;
-            padding: 12px 16px;
-            border: 2px solid #e2e8f0;
-            border-radius: 10px;
-            font-family: 'Inter', sans-serif;
-            font-size: 1rem;
-            transition: border-color 0.3s;
-        }
-        input:focus, textarea:focus, select:focus {
-            outline: none;
-            border-color: #5f72e4;
-        }
-        .btn-submit {
-            background: linear-gradient(135deg, #5f72e4 0%, #824ad0 100%);
-            color: white;
-            border: none;
-            padding: 14px 30px;
-            border-radius: 50px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .btn-submit:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(95, 114, 228, 0.4);
-        }
-        .btn-cancel {
-            background: #f1f5f9;
-            color: #334155;
-            border: none;
-            padding: 14px 30px;
-            border-radius: 50px;
-            font-weight: 600;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            margin-left: 15px;
-        }
-        .btn-cancel:hover {
-            background: #e2e8f0;
-        }
-    </style>
-</head>
-<body>
-    <div class="form-container">
-        <h2><i class="fas fa-user-plus"></i> Nuevo Cliente</h2>
-        <form action="guardar.php" method="POST">
-            <?php foreach ($columnas as $col): ?>
-                <?php 
-                // Omitimos la primera columna (generalmente ID autoincremental)
-                if ($col['Field'] == $primeraColumna) continue; 
-                ?>
-                <div class="form-group">
-                    <label for="<?php echo $col['Field']; ?>"><?php echo ucfirst($col['Field']); ?></label>
-                    <input type="text" 
-                           id="<?php echo $col['Field']; ?>" 
-                           name="<?php echo $col['Field']; ?>" 
-                           placeholder="Ingrese <?php echo $col['Field']; ?>"
-                           <?php echo ($col['Null'] == 'NO') ? 'required' : ''; ?>>
-                </div>
-            <?php endforeach; ?>
-            
-            <div style="display: flex; align-items: center;">
-                <button type="submit" class="btn-submit">
-                    <i class="fas fa-save"></i> Guardar Cliente
-                </button>
-                <a href="index.php" class="btn-cancel">
-                    <i class="fas fa-times"></i> Cancelar
-                </a>
-            </div>
-        </form>
+<form action="guardar.php" method="POST">
+    <?php foreach ($columnas as $col): ?>
+        <?php if ($col['Field'] == $primeraColumna) continue; ?>
+        <div class="form-group">
+            <label for="<?php echo $col['Field']; ?>"><?php echo ucfirst($col['Field']); ?></label>
+            <input type="text" 
+                   id="<?php echo $col['Field']; ?>" 
+                   name="<?php echo $col['Field']; ?>" 
+                   placeholder="Ingrese <?php echo $col['Field']; ?>"
+                   <?php echo ($col['Null'] == 'NO') ? 'required' : ''; ?>>
+        </div>
+    <?php endforeach; ?>
+
+    <div style="display:flex; gap:10px; margin-top:15px;">
+        <button type="submit" class="btn-submit"><i class="fas fa-save"></i> Guardar</button>
+        <button type="button" class="btn-cancel" onclick="cerrarModalCrear()"><i class="fas fa-times"></i> Cancelar</button>
     </div>
-</body>
-</html>
+</form>
 <?php $conn->close(); ?>
