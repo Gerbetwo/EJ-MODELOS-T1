@@ -61,3 +61,5 @@ if (isset($_GET['mensaje'])) {
 </div>
 <?php
 include 'includes/footer.php';
+$conn->close();
+?>
