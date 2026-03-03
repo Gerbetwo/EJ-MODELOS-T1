@@ -1,0 +1,26 @@
+/* assets/css/custom/_variables.css */
+:root {
+    /* Colores institucionales Udenar */
+    --udenar-blue: #005a92;
+    --udenar-cyan: #00f2ff;
+    --udenar-gray-light: #f4f6f9;
+    --udenar-gray-dark: #1f2d3d;
+    
+    /* Sistema de colores semánticos (basados en Udenar) */
+    --color-primary: var(--udenar-blue);
+    --color-secondary: #6c757d;
+    --color-accent: var(--udenar-cyan);
+    --color-success: #28a745;
+    --color-info: #17a2b8;
+    --color-warning: #ffc107;
+    --color-danger: #dc3545;
+    --color-light: var(--udenar-gray-light);
+    --color-dark: var(--udenar-gray-dark);
+    
+    /* Fondos y efectos */
+    --glass-bg: rgba(255, 255, 255, 0.85);
+    --glass-bg-dark: rgba(0, 0, 0, 0.85);
+    
+    /* Transiciones */
+    --transition-default: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
