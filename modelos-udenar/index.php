@@ -14,7 +14,7 @@ if ($module === 'clientes') {
     if ($action === 'create' && $_SERVER['REQUEST_METHOD'] === 'POST') {
         $ok = $controller->create($_POST);
         header('Location: index.php?module=clientes&msg=' . ($ok ? 'creado' : 'error'));
-        exit;
+        exit();
     }
 
     if ($action === 'update' && $_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -22,14 +22,14 @@ if ($module === 'clientes') {
         unset($_POST['id']);
         $ok = $controller->update($id, $_POST);
         header('Location: index.php?module=clientes&msg=' . ($ok ? 'actualizado' : 'error'));
-        exit;
+        exit();
     }
 
     if ($action === 'delete' && isset($_GET['id'])) {
         $id = intval($_GET['id']);
         $ok = $controller->delete($id);
         header('Location: index.php?module=clientes&msg=' . ($ok ? 'eliminado' : 'error'));
-        exit;
+        exit();
     }
 
     // endpoint JSON para AJAX (obtener un cliente)
@@ -38,7 +38,7 @@ if ($module === 'clientes') {
         $row = $controller->get($id);
         header('Content-Type: application/json');
         echo json_encode($row ?: []);
-        exit;
+        exit();
     }
 
     // vista de listado (GET)
