@@ -1,95 +1,51 @@
-function editarRegistro(id) {
-    fetch('editar.php?id=' + encodeURIComponent(id))
-        .then(response => response.text())
-        .then(html => {
-            document.getElementById('modal-body').innerHTML = html;
-            document.getElementById('modalEditar').style.display = 'block';
-            const form = document.querySelector('#modal-body form');
-            if (form) {
-                form.addEventListener('submit', function (e) {
-                    e.preventDefault();
-                    const formData = new FormData(form);
-                    fetch(form.action, { method: form.method, body: formData })
-                        .then(resp => resp.text())
-                        .then(data => {
-                            alert('Registro actualizado correctamente');
-                            cerrarModal();
-                            document.getElementById('buscar').dispatchEvent(new Event('input'));
-                        })
-                        .catch(err => console.error(err));
-                });
-            }
-        })
-        .catch(err => console.error(err));
-}
-
-function eliminarRegistro(id) {
-    if (confirm('¿Estás seguro de eliminar este cliente?')) {
-        window.location.href = 'eliminar.php?id=' + encodeURIComponent(id);
-    }
-}
-
-function cerrarModal() {
-    document.getElementById('modalEditar').style.display = 'none';
-}
-
-function nuevoRegistro() {
-    fetch('crear.php')
-        .then(res => res.text())
-        .then(html => {
-            document.getElementById('modal-body-crear').innerHTML = html;
-            document.getElementById('modalCrear').style.display = 'block';
-            const form = document.querySelector('#modal-body-crear form');
-            if (form) {
-                form.addEventListener('submit', function (e) {
-                    e.preventDefault();
-                    const formData = new FormData(form);
-                    fetch(form.action, { method: form.method, body: formData })
-                        .then(resp => resp.text())
-                        .then(data => {
-                            alert('Cliente creado correctamente');
-                            cerrarModalCrear();
-                            document.getElementById('buscar').dispatchEvent(new Event('input'));
-                        })
-                        .catch(err => console.error(err));
-                });
-            }
-        })
-        .catch(err => console.error(err));
-}
-
-function cerrarModalCrear() {
-    document.getElementById('modalCrear').style.display = 'none';
-}
-
-// Búsqueda dinámica
-const inputBuscar = document.getElementById('buscar');
-let timeout = null;
-if (inputBuscar) {
-    inputBuscar.addEventListener('input', function () {
-        clearTimeout(timeout);
-        timeout = setTimeout(() => {
-            const query = inputBuscar.value.trim();
-            fetch('tabla_clientes.php?buscar=' + encodeURIComponent(query))
-                .then(res => res.text())
-                .then(html => {
-                    document.getElementById('tablaResultados').innerHTML = html;
-                })
-                .catch(err => console.error(err));
-        }, 300);
-    });
-}
-
-// Animación ripple (opcional)
-document.querySelectorAll('.btn-edit, .btn-delete').forEach(btn => {
-    btn.addEventListener('click', function (e) {
-        let ripple = document.createElement('span');
-        ripple.classList.add('ripple');
-        this.appendChild(ripple);
-        let x = e.clientX - e.target.getBoundingClientRect().left;
-        let y = e.clientY - e.target.getBoundingClientRect().top;
-        ripple.style.left = `${x}px`;
-        ripple.style.top = `${y}px`;
-        setTimeout(() => ripple.remove(), 600);
+// assets/scripts/scripts.js
+document.addEventListener('DOMContentLoaded', function () {
+    // attach click handlers to edit buttons (works for dynamically generated rows)
+    document.body.addEventListener('click', function (e) {
+        if (e.target.closest('.btn-edit')) {
+            const btn = e.target.closest('.btn-edit');
+            const id = btn.dataset.id;
+            openEditModal(id);
+        }
     });
 });
+
+function openEditModal(id) {
+    fetch(`index.php?module=clientes&action=get&id=${id}`)
+        .then(r => r.json())
+        .then(data => {
+            if (!data || Object.keys(data).length === 0) {
+                alert('No se encontró el registro');
+                return;
+            }
+            // rellenar campos
+            const container = document.getElementById('edit_fields');
+            container.innerHTML = '';
+            for (const [key, val] of Object.entries(data)) {
+                if (key === 'id') {
+                    document.getElementById('edit_id').value = val;
+                    continue;
+                }
+                const div = document.createElement('div');
+                div.className = 'col-md-6 mb-3';
+                const label = document.createElement('label');
+                label.className = 'form-label';
+                label.textContent = key.charAt(0).toUpperCase() + key.slice(1);
+                const input = document.createElement('input');
+                input.className = 'form-control';
+                input.name = key;
+                input.value = val ?? '';
+                div.appendChild(label);
+                div.appendChild(input);
+                container.appendChild(div);
+            }
+            // show modal (Bootstrap handles via data-bs-toggle but ensure modal is shown)
+            const modalEl = document.getElementById('modalEditar');
+            const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+            modal.show();
+        })
+        .catch(err => {
+            console.error(err);
+            alert('Error al obtener datos del servidor');
+        });
+}

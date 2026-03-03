@@ -1,11 +1,16 @@
-<?php if (isset($_GET['mensaje'])): 
-    $mensaje = $_GET['mensaje'];
-    $clase = $texto = '';
-    switch($mensaje) {
-        case 'creado': $clase='success'; $texto='Cliente creado correctamente.'; break;
-        case 'actualizado': $clase='success'; $texto='Registro actualizado correctamente.'; break;
-        case 'eliminado': $clase='info'; $texto='Registro eliminado correctamente.'; break;
+<?php
+// includes/alerts.php
+if (isset($_GET['msg'])) {
+    $msg = $_GET['msg'];
+    $txt = '';
+    $class = 'alert-info';
+    switch ($msg) {
+        case 'creado': $txt = 'Registro creado correctamente.'; $class = 'alert-success'; break;
+        case 'actualizado': $txt = 'Registro actualizado correctamente.'; $class = 'alert-success'; break;
+        case 'eliminado': $txt = 'Registro eliminado correctamente.'; $class = 'alert-success'; break;
+        case 'error': $txt = 'Ocurrió un error.'; $class = 'alert-danger'; break;
     }
-?>
-<div class="alert alert-<?= $clase ?> mt-2"><?= $texto ?></div>
-<?php endif; ?>
+    if ($txt !== '') {
+        echo "<div class='container'><div class='alert $class alert-dismissible fade show' role='alert'>$txt<button type='button' class='btn-close' data-bs-dismiss='alert'></button></div></div>";
+    }
+}

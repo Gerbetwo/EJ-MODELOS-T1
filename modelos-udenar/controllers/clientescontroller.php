@@ -1,41 +1,49 @@
 <?php
-require_once '../models/cliente.php';
-require_once '../config/connectdb.php';
+// controllers/clientescontroller.php
+require_once __DIR__ . '/../models/clientes.php';
 
-$cliente = new Cliente($conn);
-$action = $_GET['action'] ?? 'index';
+class ClientesController {
+    private $model;
+    public function __construct($mysqli) {
+        $this->model = new ClienteModel($mysqli);
+    }
 
-switch($action) {
-    case 'create':
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $data = $_POST;
-            unset($data['id']);
-            $cliente->create($data);
-            header('Location: ../index.php?page=clientes&mensaje=creado');
-        } else {
-            include '../views/clientes/form.php';
+    // Devuelve arreglo de clientes
+    public function index($buscar = '') {
+        return $this->model->getAll($buscar);
+    }
+
+    public function get($id) {
+        return $this->model->getById($id);
+    }
+
+    public function create($data) {
+        // quitar campos vacíos indeseados
+        $data = $this->sanitizeData($data);
+        return $this->model->create($data);
+    }
+
+    public function update($id, $data) {
+        $data = $this->sanitizeData($data);
+        return $this->model->update($id, $data);
+    }
+
+    public function delete($id) {
+        return $this->model->delete($id);
+    }
+
+    public function getColumns() {
+        return $this->model->getColumns();
+    }
+
+    private function sanitizeData($data) {
+        // quitar campos vacíos y limpiar valores simples
+        $out = [];
+        foreach ($data as $k => $v) {
+            if ($k === 'id') continue;
+            // opcional: puedes aplicar más sanitización aquí
+            $out[$k] = trim($v);
         }
-        break;
-    case 'edit':
-        $id = intval($_GET['id']);
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $data = $_POST;
-            $cliente->update($id, $data);
-            header('Location: ../index.php?page=clientes&mensaje=actualizado');
-        } else {
-            $row = $cliente->getById($id);
-            include '../views/clientes/form.php';
-        }
-        break;
-    case 'delete':
-        $id = intval($_GET['id']);
-        $cliente->delete($id);
-        header('Location: ../index.php?page=clientes&mensaje=eliminado');
-        break;
-    default: // index
-        $buscar = $_GET['buscar'] ?? '';
-        $result = $cliente->getAll($buscar);
-        include '../views/clientes/index.php';
+        return $out;
+    }
 }
-$conn->close();
-?>

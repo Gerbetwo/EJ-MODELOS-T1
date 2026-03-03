@@ -1,13 +1,19 @@
-<nav class="main-header navbar navbar-expand navbar-white navbar-light">
+<?php
+// includes/navbar.php
+?>
+<nav class="main-header navbar navbar-expand navbar-white navbar-light border-bottom">
+  <ul class="navbar-nav">
+    <li class="nav-item">
+      <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+    </li>
+    <li class="nav-item d-none d-sm-inline-block">
+      <a href="index.php" class="nav-link">Inicio</a>
+    </li>
+  </ul>
+
   <ul class="navbar-nav ms-auto">
-    <li class="nav-item dropdown">
-      <a class="nav-link" data-toggle="dropdown" href="#">
-        <i class="fas fa-user-circle"></i> Gebert
-      </a>
-      <div class="dropdown-menu dropdown-menu-end">
-        <a href="#" class="dropdown-item">Perfil</a>
-        <a href="#" class="dropdown-item">Salir</a>
-      </div>
+    <li class="nav-item">
+      <span class="nav-link"><i class="fas fa-user-circle"></i> Gebert</span>
     </li>
   </ul>
 </nav>
