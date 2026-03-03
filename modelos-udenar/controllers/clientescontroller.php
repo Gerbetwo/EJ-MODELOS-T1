@@ -1,5 +1,5 @@
 <?php
-require_once '../models/Cliente.php';
+require_once '../models/cliente.php';
 require_once '../config/connectdb.php';
 
 $cliente = new Cliente($conn);

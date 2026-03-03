@@ -7,7 +7,7 @@ include 'includes/navbar.php';
 
 echo '<div class="content-wrapper">';
 if ($page === 'clientes') {
-    include 'controllers/ClientesController.php';
+    include 'controllers/clientescontroller.php';
 } else {
     include 'views/dashboard.php';
 }
