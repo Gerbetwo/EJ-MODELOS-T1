@@ -1,100 +1,233 @@
 /* assets/css/custom/_components.css */
 
-/* Sobrescribir navbar */
+/* Navbar con estilo oscuro elegante */
 .navbar {
-  background-color: var(--color-primary) !important;
+    background-color: var(--color-dark) !important;
+    border-bottom: 2px solid var(--color-primary) !important;
 }
-
+.navbar .navbar-brand {
+    color: var(--color-light) !important;
+    font-weight: 600;
+}
 .navbar-dark .navbar-nav .nav-link {
-  color: rgba(255, 255, 255, 0.85);
+    color: rgba(255, 255, 255, 0.85);
+    transition: var(--transition-default);
+}
+.navbar-dark .navbar-nav .nav-link:hover,
+.navbar-dark .navbar-nav .nav-link:focus {
+    color: var(--color-accent);
+}
+.navbar .dropdown-menu {
+    background: var(--color-dark);
+    border: 1px solid var(--glass-border);
+}
+.navbar .dropdown-item {
+    color: var(--color-light);
+}
+.navbar .dropdown-item:hover {
+    background: var(--color-primary);
+    color: white;
 }
 
-.navbar-dark .navbar-nav .nav-link:hover {
-  color: var(--color-accent);
-}
-
-/* Sidebar personalizado */
+/* Sidebar elegante */
 .main-sidebar {
-  background: linear-gradient(135deg, var(--color-primary) 0%, #003d66 100%);
+    background: var(--color-dark) !important;
+    border-right: 1px solid var(--glass-border);
 }
-
+.nav-sidebar .nav-item > .nav-link {
+    color: rgba(255, 255, 255, 0.7);
+    border-radius: 0;
+    transition: var(--transition-default);
+}
+.nav-sidebar .nav-item > .nav-link:hover {
+    background: rgba(224, 58, 58, 0.1);
+    color: var(--color-primary);
+}
 .nav-sidebar .nav-item > .nav-link.active {
-  background-color: var(--color-accent);
-  color: var(--color-dark);
-  box-shadow: 0 2px 10px rgba(0, 242, 255, 0.3);
+    background: linear-gradient(90deg, var(--color-primary) 0%, transparent 100%);
+    color: white;
+    border-left: 4px solid var(--color-accent);
+    box-shadow: none;
+}
+.nav-sidebar .nav-item > .nav-link.active i {
+    color: var(--color-accent);
 }
 
-/* Cards con efecto glass */
+/* Cards con efecto glass oscuro */
 .card {
-  background: var(--glass-bg);
-  backdrop-filter: blur(10px);
-  border: none;
-  border-radius: 10px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-  transition: var(--transition-default);
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    transition: var(--transition-default);
+    color: var(--color-light);
 }
-
 .card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 40px rgba(0, 90, 146, 0.2);
+    transform: translateY(-5px);
+    box-shadow: 0 12px 40px rgba(224, 58, 58, 0.15);
+    border-color: var(--color-primary);
+}
+.card-header {
+    background: transparent;
+    border-bottom: 1px solid var(--glass-border);
+    color: var(--color-accent);
+    font-weight: 600;
+}
+.card-footer {
+    background: transparent;
+    border-top: 1px solid var(--glass-border);
 }
 
 /* Botones personalizados */
-.btn-udenar {
-  background-color: var(--color-primary);
-  border: none;
-  color: white;
-  padding: 8px 20px;
-  border-radius: 5px;
-  transition: var(--transition-default);
+.btn-primary-custom {
+    background-color: var(--color-primary);
+    border: none;
+    color: white;
+    padding: 8px 24px;
+    border-radius: 6px;
+    font-weight: 500;
+    transition: var(--transition-default);
+    box-shadow: 0 2px 10px var(--shadow-red);
+}
+.btn-primary-custom:hover {
+    background-color: var(--red-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px var(--shadow-red);
+}
+.btn-outline-custom {
+    border: 2px solid var(--color-primary);
+    color: var(--color-primary);
+    background: transparent;
+    transition: var(--transition-default);
+    border-radius: 6px;
+    padding: 8px 24px;
+}
+.btn-outline-custom:hover {
+    background: var(--color-primary);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px var(--shadow-red);
+}
+.btn-accent-custom {
+    background-color: var(--color-accent);
+    border: none;
+    color: var(--color-dark);
+    font-weight: 600;
+    transition: var(--transition-default);
+    box-shadow: 0 2px 10px var(--shadow-gold);
+}
+.btn-accent-custom:hover {
+    background-color: var(--gold-light);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px var(--shadow-gold);
 }
 
-.btn-udenar:hover {
-  background-color: #004d7a;
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(0, 90, 146, 0.4);
+/* Tablas con estilo oscuro */
+.table-custom {
+    background: transparent;
+    color: var(--color-light);
+    border-collapse: separate;
+    border-spacing: 0 8px;
+}
+.table-custom thead th {
+    background: var(--glass-bg);
+    backdrop-filter: blur(4px);
+    border-bottom: 2px solid var(--color-primary);
+    color: var(--color-accent);
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+}
+.table-custom tbody tr {
+    background: var(--glass-bg);
+    backdrop-filter: blur(4px);
+    transition: var(--transition-default);
+    border-radius: 8px;
+}
+.table-custom tbody tr:hover {
+    background: rgba(224, 58, 58, 0.1);
+    transform: scale(1.01);
+}
+.table-custom td, .table-custom th {
+    border: none;
+    padding: 12px;
+}
+.table-custom td:first-child {
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+.table-custom td:last-child {
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
 }
 
-.btn-udenar-outline {
-  border: 2px solid var(--color-primary);
-  color: var(--color-primary);
-  background: transparent;
-  transition: var(--transition-default);
+/* Badges */
+.badge-custom-primary {
+    background: var(--color-primary);
+    color: white;
+    font-weight: 500;
+    padding: 5px 12px;
+    border-radius: 20px;
 }
-
-.btn-udenar-outline:hover {
-  background: var(--color-primary);
-  color: white;
+.badge-custom-accent {
+    background: var(--color-accent);
+    color: var(--color-dark);
+    font-weight: 600;
+    padding: 5px 12px;
+    border-radius: 20px;
 }
-
-/* Tablas personalizadas */
-.table-udenar {
-  background: var(--glass-bg);
-  border-radius: 10px;
-  overflow: hidden;
-}
-
-.table-udenar thead th {
-  background-color: var(--color-primary);
-  color: white;
-  border-bottom: none;
-}
-
-/* Badges personalizados */
-.badge-udenar {
-  background: var(--color-accent);
-  color: var(--color-dark);
-  font-weight: 500;
-  padding: 5px 10px;
+.badge-custom-outline {
+    background: transparent;
+    border: 1px solid var(--color-primary);
+    color: var(--color-primary);
+    padding: 4px 12px;
+    border-radius: 20px;
 }
 
 /* Enlaces */
 a {
-  color: var(--color-primary);
-  transition: var(--transition-default);
+    color: var(--color-accent);
+    transition: var(--transition-default);
+    text-decoration: none;
+}
+a:hover {
+    color: var(--color-primary);
 }
 
-a:hover {
-  color: var(--color-accent);
-  text-decoration: none;
+/* Formularios */
+.form-control-custom {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    color: var(--color-light);
+    border-radius: 6px;
+    padding: 10px 16px;
+    transition: var(--transition-default);
+}
+.form-control-custom:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px var(--shadow-red);
+    outline: none;
+    background: rgba(0, 0, 0, 0.5);
+}
+.form-label-custom {
+    color: var(--color-accent);
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+
+/* Alertas personalizadas */
+.alert-custom {
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    border-left: 4px solid var(--color-primary);
+    color: var(--color-light);
+    border-radius: 8px;
+}
+.alert-custom.alert-success {
+    border-left-color: var(--color-success);
+}
+.alert-custom.alert-danger {
+    border-left-color: var(--color-danger);
 }

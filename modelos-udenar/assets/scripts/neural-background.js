@@ -2,7 +2,7 @@
 (function () {
   'use strict';
 
-  // --- CONFIGURACIÓN ---
+  // --- CONFIGURACIÓN DE COLORES (Rojo, Negro, Dorado) ---
   const SETTINGS = {
     density: 0.00005,
     maxParticles: 80,
@@ -10,7 +10,9 @@
     spring: 0.004,
     connectionDist: 150,
     mouseRadius: 160,
-    color: '0, 242, 255', // RGB del color cyan
+    // Colores en RGB (sin comillas)
+    colorPrimary: { r: 230, g: 0, b: 0 },     // Rojo principal
+    colorSecondary: { r: 255, g: 215, b: 0 }, // Dorado
   };
 
   let canvas, ctx, container;
@@ -43,16 +45,14 @@
     });
     resizeObserver.observe(container);
 
-    // Eventos de mouse (solo cuando está dentro del contenedor)
+    // Eventos de mouse
     window.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('mouseleave', () => {
       mouse.active = false;
     });
 
-    // Iniciar animación
     render();
 
-    // Limpieza al cerrar (opcional, pero buena práctica)
     window.addEventListener('beforeunload', () => {
       if (animationFrame) cancelAnimationFrame(animationFrame);
       resizeObserver.disconnect();
@@ -100,8 +100,10 @@
     ctx.clearRect(0, 0, width, height);
 
     const pArr = particles;
+    const { r: r1, g: g1, b: b1 } = SETTINGS.colorPrimary;   // Rojo
+    const { r: r2, g: g2, b: b2 } = SETTINGS.colorSecondary; // Dorado
 
-    // Dibujar conexiones
+    // Dibujar conexiones (color dorado)
     ctx.beginPath();
     ctx.lineWidth = 0.6;
     for (let i = 0; i < pArr.length; i++) {
@@ -112,8 +114,8 @@
         const limitSq = SETTINGS.connectionDist * SETTINGS.connectionDist;
 
         if (distSq < limitSq) {
-          const opacity = (1 - distSq / limitSq) * 0.15;
-          ctx.strokeStyle = `rgba(${SETTINGS.color}, ${opacity})`;
+          const opacity = (1 - distSq / limitSq) * 0.2; // Opacidad máxima 0.2
+          ctx.strokeStyle = `rgba(${r2}, ${g2}, ${b2}, ${opacity})`;
           ctx.moveTo(pArr[i].x, pArr[i].y);
           ctx.lineTo(pArr[j].x, pArr[j].y);
         }
@@ -147,15 +149,15 @@
       // Pulsación
       const pulse = Math.sin(time + p.phase) * 0.3 + 0.7;
 
-      // Nodo principal
-      ctx.fillStyle = `rgba(${SETTINGS.color}, ${0.8 * pulse})`;
+      // Nodo principal (color rojo con opacidad variable)
+      ctx.fillStyle = `rgba(${r1}, ${g1}, ${b1}, ${0.7 * pulse})`;
       ctx.beginPath();
       ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
       ctx.fill();
 
-      // Glow
+      // Glow (color dorado tenue)
       if (pulse > 0.8) {
-        ctx.fillStyle = `rgba(${SETTINGS.color}, ${0.1 * pulse})`;
+        ctx.fillStyle = `rgba(${r2}, ${g2}, ${b2}, ${0.1 * pulse})`;
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size * 5, 0, Math.PI * 2);
         ctx.fill();
@@ -165,7 +167,6 @@
     animationFrame = requestAnimationFrame(render);
   }
 
-  // Iniciar cuando el DOM esté listo
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
   } else {
