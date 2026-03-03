@@ -17,16 +17,16 @@
                 <table class="table table-hover text-nowrap">
                     <thead>
                         <tr>
-                            <?php foreach($columnsMeta as $col): ?>
+                            <?php foreach ($columnsMeta as $col): ?>
                             <th><?= strtoupper($col['Field']) ?></th>
                             <?php endforeach; ?>
                             <th class="text-center">ACCIONES</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach($clientes as $c): ?>
+                        <?php foreach ($clientes as $c): ?>
                         <tr>
-                            <?php foreach($columnsMeta as $col): ?>
+                            <?php foreach ($columnsMeta as $col): ?>
                             <td><?= $c[$col['Field']] ?></td>
                             <?php endforeach; ?>
                             <td class="text-center">
@@ -37,7 +37,9 @@
                                     <i class="fas fa-edit"></i>
                                 </button>
                                 <a
-                                    href="index.php?module=clientes&action=delete&id=<?= $c['id'] ?>"
+                                    href="index.php?module=clientes&action=delete&id=<?= $c[
+                                        'id'
+                                    ] ?>"
                                     class="btn btn-danger btn-xs"
                                     onclick="return confirm('¿Eliminar registro?');"
                                 >

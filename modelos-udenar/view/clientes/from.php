@@ -1,12 +1,17 @@
 <?php
-$esEditar = isset($row);
-?>
+$esEditar = isset($row); ?>
 <form
-    action="<?= $esEditar ? '../../controllers/ClientesController.php?action=edit&id=' . $row['id'] : '../../controllers/ClientesController.php?action=create' ?>"
+    action="<?= $esEditar
+        ? '../../controllers/ClientesController.php?action=edit&id=' . $row['id']
+        : '../../controllers/ClientesController.php?action=create' ?>"
     method="POST"
 >
-    <?php $cols = $row ?? $conn->query("SHOW COLUMNS FROM Clientes"); foreach ($cols as $campo =>
-    $valor): if ($campo === 'id') continue; ?>
+    <?php
+    $cols = $row ?? $conn->query('SHOW COLUMNS FROM Clientes');
+    foreach ($cols as $campo => $valor):
+        if ($campo === 'id') {
+            continue;
+        } ?>
     <div class="form-group mb-2">
         <label><?= ucfirst($campo) ?></label>
         <input
@@ -17,7 +22,9 @@ $esEditar = isset($row);
             required
         />
     </div>
-    <?php endforeach; ?>
+    <?php
+    endforeach;
+    ?>
 
     <div class="mt-3">
         <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Guardar</button>

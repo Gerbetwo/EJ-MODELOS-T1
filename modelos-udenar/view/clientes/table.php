@@ -1,4 +1,5 @@
-<?php if ($result && $result->num_rows > 0): $primerColumna = $fields[0]->name ?? null; ?>
+<?php if ($result && $result->num_rows > 0):
+    $primerColumna = $fields[0]->name ?? null; ?>
 <table class="table table-striped table-hover">
     <thead>
         <tr>
@@ -9,7 +10,8 @@
         </tr>
     </thead>
     <tbody>
-        <?php while ($row = $result->fetch_assoc()): $registroId = $row[$primerColumna]; ?>
+        <?php while ($row = $result->fetch_assoc()):
+            $registroId = $row[$primerColumna]; ?>
         <tr>
             <?php foreach ($row as $value): ?>
             <td><?= htmlspecialchars($value) ?></td>
@@ -29,9 +31,13 @@
                 ></a>
             </td>
         </tr>
-        <?php endwhile; ?>
+        <?php
+        endwhile; ?>
     </tbody>
 </table>
-<?php else: ?>
+<?php
+else:
+     ?>
 <div class="alert alert-info">No se encontraron registros.</div>
-<?php endif; ?>
+<?php
+endif; ?>

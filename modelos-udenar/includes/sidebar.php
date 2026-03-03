@@ -24,18 +24,24 @@
                 <li class="nav-item">
                     <a
                         href="index.php"
-                        class="nav-link <?= ($_GET['module'] ?? 'dashboard') === 'dashboard' ? 'active' : '' ?>"
+                        class="nav-link <?= ($_GET['module'] ?? 'dashboard') === 'dashboard'
+                            ? 'active'
+                            : '' ?>"
                     >
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>Dashboard</p>
                     </a>
                 </li>
                 <li
-                    class="nav-item has-treeview <?= ($_GET['module'] ?? '') === 'clientes' ? 'menu-open' : '' ?>"
+                    class="nav-item has-treeview <?= ($_GET['module'] ?? '') === 'clientes'
+                        ? 'menu-open'
+                        : '' ?>"
                 >
                     <a
                         href="#"
-                        class="nav-link <?= ($_GET['module'] ?? '') === 'clientes' ? 'active' : '' ?>"
+                        class="nav-link <?= ($_GET['module'] ?? '') === 'clientes'
+                            ? 'active'
+                            : '' ?>"
                     >
                         <i class="nav-icon fas fa-users"></i>
                         <p>
@@ -47,7 +53,10 @@
                         <li class="nav-item">
                             <a
                                 href="index.php?module=clientes"
-                                class="nav-link <?= ($_GET['module'] ?? '') === 'clientes' && !isset($_GET['sub']) ? 'active' : '' ?>"
+                                class="nav-link <?= ($_GET['module'] ?? '') === 'clientes' &&
+                                !isset($_GET['sub'])
+                                    ? 'active'
+                                    : '' ?>"
                             >
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Listado</p>
@@ -56,7 +65,10 @@
                         <li class="nav-item">
                             <a
                                 href="index.php?module=clientes&sub=nuevo"
-                                class="nav-link <?= ($_GET['module'] ?? '') === 'clientes' && ($_GET['sub'] ?? '') === 'nuevo' ? 'active' : '' ?>"
+                                class="nav-link <?= ($_GET['module'] ?? '') === 'clientes' &&
+                                ($_GET['sub'] ?? '') === 'nuevo'
+                                    ? 'active'
+                                    : '' ?>"
                             >
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Nuevo</p>

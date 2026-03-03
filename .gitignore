@@ -17,3 +17,5 @@ composer.lock
 
 dashboard
 adminlte
+
+.vscode
