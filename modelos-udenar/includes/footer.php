@@ -1,29 +1,14 @@
-<?php
-// includes/footer.php
-?>
-        </div> <!-- Cierra table-wrapper -->
-           <div class="footer">
-        <p>&copy; <?php echo date('Y'); ?> Sistema de Gestión Udenar | Acceso: Gebert</p>
-    </div>
-    </div> <!-- Cierra container -->
-    <!-- Modales -->
-    <div id="modalEditar" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="cerrarModal()">&times;</span>
-            <div id="modal-body"></div>
-        </div>
-    </div>
+<footer class="main-footer">
+  <strong>&copy; <?= date('Y') ?> Sistema de Gestión Udenar | Acceso: Gebert</strong>
+</footer>
+</div> <!-- Cierra wrapper -->
 
-    <div id="modalCrear" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="cerrarModalCrear()">&times;</span>
-            <div id="modal-body-crear"></div>
-        </div>
-    </div>
+<!-- Scripts AdminLTE y Bootstrap -->
+<script src="adminlte/plugins/jquery/jquery.min.js"></script>
+<script src="adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="adminlte/dist/js/adminlte.min.js"></script>
+
+<!-- Tus scripts -->
+<script src="assets/js/scripts.js"></script>
 </body>
-    <!-- Bootstrap JS y dependencias -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
-    <!-- Tu JS personalizado -->
-    <script src="assets/scripts/scripts.js"></script>
 </html>
