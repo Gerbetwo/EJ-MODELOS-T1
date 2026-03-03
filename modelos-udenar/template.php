@@ -1,42 +1,54 @@
-<!-- template.php -->
-<?php
-?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Sistema - Panel</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Udenar | Gestión Modular</title>
 
-<!-- AdminLTE CSS -->
-<link rel="stylesheet" href="/adminlte/dist/css/adminlte.min.css">
-
-<!-- Font Awesome (si no lo llevas en adminlte/dist) -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="" crossorigin="anonymous">
-
-<!-- Bootstrap 4 (compatible con AdminLTE v3) -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="" crossorigin="anonymous">
-
-<!-- Tu CSS -->
-<link rel="stylesheet" href="/assets/css/styles.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
 </head>
-<body class="hold-transition sidebar-mini">
-<div class="wrapper">
-
-    <?php include __DIR__ . '/includes/navbar.php'; ?>
-    <?php include __DIR__ . '/includes/sidebar.php'; ?>
-
-    <div class="content-wrapper">
-        <?php include __DIR__ . '/includes/alerts.php'; ?>
-        <?= $content ?>
+<body class="hold-transition sidebar-mini layout-fixed">
+    
+    <div class="neural-background">
+        <canvas id="neuralCanvas" class="neural-canvas"></canvas>
     </div>
 
-    <?php include __DIR__ . '/includes/footer.php'; ?>
-</div>
+    <div class="wrapper">
+        <?php include 'includes/navbar.php'; ?>
 
-<!-- Scripts -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
-<script src="adminlte/dist/js/adminlte.min.js"></script>
-<script src="assets/scripts/scripts.js"></script>
+        <?php include 'includes/sidebar.php'; ?>
+
+        <div class="content-wrapper">
+            <div class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1 class="m-0 text-white" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">
+                                <?= ucfirst($module) ?>
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <section class="content">
+                <div class="container-fluid">
+                    <?php include 'includes/alerts.php'; ?>
+                    
+                    <?= $content ?>
+                </div>
+            </section>
+        </div>
+
+        <?php include 'includes/footer.php'; ?>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/js/adminlte.min.js"></script>
+    <script src="assets/scripts/scripts.js"></script>
 </body>
 </html>
