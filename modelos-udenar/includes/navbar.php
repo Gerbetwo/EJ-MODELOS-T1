@@ -1,7 +1,7 @@
 <?php
 // includes/navbar.php
 ?>
-<nav class="main-header navbar navbar-expand navbar-light bg-background border-bottom shadow-sm">
+<nav class="main-header navbar navbar-expand navbar-light bg-transparent border-bottom shadow-sm">
   <div class="container-fluid">
     <ul class="navbar-nav">
       <li class="nav-item">

@@ -1,7 +1,7 @@
 <?php
 // includes/sidebar.php
 ?>
-<aside class="main-sidebar sidebar-dark-primary elevation-4 sidebar-mini">
+<aside class="main-sidebar sidebar-dark-primary bg-transparent elevation-4 sidebar-mini">
   <!-- Brand Logo -->
   <a href="index.php" class="brand-link">
     <img src="adminlte/dist/assets/img/AdminLTELogo.png" alt="Logo" class="brand-image img-circle elevation-3" style="opacity: .9">

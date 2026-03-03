@@ -1,14 +1,12 @@
 /* assets/css/styles.css */
 
 :root {
-    --color-primary: #005a92;      /* Azul Udenar */
-    --color-accent: #00f2ff;       /* Cyan Neón */
-    --color-bg-light: #f4f6f9;
-    --color-text-dark: #1f2d3d;
-    --glass-bg: rgba(255, 255, 255, 0.85);
-    --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    --color-primary: #ffa56d;      /* Naranja complementario al Azul Udenar */
+    --color-accent: #ff0d00;       /* Rojo brillante complementario al Cyan Neón */
+    --color-bg-light: #0b0906;     /* Gris muy oscuro, inverso del fondo claro */
+    --color-text-dark: #e0d2c2;    /* Beige claro, inverso del texto oscuro */
+    --glass-bg: rgba(0, 0, 0, 0.85); /* Fondo oscuro semitransparente (misma opacidad) */
 }
-
 /* --- Ajustes de Fondo Neural --- */
 .neural-background {
     position: fixed;

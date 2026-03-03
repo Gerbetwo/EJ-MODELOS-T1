@@ -26,7 +26,7 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1 class="m-0 text-white" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">
+                            <h1 class="m-0 text-white" style="text-shadow: 2px 2px 4px;">
                                 <?= ucfirst($module) ?>
                             </h1>
                         </div>
@@ -50,5 +50,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/js/adminlte.min.js"></script>
     <script src="assets/scripts/scripts.js"></script>
+    <script src="assets/scripts/neural-background.js"></script>
 </body>
 </html>
