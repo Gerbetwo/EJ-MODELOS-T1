@@ -1,5 +1,5 @@
 <?php
-require_once 'config/Connectdb.php';
+require_once 'config/connectdb.php';
 
 $buscar = isset($_GET['buscar']) ? trim($_GET['buscar']) : '';
 

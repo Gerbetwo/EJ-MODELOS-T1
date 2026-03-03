@@ -1,6 +1,6 @@
 <?php
 // eliminar.php
-require_once 'config/Connectdb.php';
+require_once 'config/connectdb.php';
 
 if (!isset($_GET['id']) || empty($_GET['id'])) {
     die('ID no proporcionado');

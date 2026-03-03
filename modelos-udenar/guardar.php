@@ -1,6 +1,6 @@
 <?php
 // guardar.php
-require_once 'config/Connectdb.php';
+require_once 'config/connectdb.php';
 
 $response = ['success' => false, 'message' => ''];
 

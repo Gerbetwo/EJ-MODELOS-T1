@@ -1,5 +1,5 @@
 <?php
-require_once 'config/Connectdb.php';
+require_once 'config/connectdb.php';
 
 // Obtener columnas
 $resultCol = $conn->query("SHOW COLUMNS FROM Clientes");
