@@ -1,30 +1,48 @@
 /* assets/css/custom/_utilities.css */
 
 /* Colores de texto */
-.text-udenar-primary { color: var(--color-primary) !important; }
-.text-udenar-accent { color: var(--color-accent) !important; }
-.text-udenar { color: var(--color-primary) !important; }
+.text-udenar-primary {
+  color: var(--color-primary) !important;
+}
+.text-udenar-accent {
+  color: var(--color-accent) !important;
+}
+.text-udenar {
+  color: var(--color-primary) !important;
+}
 
 /* Fondos */
-.bg-udenar-primary { background-color: var(--color-primary) !important; }
-.bg-udenar-accent { background-color: var(--color-accent) !important; }
-.bg-udenar-light { background-color: var(--color-light) !important; }
-.bg-udenar-dark { background-color: var(--color-dark) !important; }
-.bg-udenar-glass { background: var(--glass-bg) !important; }
+.bg-udenar-primary {
+  background-color: var(--color-primary) !important;
+}
+.bg-udenar-accent {
+  background-color: var(--color-accent) !important;
+}
+.bg-udenar-light {
+  background-color: var(--color-light) !important;
+}
+.bg-udenar-dark {
+  background-color: var(--color-dark) !important;
+}
+.bg-udenar-glass {
+  background: var(--glass-bg) !important;
+}
 
 /* Bordes */
-.border-udenar { border-color: var(--color-primary) !important; }
+.border-udenar {
+  border-color: var(--color-primary) !important;
+}
 
 /* Sombras */
 .shadow-udenar {
-    box-shadow: 0 4px 20px rgba(0, 90, 146, 0.15) !important;
+  box-shadow: 0 4px 20px rgba(0, 90, 146, 0.15) !important;
 }
 
 .shadow-udenar-hover {
-    transition: var(--transition-default);
+  transition: var(--transition-default);
 }
 
 .shadow-udenar-hover:hover {
-    box-shadow: 0 8px 25px rgba(0, 90, 146, 0.25) !important;
-    transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 90, 146, 0.25) !important;
+  transform: translateY(-3px);
 }

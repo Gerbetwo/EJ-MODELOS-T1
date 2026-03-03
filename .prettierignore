@@ -1,0 +1,15 @@
+# Directorios a ignorar
+node_modules/
+vendor/
+*.log
+.DS_Store
+
+# Archivos específicos
+*.min.js
+*.min.css
+*.map
+package-lock.json
+composer.lock
+
+# No ignorar archivos PHP en estas carpetas (importante)
+!**/*.php

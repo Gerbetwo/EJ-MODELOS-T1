@@ -15,11 +15,6 @@ $dbname = 'db_modelos_udenar'; // Asegúrate que sea guion bajo como en tu error
 $conn = new mysqli($host, $user, $password, $dbname);
 
 // 3. Verificar errores
-if ($conn->connect_error) {
-    // En producción, mejor usa: die("Error de conexión al servidor.");
-    die("Error de conexión (" . $conn->connect_errno . "): " . $conn->connect_error);
-}
-
-// Opcional: Configurar el set de caracteres para evitar problemas con tildes
-$conn->set_charset("utf8mb4");
-?>
+if ($conn->connect_error) { // En producción, mejor usa: die("Error de conexión al servidor.");
+die("Error de conexión (" . $conn->connect_errno . "): " . $conn->connect_error); } // Opcional:
+Configurar el set de caracteres para evitar problemas con tildes $conn->set_charset("utf8mb4"); ?>

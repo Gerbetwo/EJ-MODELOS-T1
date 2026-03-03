@@ -1,25 +1,30 @@
 {
-  "name": "htdocs",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Gerbetwo/EJ-MODELOS-T1.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
-  "bugs": {
-    "url": "https://github.com/Gerbetwo/EJ-MODELOS-T1/issues"
-  },
-  "homepage": "https://github.com/Gerbetwo/EJ-MODELOS-T1#readme",
-  "devDependencies": {
-    "@prettier/plugin-php": "^0.24.0",
-    "prettier": "^3.8.1"
-  }
+    "name": "htdocs",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "format": "prettier --write .",
+        "format:check": "prettier --check .",
+        "format:php": "prettier --write \"**/*.php\" --parser=php",
+        "format:js": "prettier --write \"**/*.js\" --parser=babel",
+        "format:css": "prettier --write \"**/*.css\" --parser=css",
+        "format:html": "prettier --write \"**/*.{html,php}\" --parser=html"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Gerbetwo/EJ-MODELOS-T1.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "type": "commonjs",
+    "bugs": {
+        "url": "https://github.com/Gerbetwo/EJ-MODELOS-T1/issues"
+    },
+    "homepage": "https://github.com/Gerbetwo/EJ-MODELOS-T1#readme",
+    "devDependencies": {
+        "@prettier/plugin-php": "^0.24.0",
+        "prettier": "^3.8.1"
+    }
 }
