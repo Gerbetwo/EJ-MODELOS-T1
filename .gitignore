@@ -1,2 +1,19 @@
+# Directorios a ignorar
+node_modules/
+vendor/
+assets/vendor/
+dist/
+build/
+
+# Archivos específicos
+*.min.js
+*.min.css
+package-lock.json
+composer.lock
+
+# Archivos de configuración
+.env
+.php-cs-fixer.php
+
 dashboard
 adminlte
