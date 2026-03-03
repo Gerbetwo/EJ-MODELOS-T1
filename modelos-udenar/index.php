@@ -1,65 +1,29 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+// index.php
 require_once 'config/connectdb.php';
 
-// Obtener término de búsqueda
-$buscar = isset($_GET['buscar']) ? trim($_GET['buscar']) : '';
+// Determinar la página a cargar
+$page = isset($_GET['page']) ? $_GET['page'] : 'dashboard';
+$pageFile = "pages/$page.php";
 
-// Obtener todas las columnas de Clientes
-$colResult = $conn->query("SHOW COLUMNS FROM Clientes");
-$columnas = [];
-while ($col = $colResult->fetch_assoc()) {
-    $columnas[] = $col['Field'];
+// Validar existencia de la página
+if (!file_exists($pageFile)) {
+    $pageFile = "pages/404.php"; // Página de error
 }
 
-// Construir consulta
-$sql = "SELECT * FROM Clientes";
-
-if (!empty($buscar)) {
-    $buscar_escapado = $conn->real_escape_string($buscar);
-    $condiciones = [];
-    foreach ($columnas as $col) {
-        $condiciones[] = "`$col` LIKE '%$buscar_escapado%'";
-    }
-    $sql .= " WHERE " . implode(" OR ", $condiciones);
-}
-
-// Ejecutar consulta
-$result = $conn->query($sql);
-if (!$result) {
-    die("Error en consulta SQL: " . $conn->error);
-}
-
-// Obtener campos para la tabla (si hay registros)
-$fields = $result->num_rows > 0 ? $result->fetch_fields() : [];
-
+// Header + AdminLTE CSS
 include 'includes/header.php';
 
-// Mostrar mensajes de éxito
-if (isset($_GET['mensaje'])) {
-    $mensaje = $_GET['mensaje'];
-    $clase = $texto = '';
-    if ($mensaje == 'actualizado') {
-        $clase = 'success';
-        $texto = 'Registro actualizado correctamente.';
-    } elseif ($mensaje == 'eliminado') {
-        $clase = 'info';
-        $texto = 'Registro eliminado correctamente.';
-    } elseif ($mensaje == 'creado') {
-        $clase = 'success';
-        $texto = 'Nuevo cliente creado correctamente.';
-    }
-    if ($texto) {
-        echo "<div class='alert alert-$clase'>$texto</div>";
-    }
-}
+// Sidebar y Navbar
+include 'includes/sidebar.php';
+include 'includes/navbar.php';
 
-?>
-<div id="tablaResultados">
-    <?php include 'includes/table.php'; ?>
-</div>
-<?php
+// Contenedor principal
+echo '<div class="content-wrapper">';
+include $pageFile;
+echo '</div>';
+
+// Footer
 include 'includes/footer.php';
 $conn->close();
 ?>
