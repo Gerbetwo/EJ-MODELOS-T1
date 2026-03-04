@@ -70,7 +70,7 @@ if (inputBuscar) {
         clearTimeout(timeout);
         timeout = setTimeout(() => {
             const query = inputBuscar.value.trim();
-            fetch('tabla_clientes.php?buscar=' + encodeURIComponent(query))
+            fetch('tabla_ventas.php?buscar=' + encodeURIComponent(query))
                 .then(res => res.text())
                 .then(html => {
                     document.getElementById('tablaResultados').innerHTML = html;
