@@ -10,7 +10,7 @@ if (!@include('/opt/lampp/htdocs/modelos-udenar/config/config.php')) {
 $host = 'localhost';
 $user = 'Gerbert';
 $password = DB_PASS; // Esta constante viene del archivo include
-$dbname = 'db_modelos_udenar'; // Asegúrate que sea guion bajo como en tu error anterior
+$dbname = 'UrkuninaTech'; // Asegúrate que sea guion bajo como en tu error anterior
 // 2. Intentar la conexión
 $conn = new mysqli($host, $user, $password, $dbname);
 

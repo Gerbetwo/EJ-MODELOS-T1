@@ -1,2 +1,2 @@
 <?php
-define('DB_PASS', '$YosoyJhank69$');
+define('DB_PASS', '$2026ukDMHNO$');
