@@ -48,7 +48,7 @@ if (isset($_GET['mensaje'])) {
         $texto = 'Registro eliminado correctamente.';
     } elseif ($mensaje == 'creado') {
         $clase = 'success';
-        $texto = 'Nuevo cliente creado correctamente.';
+        $texto = 'Nueva venta creado correctamente.';
     }
     if ($texto) {
         echo "<div class='alert alert-$clase'>$texto</div>";
