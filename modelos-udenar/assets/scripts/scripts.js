@@ -24,7 +24,7 @@ function editarRegistro(id) {
 }
 
 function eliminarRegistro(id) {
-    if (confirm('¿Estás seguro de eliminar este cliente?')) {
+    if (confirm('¿Estás seguro de eliminar esta venta?')) {
         window.location.href = 'eliminar.php?id=' + encodeURIComponent(id);
     }
 }
@@ -47,7 +47,7 @@ function nuevoRegistro() {
                     fetch(form.action, { method: form.method, body: formData })
                         .then(resp => resp.text())
                         .then(data => {
-                            alert('Cliente creado correctamente');
+                            alert('Venta creada correctamente');
                             cerrarModalCrear();
                             document.getElementById('buscar').dispatchEvent(new Event('input'));
                         })

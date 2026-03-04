@@ -31,7 +31,7 @@
             <!-- Cliente -->
             <div style="display: flex; align-items: center; gap: 15px;">
                 <button class="btn-nuevo" onclick="nuevoRegistro()">
-                    <i class="fas fa-plus-circle"></i> Nuevo Cliente
+                    <i class="fas fa-plus-circle"></i> Nueva Venta
                 </button>
                 <div class="user-badge">
                     <i class="fas fa-user-circle"></i>
