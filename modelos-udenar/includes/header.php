@@ -19,12 +19,12 @@
         <div class="header">
             <h1>
                 <i class="fas fa-database"></i> 
-                Modelo de la Computacion
+                UrkuninaTech
             </h1>
             
             <!-- Buscador dinámico -->
             <form id="searchForm" class="search-form" onsubmit="return false;">
-                <input type="text" id="buscar" placeholder="Buscar cliente...">
+                <input type="text" id="buscar" placeholder="Buscar Venta...">
                 <button type="submit"><i class="fas fa-search"></i></button>
             </form>
             

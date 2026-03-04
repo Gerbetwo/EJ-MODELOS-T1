@@ -4,7 +4,7 @@ require_once 'config/connectdb.php';
 $buscar = isset($_GET['buscar']) ? trim($_GET['buscar']) : '';
 
 // Obtener columnas
-$colResult = $conn->query("SHOW COLUMNS FROM Ventas");
+$colResult = $conn->query("SHOW COLUMNS FROM ventas");
 $columnas = [];
 while ($col = $colResult->fetch_assoc()) {
     $columnas[] = $col['Field'];
