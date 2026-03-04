@@ -11,7 +11,7 @@ while ($col = $colResult->fetch_assoc()) {
 }
 
 // Construir consulta
-$sql = "SELECT * FROM Clientes";
+$sql = "SELECT * FROM ventas";
 if (!empty($buscar)) {
     $buscar_escapado = $conn->real_escape_string($buscar);
     $condiciones = [];

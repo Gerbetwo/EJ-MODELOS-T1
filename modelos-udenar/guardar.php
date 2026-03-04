@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 // Obtener las columnas (excepto la primera, ID autoincremental)
-$resultCol = $conn->query("SHOW COLUMNS FROM Clientes");
+$resultCol = $conn->query("SHOW COLUMNS FROM ventas");
 $columnas = [];
 $primeraColumna = null;
 $primero = true;
@@ -37,7 +37,7 @@ if (empty($campos)) {
 
 // Construir la consulta
 $placeholders = implode(', ', array_fill(0, count($campos), '?'));
-$sql = "INSERT INTO Clientes (" . implode(', ', $campos) . ") VALUES ($placeholders)";
+$sql = "INSERT INTO ventas (" . implode(', ', $campos) . ") VALUES ($placeholders)";
 
 $stmt = $conn->prepare($sql);
 $tipos = str_repeat('s', count($campos));

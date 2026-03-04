@@ -24,7 +24,7 @@ if (empty($campos)) {
 
 // Construir la parte SET de la consulta: campo1=?, campo2=?, ...
 $set = implode('=?, ', $campos) . '=?';
-$sql = "UPDATE Clientes SET $set WHERE id = ?";
+$sql = "UPDATE ventas SET $set WHERE id = ?";
 
 // Preparar la sentencia
 $stmt = $conn->prepare($sql);

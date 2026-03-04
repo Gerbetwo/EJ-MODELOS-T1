@@ -2,7 +2,7 @@
 require_once 'config/connectdb.php';
 
 // Obtener columnas
-$resultCol = $conn->query("SHOW COLUMNS FROM Clientes");
+$resultCol = $conn->query("SHOW COLUMNS FROM ventas");
 $columnas = [];
 while ($col = $resultCol->fetch_assoc()) $columnas[] = $col;
 

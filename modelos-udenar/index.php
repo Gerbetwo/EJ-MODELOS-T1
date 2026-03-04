@@ -6,15 +6,15 @@ require_once 'config/connectdb.php';
 // Obtener término de búsqueda
 $buscar = isset($_GET['buscar']) ? trim($_GET['buscar']) : '';
 
-// Obtener todas las columnas de Clientes
-$colResult = $conn->query("SHOW COLUMNS FROM Clientes");
+// Obtener todas las columnas de ventas
+$colResult = $conn->query("SHOW COLUMNS FROM ventas");
 $columnas = [];
 while ($col = $colResult->fetch_assoc()) {
     $columnas[] = $col['Field'];
 }
 
 // Construir consulta
-$sql = "SELECT * FROM Clientes";
+$sql = "SELECT * FROM ventas";
 
 if (!empty($buscar)) {
     $buscar_escapado = $conn->real_escape_string($buscar);

@@ -3,7 +3,7 @@ require_once 'config/connectdb.php';
 
 $id = intval($_GET['id']); 
 
-$sql = "SELECT * FROM Clientes WHERE id = ?";
+$sql = "SELECT * FROM ventas WHERE id = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $id);
 $stmt->execute();
