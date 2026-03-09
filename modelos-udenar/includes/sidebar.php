@@ -8,8 +8,7 @@
             src="adminlte/dist/assets/img/AdminLTELogo.png"
             alt="Logo"
             class="brand-image img-circle elevation-3"
-            style="opacity: 0.9"
-        />
+            style="opacity: 0.9" />
         <span class="brand-text font-weight-light">Gestión Udenar</span>
     </a>
 
@@ -19,30 +18,26 @@
             <ul
                 class="nav nav-pills nav-sidebar flex-column"
                 data-widget="treeview"
-                data-accordion="false"
-            >
+                data-accordion="false">
                 <li class="nav-item">
                     <a
                         href="index.php"
                         class="nav-link <?= ($_GET['module'] ?? 'dashboard') === 'dashboard'
-                            ? 'active'
-                            : '' ?>"
-                    >
+                                            ? 'active'
+                                            : '' ?>">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>Dashboard</p>
                     </a>
                 </li>
                 <li
                     class="nav-item has-treeview <?= ($_GET['module'] ?? '') === 'clientes'
-                        ? 'menu-open'
-                        : '' ?>"
-                >
+                                                        ? 'menu-open'
+                                                        : '' ?>">
                     <a
                         href="#"
                         class="nav-link <?= ($_GET['module'] ?? '') === 'clientes'
-                            ? 'active'
-                            : '' ?>"
-                    >
+                                            ? 'active'
+                                            : '' ?>">
                         <i class="nav-icon fas fa-users"></i>
                         <p>
                             Clientes
@@ -54,10 +49,9 @@
                             <a
                                 href="index.php?module=clientes"
                                 class="nav-link <?= ($_GET['module'] ?? '') === 'clientes' &&
-                                !isset($_GET['sub'])
-                                    ? 'active'
-                                    : '' ?>"
-                            >
+                                                    !isset($_GET['sub'])
+                                                    ? 'active'
+                                                    : '' ?>">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Listado</p>
                             </a>
@@ -66,10 +60,9 @@
                             <a
                                 href="index.php?module=clientes&sub=nuevo"
                                 class="nav-link <?= ($_GET['module'] ?? '') === 'clientes' &&
-                                ($_GET['sub'] ?? '') === 'nuevo'
-                                    ? 'active'
-                                    : '' ?>"
-                            >
+                                                    ($_GET['sub'] ?? '') === 'nuevo'
+                                                    ? 'active'
+                                                    : '' ?>">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Nuevo</p>
                             </a>

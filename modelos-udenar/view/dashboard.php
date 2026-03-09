@@ -17,9 +17,7 @@
                         <p>Total Clientes</p>
                     </div>
                     <div class="icon"><i class="fas fa-users"></i></div>
-                    <a href="index.php?module=clientes" class="small-box-footer"
-                        >Ver clientes <i class="fas fa-arrow-circle-right"></i
-                    ></a>
+                    <a href="index.php?module=clientes" class="small-box-footer">Ver clientes <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
             <div class="col-md-4">

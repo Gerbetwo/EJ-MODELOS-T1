@@ -20,4 +20,4 @@ if ($conn->connect_error) {
     die('Error de conexión (' . $conn->connect_errno . '): ' . $conn->connect_error);
 }
 //Configurar el set de caracteres para evitar problemas con tildes
-$conn->set_charset('utf8mb4'); ?>
+$conn->set_charset('utf8mb4');

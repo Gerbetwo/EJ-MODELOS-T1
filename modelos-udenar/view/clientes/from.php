@@ -2,26 +2,24 @@
 $esEditar = isset($row); ?>
 <form
     action="<?= $esEditar
-        ? '../../controllers/ClientesController.php?action=edit&id=' . $row['id']
-        : '../../controllers/ClientesController.php?action=create' ?>"
-    method="POST"
->
+                ? '../../controllers/ClientesController.php?action=edit&id=' . $row['id']
+                : '../../controllers/ClientesController.php?action=create' ?>"
+    method="POST">
     <?php
     $cols = $row ?? $conn->query('SHOW COLUMNS FROM Clientes');
     foreach ($cols as $campo => $valor):
         if ($campo === 'id') {
             continue;
         } ?>
-    <div class="form-group mb-2">
-        <label><?= ucfirst($campo) ?></label>
-        <input
-            type="text"
-            name="<?= $campo ?>"
-            value="<?= $esEditar ? htmlspecialchars($valor) : '' ?>"
-            class="form-control"
-            required
-        />
-    </div>
+        <div class="form-group mb-2">
+            <label><?= ucfirst($campo) ?></label>
+            <input
+                type="text"
+                name="<?= $campo ?>"
+                value="<?= $esEditar ? htmlspecialchars($valor) : '' ?>"
+                class="form-control"
+                required />
+        </div>
     <?php
     endforeach;
     ?>

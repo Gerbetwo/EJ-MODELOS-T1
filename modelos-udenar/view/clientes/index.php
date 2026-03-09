@@ -7,8 +7,7 @@
                     <button
                         class="btn btn-success btn-sm"
                         data-toggle="modal"
-                        data-target="#modalCrear"
-                    >
+                        data-target="#modalCrear">
                         <i class="fas fa-plus"></i> Nuevo Cliente
                     </button>
                 </div>
@@ -18,35 +17,31 @@
                     <thead>
                         <tr>
                             <?php foreach ($columnsMeta as $col): ?>
-                            <th><?= strtoupper($col['Field']) ?></th>
+                                <th><?= strtoupper($col['Field']) ?></th>
                             <?php endforeach; ?>
                             <th class="text-center">ACCIONES</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php foreach ($clientes as $c): ?>
-                        <tr>
-                            <?php foreach ($columnsMeta as $col): ?>
-                            <td><?= $c[$col['Field']] ?></td>
-                            <?php endforeach; ?>
-                            <td class="text-center">
-                                <button
-                                    class="btn btn-info btn-xs btn-editar"
-                                    data-id="<?= $c['id'] ?>"
-                                >
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <a
-                                    href="index.php?module=clientes&action=delete&id=<?= $c[
-                                        'id'
-                                    ] ?>"
-                                    class="btn btn-danger btn-xs"
-                                    onclick="return confirm('¿Eliminar registro?');"
-                                >
-                                    <i class="fas fa-trash"></i>
-                                </a>
-                            </td>
-                        </tr>
+                            <tr>
+                                <?php foreach ($columnsMeta as $col): ?>
+                                    <td><?= $c[$col['Field']] ?></td>
+                                <?php endforeach; ?>
+                                <td class="text-center">
+                                    <button
+                                        class="btn btn-info btn-xs btn-editar"
+                                        data-id="<?= $c['id'] ?>">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <a
+                                        href="index.php?module=clientes&action=delete&id=<?= $c['id'] ?>"
+                                        class="btn btn-danger btn-xs"
+                                        onclick="return confirm('¿Eliminar registro?');">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
                         <?php endforeach; ?>
                     </tbody>
                 </table>
