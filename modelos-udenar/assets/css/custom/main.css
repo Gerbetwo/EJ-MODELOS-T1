@@ -1,57 +1,23 @@
 /* assets/css/custom/main.css */
-
-/* 1. Variables */
 @import '_variables.css';
-
-/* 2. Componentes personalizados */
 @import '_components.css';
-
-/* 3. Utilidades */
 @import '_utilities.css';
 
-/* 4. Estilos base */
 body {
-    background-color: var(--color-dark);  /* Fondo negro por defecto, pero será reemplazado por el background especial */
+    font-family: var(--font-main);
+    background-color: var(--color-dark);
     color: var(--color-light);
-    font-family: 'Source Sans Pro', sans-serif;
+    letter-spacing: var(--font-letter-spacing);
 }
 
-.app-container {
-    min-height: 100vh;
-    position: relative;
-    z-index: 1;
+/* Forzar transparencia en los contenedores de AdminLTE */
+.content-wrapper {
+    background: transparent !important;
+    backdrop-filter: var(--glass-blur);
 }
 
-/* Ajustes para el fondo neural (transparente para que se vea el background especial) */
-.neural-background {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 0;
-    opacity: 0.5; /* Ajusta según necesites */
-    pointer-events: none;
-}
-
-/* Para que el contenido esté sobre el fondo */
-.content-wrapper, .main-header, .main-sidebar {
-    position: relative;
-    z-index: 2;
-}
-
-/* Scrollbar personalizada (opcional) */
-::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
-}
-::-webkit-scrollbar-track {
-    background: var(--color-dark);
-}
-::-webkit-scrollbar-thumb {
-    background: var(--color-primary);
-    border-radius: 4px;
-}
-::-webkit-scrollbar-thumb:hover {
-    background: var(--red-dark);
+.wrapper,
+.main-sidebar,
+.main-header {
+    background: transparent !important;
 }

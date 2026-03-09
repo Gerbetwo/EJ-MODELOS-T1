@@ -1,36 +1,51 @@
 /* assets/css/custom/_variables.css */
 :root {
     /* Paleta principal (inspirada en estilo AMD) */
-    --red-primary: #E03A3A;        /* Rojo vibrante pero elegante */
-    --red-dark: #B22222;            /* Rojo más oscuro para hover */
-    --black-primary: #0A0A0A;       /* Negro profundo */
-    --black-secondary: #1E1E1E;     /* Negro ligeramente más claro */
-    --gold-primary: #C5A028;        /* Dorado sobrio y metálico */
-    --gold-light: #E5B73B;          /* Dorado más brillante para hover */
-    --gray-light: #F5F5F5;           /* Gris muy claro para texto sobre fondo oscuro */
-    --gray-medium: #AAAAAA;           /* Gris medio */
-    --gray-dark: #333333;             /* Gris oscuro para bordes */
+    --red-primary: #E03A3A;
+    /* Rojo vibrante pero elegante */
+    --red-dark: #B22222;
+    /* Rojo más oscuro para hover */
+    --black-primary: #0A0A0A;
+    /* Negro profundo */
+    --black-secondary: #1E1E1E;
+    /* Negro ligeramente más claro */
+    --gold-primary: #C5A028;
+    /* Dorado sobrio y metálico */
+    --gold-light: #E5B73B;
+    /* Dorado más brillante para hover */
+    --gray-light: #F5F5F5;
+    /* Gris muy claro para texto sobre fondo oscuro */
+    --gray-medium: #AAAAAA;
+    /* Gris medio */
+    --gray-dark: #333333;
+    /* Gris oscuro para bordes */
 
     /* Sistema de colores semánticos */
     --color-primary: var(--red-primary);
     --color-secondary: var(--black-primary);
     --color-accent: var(--gold-primary);
-    --color-success: #28a745;        /* Mantenemos algunos de Bootstrap */
+    --color-success: #28a745;
+    /* Mantenemos algunos de Bootstrap */
     --color-info: #17a2b8;
     --color-warning: #ffc107;
     --color-danger: #dc3545;
     --color-light: var(--gray-light);
     --color-dark: var(--black-primary);
-    
-    /* Fondos y efectos (transparentes para el background especial) */
-    --glass-bg: rgba(255, 255, 255, 0.08);  /* Muy sutil, casi transparente */
-    --glass-bg-dark: rgba(0, 0, 0, 0.7);     /* Para overlays */
+
+    /* Tipografía Unificada */
+    --font-main: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-weight-bold: 700;
+    --font-weight-medium: 500;
+    --font-letter-spacing: 0.5px;
+
+    /* Glassmorphism Refinado */
+    --glass-bg: rgba(255, 255, 255, 0.05);
+    --glass-bg-dark: rgba(0, 0, 0, 0.6);
     --glass-border: rgba(255, 255, 255, 0.1);
-    
-    /* Sombras con tintes de color */
-    --shadow-red: rgba(224, 58, 58, 0.2);
-    --shadow-gold: rgba(197, 160, 40, 0.3);
-    
-    /* Transiciones */
-    --transition-default: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    --glass-blur: blur(12px);
+    /* Valor maestro para el desenfoque */
+
+    /* Sombras */
+    --shadow-soft: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+
 }

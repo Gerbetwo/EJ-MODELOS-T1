@@ -1,37 +1,76 @@
 /* assets/css/custom/_utilities.css */
 
 /* Colores de texto */
-.text-primary-custom { color: var(--color-primary) !important; }
-.text-accent-custom { color: var(--color-accent) !important; }
-.text-black-custom { color: var(--color-dark) !important; }
-.text-white-custom { color: var(--color-light) !important; }
+.text-primary-custom {
+    color: var(--color-primary) !important;
+}
+
+.text-accent-custom {
+    color: var(--color-accent) !important;
+}
+
+.text-black-custom {
+    color: var(--color-dark) !important;
+}
+
+.text-white-custom {
+    color: var(--color-light) !important;
+}
 
 /* Fondos */
-.bg-primary-custom { background-color: var(--color-primary) !important; }
-.bg-accent-custom { background-color: var(--color-accent) !important; }
-.bg-black-custom { background-color: var(--color-dark) !important; }
-.bg-glass-custom { background: var(--glass-bg) !important; backdrop-filter: blur(10px); }
-.bg-glass-dark-custom { background: var(--glass-bg-dark) !important; backdrop-filter: blur(10px); }
+.bg-primary-custom {
+    background-color: var(--color-primary) !important;
+}
+
+.bg-accent-custom {
+    background-color: var(--color-accent) !important;
+}
+
+.bg-black-custom {
+    background-color: var(--color-dark) !important;
+}
+
+.bg-glass-custom {
+    background: var(--glass-bg) !important;
+    backdrop-filter: blur(10px);
+}
+
+.bg-glass-dark-custom {
+    background: var(--glass-bg-dark) !important;
+    backdrop-filter: blur(10px);
+}
 
 /* Bordes */
-.border-primary-custom { border-color: var(--color-primary) !important; }
-.border-accent-custom { border-color: var(--color-accent) !important; }
-.border-glass { border: 1px solid var(--glass-border) !important; }
+.border-primary-custom {
+    border-color: var(--color-primary) !important;
+}
+
+.border-accent-custom {
+    border-color: var(--color-accent) !important;
+}
+
+.border-glass {
+    border: 1px solid var(--glass-border) !important;
+}
 
 /* Sombras */
 .shadow-primary {
     box-shadow: 0 4px 20px var(--shadow-red) !important;
 }
+
 .shadow-accent {
     box-shadow: 0 4px 20px var(--shadow-gold) !important;
 }
+
 .shadow-hover-primary {
     transition: var(--transition-default);
 }
+
 .shadow-hover-primary:hover {
     box-shadow: 0 8px 25px var(--shadow-red) !important;
     transform: translateY(-3px);
 }
+
 .shadow-hover-accent:hover {
     box-shadow: 0 8px 25px var(--shadow-gold) !important;
     transform: translateY(-3px);
@@ -41,6 +80,7 @@
 .bg-gradient-red-black {
     background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-dark) 100%) !important;
 }
+
 .bg-gradient-gold-black {
     background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-dark) 100%) !important;
 }
