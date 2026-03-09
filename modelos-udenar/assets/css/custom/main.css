@@ -21,3 +21,44 @@ body {
 .main-header {
     background: transparent !important;
 }
+
+/* assets/css/custom/main.css */
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+/* El wrapper debe ser el contenedor maestro */
+.wrapper {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Evita que AdminLTE fuerce alturas extrañas */
+.content-wrapper {
+    background: transparent !important;
+    flex: 1; /* Esto hace que el contenido ocupe el espacio sobrante sin crecer de más */
+    display: flex;
+    flex-direction: column;
+}
+
+/* Fix para el canvas neural */
+.neural-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1; /* Forzar al fondo total */
+    pointer-events: none;
+}
+
+.neural-canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
