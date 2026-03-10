@@ -1,62 +1,71 @@
 <?php
-// index.php - Punto de Entrada Único
+// index.php
 
-// 1. Carga de Configuración y Autoload (Cerebro del sistema)
-require_once 'config/Config.php'; 
+// 1. Carga del Sistema (Config, Autoloader, .env)
+require_once 'config/Config.php';
 
 // 2. Inicialización de Servicios
 $dbInstance = new Database();
 $conn = $dbInstance->getConnection();
 $inspector = new DatabaseInspector($conn);
 
-// 3. Captura de Parámetros (Routing)
+// 3. Parámetros de Ruta (Querystring)
 $tableName = $_GET['table'] ?? null;
 $action    = $_GET['action'] ?? 'list';
+$id        = $_GET['id'] ?? null;
 $content   = "";
 
-// 4. Lógica de Enrutamiento Dinámico
 if ($tableName) {
-    // Verificamos si la tabla existe para evitar errores
-    $tablesInDb = array_column($inspector->getTables(), 'name');
-    
-    if (in_array($tableName, $tablesInDb)) {
-        $model = new GenericModel($conn, $tableName);
-        $meta  = $inspector->getTableMetadata($tableName);
-        $headers = array_column($meta, 'name');
+    // Inicializamos el "Motor Genérico"
+    $controller = new GenericController($conn, $tableName);
+    $meta = $inspector->getTableMetadata($tableName);
 
-        // Procesamiento de Acciones (Post/Delete)
-        if ($action === 'delete' && isset($_GET['id'])) {
-            $model->delete($_GET['id']);
-            header("Location: index.php?table=$tableName&msg=eliminado");
+    // --- CAPA DE ACCIONES (POST) ---
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if ($action === 'create') {
+            $controller->store($_POST);
+            header("Location: index.php?table=$tableName&msg=creado");
             exit;
         }
-
-        // Renderizado de la Vista (Componente List)
-        $data = $model->getAll();
-        ob_start();
-        
-        // Si tienes una vista específica (como clientes/List.php), úsala. 
-        // Si no, usa una vista genérica.
-        $specificView = "view/{$tableName}/List.php";
-        if (file_exists($specificView)) {
-            include $specificView;
-        } else {
-            // Renderizado genérico usando el componente UI
-            echo UI::Card(
-                "Gestión de " . ucfirst($tableName),
-                UI::Table($headers, $data, $tableName)
-            );
+        if ($action === 'update' && isset($_POST['id'])) {
+            $controller->update($_POST['id'], $_POST);
+            header("Location: index.php?table=$tableName&msg=actualizado");
+            exit;
         }
-        $content = ob_get_clean();
-    } else {
-        $content = UI::Card("Error", "La tabla solicitada no existe.", "fas fa-exclamation-triangle");
     }
+
+    // --- CAPA DE ACCIONES (GET) ---
+    if ($action === 'delete' && $id) {
+        $controller->delete($id);
+        header("Location: index.php?table=$tableName&msg=eliminado");
+        exit;
+    }
+
+    // --- CAPA DE RENDERIZADO (VIEW) ---
+    $data = $controller->index();
+    $folder = strtolower($tableName);
+    
+    ob_start();
+    // ¿Existe un "Page Component" específico para esta tabla?
+    if (file_exists("view/$folder/List.php")) {
+        include "view/$folder/List.php";
+    } else {
+        // Si no existe, usamos el renderizado automático de la librería UI
+        $headers = array_column($meta, 'name');
+        echo UI::Card(
+            "<i class='fas fa-database mr-2'></i> Gestión de " . ucfirst($tableName),
+            UI::Table($headers, $data, $tableName),
+            '<button class="btn btn-brand btn-sm" data-toggle="modal" data-target="#modalForm"><i class="fas fa-plus"></i> Nuevo</button>'
+        );
+    }
+    $content = ob_get_clean();
+
 } else {
-    // Dashboard (Vista por defecto)
+    // Vista por defecto: Dashboard
     ob_start();
     include 'view/Dashboard.php';
     $content = ob_get_clean();
 }
 
-// 5. Inyección en el Template Principal
+// 4. Inyección en el Template Maestro
 include 'includes/Template.php';
