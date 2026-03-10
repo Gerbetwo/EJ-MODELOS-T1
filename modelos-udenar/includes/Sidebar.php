@@ -1,11 +1,10 @@
 <?php
-// includes/Sidebar.php
-$inspector = new DatabaseInspector($conn);
-$tables = $inspector->getTables();
+$modulos = TableRegistry::getAllModules();
+$currentUrl = $_GET['url'] ?? 'dashboard';
 ?>
 <aside class="main-sidebar sidebar-dark-primary bg-transparent elevation-4 sidebar-mini">
     <a href="<?= BASE_URL ?>" class="brand-link">
-        <img src="<?= BASE_URL ?>favicon.ico" alt="Logo" class="brand-image img-circle elevation-3" style="opacity: 0.9" />
+        <img src="<?= BASE_URL ?>favicon.ico" alt="Logo" class="brand-image img-circle elevation-3" />
         <span class="brand-text font-weight-light">Gestión Udenar</span>
     </a>
 
@@ -13,7 +12,7 @@ $tables = $inspector->getTables();
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column">
                 <li class="nav-item">
-                    <a href="<?= BASE_URL ?>" class="nav-link <?= (!isset($_GET['url']) || $_GET['url'] == 'dashboard') ? 'active' : '' ?>">
+                    <a href="<?= BASE_URL ?>" class="nav-link <?= ($currentUrl == 'dashboard') ? 'active' : '' ?>">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>Dashboard</p>
                     </a>
@@ -21,12 +20,11 @@ $tables = $inspector->getTables();
 
                 <li class="nav-header text-muted">BASE DE DATOS</li>
 
-                <?php foreach ($tables as $t): ?>
+                <?php foreach ($modulos as $m): ?>
                     <li class="nav-item">
-                        <a href="<?= BASE_URL . strtolower($t['name']) ?>"
-                            class="nav-link <?= (isset($_GET['url']) && strpos($_GET['url'], strtolower($t['name'])) !== false) ? 'active' : '' ?>">
+                        <a href="<?= BASE_URL . $m ?>" class="nav-link <?= (strpos($currentUrl, $m) === 0) ? 'active' : '' ?>">
                             <i class="nav-icon fas fa-database text-accent"></i>
-                            <p><?= ucfirst($t['name']) ?></p>
+                            <p><?= ucfirst($m) ?></p>
                         </a>
                     </li>
                 <?php endforeach; ?>

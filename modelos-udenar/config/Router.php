@@ -31,28 +31,33 @@ class Router
             return $this->renderView('Dashboard', ['conn' => $this->conn]);
         }
 
-        // 1. Determinar Controlador (Específico vs Genérico)
+        // --- EL CAMBIO PROFESIONAL ---
+        // Buscamos el nombre real en el diccionario
+        $realTableName = TableRegistry::getRealTableName($this->tableName);
+
+        if (!$realTableName) {
+            return "Error: Módulo no encontrado";
+        }
+
+        // El Controlador específico o genérico DEBE recibir el nombre REAL
         $controllerClass = ucfirst($this->tableName) . 'Controller';
         if (class_exists($controllerClass)) {
             $controller = new $controllerClass($this->conn);
         } else {
-            $controller = new GenericController($this->conn, $this->tableName);
+            $controller = new GenericController($this->conn, $realTableName);
         }
 
-        // 2. Ejecutar Lógica de Acciones (POST/DELETE)
         $this->handleActions($controller);
 
-        // 3. Preparar Datos para la Vista (Props)
         $inspector = new DatabaseInspector($this->conn);
-        $columnsMeta = $inspector->getTableMetadata($this->tableName);
+        // USAR $realTableName AQUÍ PARA LOS METADATOS
+        $columnsMeta = $inspector->getTableMetadata($realTableName);
         $data = $controller->index();
-        $tableName = $this->tableName; // Para que esté disponible en la vista
 
-        // 4. Renderizar Vista
         return $this->renderView($this->tableName, [
             'data' => $data,
             'columnsMeta' => $columnsMeta,
-            'tableName' => $tableName
+            'tableName' => $this->tableName // Para la UI usamos el slug
         ]);
     }
 

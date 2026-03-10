@@ -1,6 +1,5 @@
 <?php
 // config/Config.php
-error_reporting(E_ALL);
 // --- 1. CARGADOR DE VARIABLES .ENV ---
 function loadEnv($path)
 {
