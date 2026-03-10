@@ -1,43 +1,49 @@
 <?php
 // view/clientes/Form.php
-// props: $columnsMeta, $rowData (si es editar)
-
-$isEdit = isset($rowData);
-// URL Limpia: /modelos-udenar/tabla/create  o  /modelos-udenar/tabla/update
-$actionUrl = BASE_URL . $tableName . ($isEdit ? '/update' : '/create');
+$rules = TableRegistry::getRules($tableName);
 ?>
-
-<form action="<?= $actionUrl ?>" method="POST" class="p-3">
-    <?php if ($isEdit): ?>
-        <input type="hidden" name="id" value="<?= $rowData['id'] ?>">
-    <?php endif; ?>
-
+<form action="<?= $actionUrl ?>" method="POST" class="p-3" id="dynamicForm">
     <div class="row">
         <?php foreach ($columnsMeta as $col): 
-            if ($col['name'] === 'id') continue; // No mostramos el ID
+            $name = $col['name'];
+            if ($name === 'id') continue;
             
-            // Detectar el tipo de input según la base de datos
-            $type = 'text';
-            if (strpos($col['type'], 'int') !== false) $type = 'number';
-            if (strpos($col['type'], 'date') !== false) $type = 'date';
-        ?>
-            <div class="col-md-6 form-group">
-                <label class="text-accent"><?= ucfirst($col['name']) ?></label>
-                <input 
-                    type="<?= $type ?>" 
-                    name="<?= $col['name'] ?>" 
-                    value="<?= $isEdit ? htmlspecialchars($rowData[$col['name']]) : '' ?>"
-                    class="form-control form-control-custom"
-                    required
-                >
-            </div>
+            $rule = $rules[$name] ?? [];
+            $val = isset($rowData) ? htmlspecialchars($rowData[$name]) : '';
+            
+            // Renderizado condicional por tipo de regla
+            if (($rule['type'] ?? '') === 'relation'): ?>
+                <div class="col-md-6 form-group">
+                    <label class="text-accent"><?= ucfirst($name) ?></label>
+                    <select name="<?= $name ?>" class="form-control form-control-custom" required>
+                        <option value="">Seleccione...</option>
+                        <?php 
+                        $ref = $rule['references'];
+                        $db = (new Database())->getConnection();
+                        $realRef = TableRegistry::getRealTableName($ref);
+                        $res = $db->query("SELECT id, nombre FROM $realRef");
+                        while($opt = $res->fetch_assoc()): ?>
+                            <option value="<?= $opt['id'] ?>" <?= $val == $opt['id'] ? 'selected' : '' ?>>
+                                <?= $opt['nombre'] ?>
+                            </option>
+                        <?php endwhile; ?>
+                    </select>
+                </div>
+            <?php else: ?>
+                <div class="col-md-6 form-group">
+                    <label class="text-accent"><?= ucfirst($name) ?></label>
+                    <input 
+                        type="<?= $rule['type'] ?? 'text' ?>" 
+                        name="<?= $name ?>" 
+                        value="<?= $val ?>"
+                        pattern="<?= $rule['pattern'] ?? '.*' ?>"
+                        title="<?= $rule['title'] ?? '' ?>"
+                        min="<?= $rule['min'] ?? '' ?>"
+                        class="form-control form-control-custom"
+                        required
+                    >
+                </div>
+            <?php endif; ?>
         <?php endforeach; ?>
     </div>
-
-    <div class="text-right mt-3">
-        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cancelar</button>
-        <button type="submit" class="btn btn-brand">
-            <?= $isEdit ? 'Actualizar Cambios' : 'Guardar Registro' ?>
-        </button>
-    </div>
-</form>
+    </form>

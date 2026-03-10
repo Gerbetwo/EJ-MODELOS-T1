@@ -1,32 +1,38 @@
 <?php
-class GenericModel {
+class GenericModel
+{
     protected $conn;
     protected $table;
 
-    public function __construct($mysqli, $table) {
+    public function __construct($mysqli, $table)
+    {
         $this->conn = $mysqli;
         $this->table = $this->conn->real_escape_string($table);
     }
 
-    public function getAll() {
+    public function getAll()
+    {
         $res = $this->conn->query("SELECT * FROM `{$this->table}`");
         return $res->fetch_all(MYSQLI_ASSOC);
     }
 
-    public function getById($id) {
+    public function getById($id)
+    {
         $stmt = $this->conn->prepare("SELECT * FROM `{$this->table}` WHERE id = ?");
         $stmt->bind_param("i", $id);
         $stmt->execute();
         return $stmt->get_result()->fetch_assoc();
     }
 
-    public function delete($id) {
+    public function delete($id)
+    {
         $stmt = $this->conn->prepare("DELETE FROM `{$this->table}` WHERE id = ?");
         $stmt->bind_param("i", $id);
         return $stmt->execute();
     }
 
-    public function save($data, $id = null) {
+    public function save($data, $id = null)
+    {
         $cols = array_keys($data);
         $vals = array_values($data);
         $types = str_repeat('s', count($vals));
@@ -44,5 +50,13 @@ class GenericModel {
             $stmt->bind_param($types, ...$vals);
         }
         return $stmt->execute();
+    }
+
+    public function getAllRelational($joinTable, $foreignKey, $displayColumn)
+    {
+        $sql = "SELECT t1.*, t2.$displayColumn as relation_name 
+            FROM `{$this->table}` t1
+            LEFT JOIN `$joinTable` t2 ON t1.$foreignKey = t2.id";
+        return $this->conn->query($sql)->fetch_all(MYSQLI_ASSOC);
     }
 }
