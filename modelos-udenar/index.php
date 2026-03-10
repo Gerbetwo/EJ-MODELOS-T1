@@ -1,47 +1,62 @@
 <?php
-require_once './modelos-udenar/config/Database.php';
-require_once './modelos-udenar/config/DatabaseInspector.php';
-require_once './modelos-udenar/models/GenericModel.php';
-require_once './modelos-udenar/includes/Components.php';
+// index.php - Punto de Entrada Único
 
-$tableName = $_GET['table'] ?? null;
-$action = $_GET['action'] ?? 'list';
+// 1. Carga de Configuración y Autoload (Cerebro del sistema)
+require_once 'config/Config.php'; 
+
+// 2. Inicialización de Servicios
+$dbInstance = new Database();
+$conn = $dbInstance->getConnection();
 $inspector = new DatabaseInspector($conn);
 
+// 3. Captura de Parámetros (Routing)
+$tableName = $_GET['table'] ?? null;
+$action    = $_GET['action'] ?? 'list';
+$content   = "";
+
+// 4. Lógica de Enrutamiento Dinámico
 if ($tableName) {
-    $model = new GenericModel($conn, $tableName);
-    $meta = $inspector->getTableMetadata($tableName);
-
-    // Lógica de acciones (Delete/Save)
-    if ($action === 'delete') {
-        $model->delete($_GET['id']);
-        header("Location: index.php?table=$tableName&msg=deleted");
-        exit;
-    }
-
-    // Renderizado de Vista CRUD Genérica
-    ob_start();
-    $data = $model->getAll();
-    $headers = array_column($meta, 'name');
+    // Verificamos si la tabla existe para evitar errores
+    $tablesInDb = array_column($inspector->getTables(), 'name');
     
-    echo UI::Card(
-        "Listado: " . ucfirst($tableName),
-        UI::Table($headers, $data, $tableName),
-        "fas fa-database"
-    );
-    $content = ob_get_clean();
-} else {
-    // Dashboard: Cards informativos dinámicos
-    ob_start();
-    $tables = $inspector->getTables();
-    echo "<div class='row'>";
-    foreach ($tables as $t) {
-        $cardContent = "Registros: <span class='badge bg-brand'>{$t['count']}</span><br><br>";
-        $cardContent .= "<a href='index.php?table={$t['name']}' class='btn btn-sm btn-brand btn-block'>Gestionar</a>";
-        echo "<div class='col-md-3'>" . UI::Card(ucfirst($t['name']), $cardContent, "fas fa-table") . "</div>";
+    if (in_array($tableName, $tablesInDb)) {
+        $model = new GenericModel($conn, $tableName);
+        $meta  = $inspector->getTableMetadata($tableName);
+        $headers = array_column($meta, 'name');
+
+        // Procesamiento de Acciones (Post/Delete)
+        if ($action === 'delete' && isset($_GET['id'])) {
+            $model->delete($_GET['id']);
+            header("Location: index.php?table=$tableName&msg=eliminado");
+            exit;
+        }
+
+        // Renderizado de la Vista (Componente List)
+        $data = $model->getAll();
+        ob_start();
+        
+        // Si tienes una vista específica (como clientes/List.php), úsala. 
+        // Si no, usa una vista genérica.
+        $specificView = "view/{$tableName}/List.php";
+        if (file_exists($specificView)) {
+            include $specificView;
+        } else {
+            // Renderizado genérico usando el componente UI
+            echo UI::Card(
+                "Gestión de " . ucfirst($tableName),
+                UI::Table($headers, $data, $tableName)
+            );
+        }
+        $content = ob_get_clean();
+    } else {
+        $content = UI::Card("Error", "La tabla solicitada no existe.", "fas fa-exclamation-triangle");
     }
-    echo "</div>";
+} else {
+    // Dashboard (Vista por defecto)
+    ob_start();
+    include 'view/Dashboard.php';
     $content = ob_get_clean();
 }
 
-include './modelos-udenar/Template.php';
+// 5. Inyección en el Template Principal
+include 'includes/Template.php';
