@@ -1,5 +1,5 @@
 <?php
-require_once 'config/Connectdb.php';
+require_once 'config/Database.php';
 require_once 'config/DatabaseInspector.php';
 require_once 'models/GenericModel.php';
 require_once 'includes/Components.php';
@@ -44,4 +44,4 @@ if ($tableName) {
     $content = ob_get_clean();
 }
 
-include 'template.php';
+include './modelos-udenar/Template.php';

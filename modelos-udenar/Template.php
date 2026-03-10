@@ -20,7 +20,7 @@
         href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css" />
 
     <!-- 2. Tus estilos personalizados (sobrescriben) -->
-    <link rel="stylesheet" href="assets/css/custom/main.css" />
+    <link rel="stylesheet" href="./assets/css/custom/main.css" />
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -29,7 +29,7 @@
     </div>
 
     <div class="wrapper">
-        <?php include 'includes/Navbar.php'; ?> <?php include 'includes/Sidebar.php'; ?>
+        <?php include './modelos-udenar/includes/Navbar.php'; ?> <?php include './modelos-udenar/includes/Sidebar.php'; ?>
 
         <div class="content-wrapper">
             <div class="content-header">
@@ -46,19 +46,19 @@
 
             <section class="content">
                 <div class="container-fluid">
-                    <?php include 'includes/alerts.php'; ?> <?= $content ?>
+                    <?php include './modelos-udenar/includes/Alerts.php'; ?> <?= $content ?>
                 </div>
             </section>
         </div>
 
-        <?php include 'includes/Footer.php'; ?>
+        <?php include './modelos-udenar/includes/Footer.php'; ?>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/js/adminlte.min.js"></script>
-    <script src="assets/scripts/scripts.js"></script>
-    <script src="assets/scripts/neural-background.js"></script>
+    <script src="./assets/scripts/scripts.js"></script>
+    <script src="./assets/scripts/neural-background.js"></script>
 </body>
 
 </html>
