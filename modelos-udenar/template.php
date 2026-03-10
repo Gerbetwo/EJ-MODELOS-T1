@@ -29,7 +29,7 @@
     </div>
 
     <div class="wrapper">
-        <?php include 'includes/navbar.php'; ?> <?php include 'includes/sidebar.php'; ?>
+        <?php include 'includes/Navbar.php'; ?> <?php include 'includes/Sidebar.php'; ?>
 
         <div class="content-wrapper">
             <div class="content-header">
@@ -51,7 +51,7 @@
             </section>
         </div>
 
-        <?php include 'includes/footer.php'; ?>
+        <?php include 'includes/Footer.php'; ?>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

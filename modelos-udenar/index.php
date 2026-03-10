@@ -1,59 +1,47 @@
 <?php
-// index.php - router principal
-require_once 'config/connectdb.php';
-require_once 'controllers/clientescontroller.php';
+require_once 'config/Connectdb.php';
+require_once 'config/DatabaseInspector.php';
+require_once 'models/GenericModel.php';
+require_once 'includes/Components.php';
 
-$module = $_GET['module'] ?? 'dashboard';
-$controller = new ClientesController($conn);
-$content = '';
+$tableName = $_GET['table'] ?? null;
+$action = $_GET['action'] ?? 'list';
+$inspector = new DatabaseInspector($conn);
 
-if ($module === 'clientes') {
-    $action = $_GET['action'] ?? 'index';
+if ($tableName) {
+    $model = new GenericModel($conn, $tableName);
+    $meta = $inspector->getTableMetadata($tableName);
 
-    // acciones que ejecutan y redirigen
-    if ($action === 'create' && $_SERVER['REQUEST_METHOD'] === 'POST') {
-        $ok = $controller->create($_POST);
-        header('Location: index.php?module=clientes&msg=' . ($ok ? 'creado' : 'error'));
-        exit();
+    // Lógica de acciones (Delete/Save)
+    if ($action === 'delete') {
+        $model->delete($_GET['id']);
+        header("Location: index.php?table=$tableName&msg=deleted");
+        exit;
     }
 
-    if ($action === 'update' && $_SERVER['REQUEST_METHOD'] === 'POST') {
-        $id = intval($_POST['id'] ?? 0);
-        unset($_POST['id']);
-        $ok = $controller->update($id, $_POST);
-        header('Location: index.php?module=clientes&msg=' . ($ok ? 'actualizado' : 'error'));
-        exit();
-    }
-
-    if ($action === 'delete' && isset($_GET['id'])) {
-        $id = intval($_GET['id']);
-        $ok = $controller->delete($id);
-        header('Location: index.php?module=clientes&msg=' . ($ok ? 'eliminado' : 'error'));
-        exit();
-    }
-
-    // endpoint JSON para AJAX (obtener un cliente)
-    if ($action === 'get' && isset($_GET['id'])) {
-        $id = intval($_GET['id']);
-        $row = $controller->get($id);
-        header('Content-Type: application/json');
-        echo json_encode($row ?: []);
-        exit();
-    }
-
-    // vista de listado (GET)
-    $buscar = $_GET['buscar'] ?? '';
-    $clientes = $controller->index($buscar);
-    $columnsMeta = $controller->getColumns(); // para generar formularios dinámicos
+    // Renderizado de Vista CRUD Genérica
     ob_start();
-    include 'view/clientes/index.php';
+    $data = $model->getAll();
+    $headers = array_column($meta, 'name');
+    
+    echo UI::Card(
+        "Listado: " . ucfirst($tableName),
+        UI::Table($headers, $data, $tableName),
+        "fas fa-database"
+    );
     $content = ob_get_clean();
 } else {
-    // dashboard
+    // Dashboard: Cards informativos dinámicos
     ob_start();
-    include 'view/dashboard.php';
+    $tables = $inspector->getTables();
+    echo "<div class='row'>";
+    foreach ($tables as $t) {
+        $cardContent = "Registros: <span class='badge bg-brand'>{$t['count']}</span><br><br>";
+        $cardContent .= "<a href='index.php?table={$t['name']}' class='btn btn-sm btn-brand btn-block'>Gestionar</a>";
+        echo "<div class='col-md-3'>" . UI::Card(ucfirst($t['name']), $cardContent, "fas fa-table") . "</div>";
+    }
+    echo "</div>";
     $content = ob_get_clean();
 }
 
-// plantilla
 include 'template.php';

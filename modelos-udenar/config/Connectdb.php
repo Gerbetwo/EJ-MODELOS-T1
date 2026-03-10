@@ -7,10 +7,11 @@ if (!@include '/opt/lampp/htdocs/modelos-udenar/config/config.php') {
     die('Error crítico: No se pudo cargar la configuración de seguridad.');
 }
 
-$host = 'localhost';
-$user = 'Gerbert';
+$host = HOST;
+$user = USER;
 $password = DB_PASS;
-$dbname = 'db_modelos_udenar';
+$dbname = DBNAME;
+
 // 2. Intentar la conexión
 $conn = new mysqli($host, $user, $password, $dbname);
 
