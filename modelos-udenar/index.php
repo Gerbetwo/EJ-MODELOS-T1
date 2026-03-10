@@ -1,8 +1,8 @@
 <?php
-require_once 'config/Database.php';
-require_once 'config/DatabaseInspector.php';
-require_once 'models/GenericModel.php';
-require_once 'includes/Components.php';
+require_once './modelos-udenar/config/Database.php';
+require_once './modelos-udenar/config/DatabaseInspector.php';
+require_once './modelos-udenar/models/GenericModel.php';
+require_once './modelos-udenar/includes/Components.php';
 
 $tableName = $_GET['table'] ?? null;
 $action = $_GET['action'] ?? 'list';
