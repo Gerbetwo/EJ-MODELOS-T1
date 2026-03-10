@@ -28,6 +28,7 @@ class Router
     public function resolve()
     {
         if ($this->tableName === 'dashboard') {
+            // Pasamos explícitamente la conexión
             return $this->renderView('Dashboard', ['conn' => $this->conn]);
         }
 

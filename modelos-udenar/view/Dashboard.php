@@ -1,5 +1,4 @@
 <?php
-// view/dashboard.php
 $inspector = new DatabaseInspector($conn);
 $tablas = $inspector->getTables();
 ?>
@@ -14,6 +13,9 @@ $tablas = $inspector->getTables();
                 <div class="icon">
                     <i class="fas fa-table text-accent" style="opacity: 0.3"></i>
                 </div>
+                <a href="<?= BASE_URL . strtolower($t['name']) ?>" class="small-box-footer bg-glass-dark-custom">
+                    Gestionar Tabla <i class="fas fa-arrow-circle-right ml-1"></i>
+                </a>
             </div>
         </div>
     <?php endforeach; ?>

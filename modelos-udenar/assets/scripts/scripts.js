@@ -1,70 +1,82 @@
-document.body.addEventListener('submit', function (e) {
-  if (e.target.id === 'form-registro-dinamico') {
-    e.preventDefault();
-    const form = e.target;
-    const btnSubmit = form.querySelector('button[type="submit"]');
-    const originalBtnText = btnSubmit.innerHTML;
+document.addEventListener('DOMContentLoaded', function () {
+    
+    // 1. BUSQUEDA DINÁMICA
+    const searchInput = document.getElementById('tableSearch');
+    if (searchInput) {
+        searchInput.addEventListener('keyup', function () {
+            const value = this.value.toLowerCase();
+            const rows = document.querySelectorAll('#tableBody tr');
+            rows.forEach(row => {
+                row.style.display = row.innerText.toLowerCase().includes(value) ? '' : 'none';
+            });
+        });
+    }
 
-    // Visual: Deshabilitar botón y mostrar carga
-    btnSubmit.disabled = true;
-    btnSubmit.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Procesando...';
-
-    fetch(form.action, {
-      method: 'POST',
-      body: new FormData(form),
-      headers: { 'X-Requested-With': 'XMLHttpRequest' }
-    })
-      .then(async response => {
-        const data = await response.json();
-
-        if (response.ok) {
-          // ÉXITO TOTAL
-          form.innerHTML = `
-                    <div class="text-center p-4">
-                        <i class="fas fa-check-circle text-success fa-3x mb-3 animate__animated animate__bounceIn"></i>
-                        <h4 class="text-white">${data.message}</h4>
-                        <p class="text-muted">La tabla se actualizará en un momento...</p>
-                    </div>`;
-          setTimeout(() => window.location.reload(), 1500);
-        } else {
-          // ERROR O EXCEPCIÓN
-          const exceptionBox = document.getElementById('exception-container');
-          const exceptionList = document.getElementById('exception-list');
-
-          exceptionList.innerHTML = '';
-          const errors = data.errors || ['Error desconocido'];
-          Object.values(errors).forEach(msg => {
-            exceptionList.innerHTML += `<li>${msg}</li>`;
-          });
-
-          exceptionBox.classList.remove('d-none');
-          btnSubmit.disabled = false;
-          btnSubmit.innerHTML = originalBtnText;
-          document.querySelector('.modal-body').scrollTop = 0;
+    // 2. CARGA DE MODALES (CREAR / EDITAR)
+    document.body.addEventListener('click', function (e) {
+        const btn = e.target.closest('.btn-edit-js, .btn-new-js');
+        if (btn) {
+            const table = btn.dataset.table;
+            const id = btn.dataset.id || null;
+            loadModalForm(table, id);
         }
-      })
-      .catch(err => {
-        alert("Error crítico de conexión.");
-        btnSubmit.disabled = false;
-        btnSubmit.innerHTML = originalBtnText;
-      });
-  }
+    });
+
+    // 3. ENVÍO DE FORMULARIO AJAX
+    document.body.addEventListener('submit', function (e) {
+        if (e.target.id === 'form-registro-dinamico') {
+            e.preventDefault();
+            handleFormSubmit(e.target);
+        }
+    });
 });
 
 function loadModalForm(table, id) {
-  const modal = $('#modalGenérico');
-  const url = id ? `${CONFIG.baseUrl}${table}/get/${id}` : `${CONFIG.baseUrl}${table}/get`;
+    const modal = $('#modalGenérico');
+    const url = id ? `${CONFIG.baseUrl}${table}/get/${id}` : `${CONFIG.baseUrl}${table}/get`;
 
-  modal.modal('show');
-  $('#modalBody').html('<div class="text-center p-5"><i class="fas fa-sync fa-spin fa-2x text-brand"></i></div>');
+    $('#modalBody').html('<div class="text-center p-5"><i class="fas fa-sync fa-spin fa-2x text-brand"></i></div>');
+    modal.modal('show');
 
-  fetch(url)
-    .then(r => r.text())
-    .then(html => {
-      $('#modalBody').html(html);
-    })
-    .catch(err => {
-      console.error(err);
-      $('#modalBody').html('<div class="alert alert-danger">Error al cargar el formulario.</div>');
-    });
+    fetch(url)
+        .then(r => r.text())
+        .then(html => $('#modalBody').html(html))
+        .catch(() => $('#modalBody').html('<div class="alert alert-danger">Error al cargar.</div>'));
+}
+
+async function handleFormSubmit(form) {
+    const btn = form.querySelector('button[type="submit"]');
+    const originalText = btn.innerHTML;
+    const exceptionBox = document.getElementById('exception-container');
+    const exceptionList = document.getElementById('exception-list');
+
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Guardando...';
+
+    try {
+        const response = await fetch(form.action, {
+            method: 'POST',
+            body: new FormData(form),
+            headers: { 'X-Requested-With': 'XMLHttpRequest' }
+        });
+
+        const text = await response.text();
+        // Limpiamos posibles warnings de PHP antes de parsear JSON
+        const jsonStart = text.indexOf('{');
+        const data = JSON.parse(text.substring(jsonStart));
+
+        if (response.status === 422) {
+            exceptionList.innerHTML = Object.values(data.errors).map(m => `<li>${m}</li>`).join('');
+            exceptionBox.classList.remove('d-none');
+            btn.disabled = false;
+            btn.innerHTML = originalText;
+        } else {
+            window.location.reload();
+        }
+    } catch (e) {
+        console.error("Error crítico:", e);
+        alert("Fallo en la respuesta del servidor.");
+        btn.disabled = false;
+        btn.innerHTML = originalText;
+    }
 }
