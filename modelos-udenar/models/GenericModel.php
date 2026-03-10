@@ -59,4 +59,17 @@ class GenericModel
             LEFT JOIN `$joinTable` t2 ON t1.$foreignKey = t2.id";
         return $this->conn->query($sql)->fetch_all(MYSQLI_ASSOC);
     }
+
+    public function where($field, $value)
+    {
+        $stmt = $this->conn->prepare("SELECT * FROM `{$this->table}` WHERE `$field` = ? LIMIT 1");
+        $stmt->bind_param("s", $value);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_assoc();
+    }
+
+    public function getConnection()
+    {
+        return $this->conn;
+    }
 }

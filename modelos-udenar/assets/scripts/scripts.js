@@ -1,70 +1,54 @@
-document.addEventListener('DOMContentLoaded', function () {
-  // 1. Buscador Dinámico
-  const searchInput = document.getElementById('tableSearch');
-  if (searchInput) {
-    searchInput.addEventListener('keyup', function () {
-      const value = this.value.toLowerCase();
-      const rows = document.querySelectorAll('#tableBody tr');
-      rows.forEach(row => {
-        // Filtra por todo el texto de la fila
-        row.style.display = row.innerText.toLowerCase().includes(value) ? '' : 'none';
-      });
-    });
-  }
+document.body.addEventListener('submit', function (e) {
+  if (e.target.id === 'form-registro-dinamico') {
+    e.preventDefault();
+    const form = e.target;
+    const btnSubmit = form.querySelector('button[type="submit"]');
+    const originalBtnText = btnSubmit.innerHTML;
 
-  // 2. Delegación de clics para abrir Modales
-  document.body.addEventListener('click', function (e) {
-    const btnEdit = e.target.closest('.btn-edit-js');
-    const btnNew = e.target.closest('.btn-new-js');
+    // Visual: Deshabilitar botón y mostrar carga
+    btnSubmit.disabled = true;
+    btnSubmit.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Procesando...';
 
-    if (btnEdit) {
-      loadModalForm(btnEdit.dataset.table, btnEdit.dataset.id);
-    } else if (btnNew) {
-      loadModalForm(btnNew.dataset.table, null);
-    }
-  });
+    fetch(form.action, {
+      method: 'POST',
+      body: new FormData(form),
+      headers: { 'X-Requested-With': 'XMLHttpRequest' }
+    })
+      .then(async response => {
+        const data = await response.json();
 
-  // MANEJADOR DE ENVÍO DE FORMULARIO
-  document.body.addEventListener('submit', function (e) {
-    if (e.target.id === 'form-registro-dinamico') {
-      e.preventDefault();
-      const form = e.target;
-      const formData = new FormData(form);
+        if (response.ok) {
+          // ÉXITO TOTAL
+          form.innerHTML = `
+                    <div class="text-center p-4">
+                        <i class="fas fa-check-circle text-success fa-3x mb-3 animate__animated animate__bounceIn"></i>
+                        <h4 class="text-white">${data.message}</h4>
+                        <p class="text-muted">La tabla se actualizará en un momento...</p>
+                    </div>`;
+          setTimeout(() => window.location.reload(), 1500);
+        } else {
+          // ERROR O EXCEPCIÓN
+          const exceptionBox = document.getElementById('exception-container');
+          const exceptionList = document.getElementById('exception-list');
 
-      // Elementos de la UI para excepciones
-      const exceptionBox = document.getElementById('exception-container');
-      const exceptionList = document.getElementById('exception-list');
+          exceptionList.innerHTML = '';
+          const errors = data.errors || ['Error desconocido'];
+          Object.values(errors).forEach(msg => {
+            exceptionList.innerHTML += `<li>${msg}</li>`;
+          });
 
-      fetch(form.action, {
-        method: 'POST',
-        body: formData,
-        headers: { 'X-Requested-With': 'XMLHttpRequest' }
+          exceptionBox.classList.remove('d-none');
+          btnSubmit.disabled = false;
+          btnSubmit.innerHTML = originalBtnText;
+          document.querySelector('.modal-body').scrollTop = 0;
+        }
       })
-        .then(async response => {
-          const isJson = response.headers.get('content-type')?.includes('application/json');
-          const data = isJson ? await response.json() : null;
-
-          if (response.status === 422) { // EXCEPCIÓN DE VALIDACIÓN
-            exceptionList.innerHTML = '';
-            Object.values(data.errors).forEach(msg => {
-              exceptionList.innerHTML += `<li>${msg}</li>`;
-            });
-            exceptionBox.classList.remove('d-none');
-            // Scroll suave hacia arriba del modal para ver el error
-            document.querySelector('.modal-body').scrollTop = 0;
-          }
-          else if (response.ok) { // ÉXITO
-            window.location.reload();
-          } else {
-            throw new Error("Error inesperado en el servidor");
-          }
-        })
-        .catch(err => {
-          console.error(err);
-          alert("Fallo crítico en la comunicación con el servidor.");
-        });
-    }
-  });
+      .catch(err => {
+        alert("Error crítico de conexión.");
+        btnSubmit.disabled = false;
+        btnSubmit.innerHTML = originalBtnText;
+      });
+  }
 });
 
 function loadModalForm(table, id) {
