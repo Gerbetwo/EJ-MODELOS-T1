@@ -1,13 +1,14 @@
 <?php
-class TableRegistry
-{
+class TableRegistry {
     private static $map = [
         'clientes' => [
             'table' => 'Clientes',
             'rules' => [
-                'nombre'   => ['type' => 'text', 'placeholder' => 'Nombre completo', 'regex' => '^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$', 'error' => 'Solo letras.'],
-                'correo'   => ['type' => 'email', 'placeholder' => 'ejemplo@correo.com', 'error' => 'Correo inválido.'],
-                'telefono' => ['type' => 'tel', 'placeholder' => '300 123 4567', 'regex' => '^[0-9+]{7,15}$', 'error' => 'Mínimo 7 números.']
+                // AGREGADOS DELIMITADORES / / Y LLAVES EN MINÚSCULAS
+                'Nombre'   => ['type' => 'text', 'placeholder' => 'Nombre completo', 'regex' => '/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/', 'error' => 'Solo letras.'],
+                'Correo'   => ['type' => 'email', 'placeholder' => 'ejemplo@correo.com', 'error' => 'Correo inválido.'],
+                'Telefono' => ['type' => 'tel', 'placeholder' => '300 123 4567', 'regex' => '/^[0-9+]{7,15}$/', 'error' => 'Mínimo 7 números.'],
+                'Ciudad' => ['type' => 'text', 'placeholder' => 'Pasto', 'regex' => '/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/', 'error' => 'Solo letras.']
             ]
         ],
         'pedidos' => [
@@ -21,16 +22,13 @@ class TableRegistry
         ]
     ];
 
-    public static function getAllModules()
-    {
-        return array_keys(self::$map);
-    }
-    public static function getRules($slug)
-    {
+    public static function getAllModules() { return array_keys(self::$map); }
+    
+    public static function getRules($slug) {
         return self::$map[strtolower($slug)]['rules'] ?? [];
     }
-    public static function getRealTableName($slug)
-    {
+
+    public static function getRealTableName($slug) {
         return self::$map[strtolower($slug)]['table'] ?? null;
     }
 }
