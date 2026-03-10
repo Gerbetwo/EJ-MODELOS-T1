@@ -17,13 +17,14 @@ $tablas = $inspector->getTables();
         </div>
     <?php endif; ?>
 
-    <?php foreach ($tablas as $t): 
-        $tableName = strtolower($t['name']);
-    ?>
+    <?php foreach ($tablas as $t):
+        $tableName = strtolower($t['name']); ?>
     <div class="col-lg-3 col-6 mb-4">
         <div class="small-box bg-surface border-glass shadow-glow h-100 d-flex flex-column justify-content-between">
             <div class="inner p-4">
-                <h3 class="text-brand font-weight-bold" style="font-size: 2.2rem;"><?= $t['count'] ?></h3>
+                <h3 class="text-brand font-weight-bold" style="font-size: 2.2rem;"><?= $t[
+                    'count'
+                ] ?></h3>
                 <p class="text-white-custom mb-0" style="letter-spacing: 1px;">
                     Registros en <span class="text-accent"><?= ucfirst($t['name']) ?></span>
                 </p>
@@ -31,12 +32,14 @@ $tablas = $inspector->getTables();
             <div class="icon">
                 <i class="fas fa-table text-accent" style="opacity: 0.1; font-size: 5rem; top: 10px; right: 15px;"></i>
             </div>
-            <a href="<?= BASE_URL . $tableName ?>" class="small-box-footer bg-glass-dark-custom py-2" style="border-radius: 0 0 12px 12px; border-top: 1px solid rgba(255,255,255,0.05);">
+            <a href="<?= BASE_URL .
+                $tableName ?>" class="small-box-footer bg-glass-dark-custom py-2" style="border-radius: 0 0 12px 12px; border-top: 1px solid rgba(255,255,255,0.05);">
                 Gestionar Módulo <i class="fas fa-arrow-circle-right ml-2"></i>
             </a>
         </div>
     </div>
-    <?php endforeach; ?>
+    <?php
+    endforeach; ?>
 </div>
 
 <style>

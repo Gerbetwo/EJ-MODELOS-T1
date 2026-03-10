@@ -5,35 +5,59 @@ class UI
 {
     public static function Table($headers, $data, $tableName)
     {
-        $html = '<div class="table-responsive" style="border-radius: 0 0 12px 12px; overflow: hidden;">';
-        $html .= '<table id="dynamicTable" class="table table-borderless table-hover text-white-custom mb-0" style="background: rgba(255,255,255,0.02);">';
-        $html .= '<thead style="background: rgba(0,0,0,0.2); border-bottom: 1px solid rgba(168, 85, 247, 0.2);">';
+        $html =
+            '<div class="table-responsive" style="border-radius: 0 0 12px 12px; overflow: hidden;">';
+        $html .=
+            '<table id="dynamicTable" class="table table-borderless table-hover text-white-custom mb-0" style="background: rgba(255,255,255,0.02);">';
+        $html .=
+            '<thead style="background: rgba(0,0,0,0.2); border-bottom: 1px solid rgba(168, 85, 247, 0.2);">';
         $html .= '<tr>';
 
         foreach ($headers as $h) {
-            $html .= '<th class="text-accent py-3 px-4" style="letter-spacing: 1px; font-size: 0.75rem; font-weight: 700;">' . strtoupper($h) . '</th>';
+            $html .=
+                '<th class="text-accent py-3 px-4" style="letter-spacing: 1px; font-size: 0.75rem; font-weight: 700;">' .
+                strtoupper($h) .
+                '</th>';
         }
 
-        $html .= '<th class="text-center text-accent py-3 px-4" style="font-size: 0.75rem;">ACCIONES</th></tr></thead><tbody id="tableBody">';
+        $html .=
+            '<th class="text-center text-accent py-3 px-4" style="font-size: 0.75rem;">ACCIONES</th></tr></thead><tbody id="tableBody">';
 
         if (empty($data)) {
-            $html .= '<tr><td colspan="' . (count($headers) + 1) . '" class="text-center p-5 text-muted">No se encontraron registros</td></tr>';
+            $html .=
+                '<tr><td colspan="' .
+                (count($headers) + 1) .
+                '" class="text-center p-5 text-muted">No se encontraron registros</td></tr>';
         }
 
         foreach ($data as $row) {
-            $html .= '<tr style="border-bottom: 1px solid rgba(255,255,255,0.03); transition: all 0.2s ease;">';
+            $html .=
+                '<tr style="border-bottom: 1px solid rgba(255,255,255,0.03); transition: all 0.2s ease;">';
             foreach ($headers as $h) {
-                $html .= '<td class="py-3 px-4 align-middle" style="color: rgba(255,255,255,0.8); font-size: 0.9rem;">' . htmlspecialchars($row[$h] ?? '-') . '</td>';
+                $html .=
+                    '<td class="py-3 px-4 align-middle" style="color: rgba(255,255,255,0.8); font-size: 0.9rem;">' .
+                    htmlspecialchars($row[$h] ?? '-') .
+                    '</td>';
             }
-            $html .= '<td class="text-center align-middle">
+            $html .=
+                '<td class="text-center align-middle">
                 <div class="btn-group">
                     <button class="btn btn-xs btn-outline-brand mr-2 btn-edit-js" 
                             style="border-radius: 6px; width: 32px; height: 32px;"
-                            data-id="' . $row['id'] . '" 
-                            data-table="' . $tableName . '">
+                            data-id="' .
+                $row['id'] .
+                '" 
+                            data-table="' .
+                $tableName .
+                '">
                         <i class="fas fa-pen-nib"></i>
                     </button>
-                    <a href="' . BASE_URL . $tableName . '/delete/' . $row['id'] . '" 
+                    <a href="' .
+                BASE_URL .
+                $tableName .
+                '/delete/' .
+                $row['id'] .
+                '" 
                        class="btn btn-xs btn-outline-danger" 
                        style="border-radius: 6px; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;"
                        onclick="return confirm(\'¿Eliminar este registro permanentemente?\')">
@@ -47,10 +71,10 @@ class UI
         return $html;
     }
 
-    public static function Card($title, $content, $tableName = "")
+    public static function Card($title, $content, $tableName = '')
     {
         // Botón de nuevo registro integrado en la Card
-        $btnNuevo = "";
+        $btnNuevo = '';
         // Solo si hay una tabla válida y no es el dashboard, mostramos el botón "Nuevo"
         if (!empty($tableName) && $tableName !== 'dashboard') {
             $btnNuevo = "
@@ -84,16 +108,17 @@ class UI
     /**
      * Componente: Botón Estilizado
      */
-    public static function Button($text, $type = "submit", $class = "btn-brand", $icon = "")
+    public static function Button($text, $type = 'submit', $class = 'btn-brand', $icon = '')
     {
-        $iconHtml = $icon ? "<i class='$icon mr-2'></i>" : "";
+        $iconHtml = $icon ? "<i class='$icon mr-2'></i>" : '';
         return "<button type='$type' class='btn $class px-4 shadow-sm' style='border-radius: 8px; font-weight: 600; transition: all 0.3s ease;'>
                     $iconHtml $text
                 </button>";
     }
 
-    public static function ExceptionBox() {
-    return '
+    public static function ExceptionBox()
+    {
+        return '
     <div id="exception-container" class="d-none animate__animated animate__fadeIn">
         <div class="alert bg-glass-dark-custom border-danger text-white d-flex align-items-start" style="border-radius: 12px; border-left: 5px solid #ff4d4d !important;">
             <i class="fas fa-exclamation-circle text-danger mt-1 mr-3" style="font-size: 1.2rem;"></i>
@@ -103,5 +128,5 @@ class UI
             </div>
         </div>
     </div>';
-}
+    }
 }

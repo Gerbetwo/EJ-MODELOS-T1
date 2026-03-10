@@ -1,6 +1,8 @@
 <?php
-class ClientesController extends GenericController {
-    public function __construct($mysqli) {
+class ClientesController extends GenericController
+{
+    public function __construct($mysqli)
+    {
         parent::__construct($mysqli, 'Clientes');
     }
     // Aquí puedes añadir métodos específicos para clientes después

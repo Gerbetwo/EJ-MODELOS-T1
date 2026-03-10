@@ -5,6 +5,7 @@ $activeModule = $urlParams[0];
 ?>
 <aside class="main-sidebar sidebar-dark-primary bg-transparent elevation-4 sidebar-mini sidebar-no-expand">
     <a href="<?= BASE_URL ?>" class="brand-link border-glass">
+        <img src="/favicon.ico"/ >
         <span class="brand-text font-weight-light text-accent-custom ml-3">Gestión Udenar</span>
     </a>
 

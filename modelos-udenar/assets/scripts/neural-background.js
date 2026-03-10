@@ -20,8 +20,8 @@
     connectionDist: 160,
     mouseRadius: 180,
     // Sincronizado con _variables.css
-    colorPrimary: hexToRgb(primaryHex || "#7d5fff"),
-    colorSecondary: hexToRgb(style.getPropertyValue('--p-accent').trim() || "#18dcff"),
+    colorPrimary: hexToRgb(primaryHex || '#7d5fff'),
+    colorSecondary: hexToRgb(style.getPropertyValue('--p-accent').trim() || '#18dcff'),
   };
 
   let canvas, ctx, container;
@@ -63,7 +63,9 @@
     updateSize();
 
     window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('mouseleave', () => { mouse.active = false; });
+    window.addEventListener('mouseleave', () => {
+      mouse.active = false;
+    });
 
     render();
   }
@@ -73,7 +75,10 @@
   }
 
   function syncParticles(width, height) {
-    const targetCount = Math.min(Math.floor((width * height) * SETTINGS.density), SETTINGS.maxParticles);
+    const targetCount = Math.min(
+      Math.floor(width * height * SETTINGS.density),
+      SETTINGS.maxParticles
+    );
 
     // Si la diferencia es mucha, regeneramos
     if (Math.abs(particles.length - targetCount) > 15 || particles.length === 0) {
@@ -82,10 +87,14 @@
         const x = Math.random() * width;
         const y = Math.random() * height;
         particles.push({
-          x, y, originX: x, originY: y,
-          vx: 0, vy: 0,
+          x,
+          y,
+          originX: x,
+          originY: y,
+          vx: 0,
+          vy: 0,
           size: Math.random() * 2 + 1,
-          phase: Math.random() * Math.PI * 2
+          phase: Math.random() * Math.PI * 2,
         });
       }
     }
@@ -122,7 +131,7 @@
     ctx.stroke();
 
     // 2. Actualizar Partículas
-    particles.forEach(p => {
+    particles.forEach((p) => {
       p.vx += (p.originX - p.x) * SETTINGS.spring;
       p.vy += (p.originY - p.y) * SETTINGS.spring;
 

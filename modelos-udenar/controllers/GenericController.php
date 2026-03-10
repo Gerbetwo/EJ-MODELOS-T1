@@ -37,13 +37,15 @@ class GenericController
         $rules = TableRegistry::getRules($this->tableName);
         $dto = new RequestDTO($rawData, $rules);
 
-        if (!$dto->isValid()) $this->sendResponse(422, ['success' => false, 'errors' => $dto->errors]);
+        if (!$dto->isValid()) {
+            $this->sendResponse(422, ['success' => false, 'errors' => $dto->errors]);
+        }
 
         $success = $this->model->save($dto->data);
         $this->sendResponse(200, [
             'success' => $success,
             'title' => '¡Registro Creado!',
-            'message' => 'El nuevo registro ha sido añadido a la base de datos.'
+            'message' => 'El nuevo registro ha sido añadido a la base de datos.',
         ]);
     }
 
@@ -53,7 +55,9 @@ class GenericController
         $rules = TableRegistry::getRules($this->tableName);
         $dto = new RequestDTO($rawData, $rules);
 
-        if (!$dto->isValid()) $this->sendResponse(422, ['success' => false, 'errors' => $dto->errors]);
+        if (!$dto->isValid()) {
+            $this->sendResponse(422, ['success' => false, 'errors' => $dto->errors]);
+        }
 
         $data = $dto->data;
         unset($data['id']); // Proteger ID
@@ -62,7 +66,7 @@ class GenericController
         $this->sendResponse(200, [
             'success' => $success,
             'title' => 'Actualización Exitosa',
-            'message' => 'Los cambios se han guardado correctamente.'
+            'message' => 'Los cambios se han guardado correctamente.',
         ]);
     }
 
@@ -71,7 +75,7 @@ class GenericController
         http_response_code($code);
         header('Content-Type: application/json');
         echo json_encode($data);
-        exit;
+        exit();
     }
 
     public function getItem($id)

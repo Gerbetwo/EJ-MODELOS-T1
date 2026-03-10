@@ -64,7 +64,7 @@
         // Pasamos las constantes de PHP a un objeto global de JS
         const CONFIG = {
             baseUrl: '<?= BASE_URL ?>',
-            currentUrl: '<?= $_GET['url'] ?? "dashboard" ?>'
+            currentUrl: '<?= $_GET['url'] ?? 'dashboard' ?>'
         };
     </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

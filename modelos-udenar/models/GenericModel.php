@@ -19,7 +19,7 @@ class GenericModel
     public function getById($id)
     {
         $stmt = $this->conn->prepare("SELECT * FROM `{$this->table}` WHERE id = ?");
-        $stmt->bind_param("i", $id);
+        $stmt->bind_param('i', $id);
         $stmt->execute();
         return $stmt->get_result()->fetch_assoc();
     }
@@ -27,7 +27,7 @@ class GenericModel
     public function delete($id)
     {
         $stmt = $this->conn->prepare("DELETE FROM `{$this->table}` WHERE id = ?");
-        $stmt->bind_param("i", $id);
+        $stmt->bind_param('i', $id);
         return $stmt->execute();
     }
 
@@ -37,16 +37,20 @@ class GenericModel
         $vals = array_values($data);
         $types = str_repeat('s', count($vals));
 
-        if ($id) { // Update
-            $set = implode("=?, ", $cols) . "=?";
+        if ($id) {
+            // Update
+            $set = implode('=?, ', $cols) . '=?';
             $stmt = $this->conn->prepare("UPDATE `{$this->table}` SET $set WHERE id = ?");
             $vals[] = $id;
             $types .= 'i';
             $stmt->bind_param($types, ...$vals);
-        } else { // Insert
-            $placeholders = implode(",", array_fill(0, count($cols), "?"));
-            $colNames = implode(",", array_map(fn($c) => "`$c`", $cols));
-            $stmt = $this->conn->prepare("INSERT INTO `{$this->table}` ($colNames) VALUES ($placeholders)");
+        } else {
+            // Insert
+            $placeholders = implode(',', array_fill(0, count($cols), '?'));
+            $colNames = implode(',', array_map(fn($c) => "`$c`", $cols));
+            $stmt = $this->conn->prepare(
+                "INSERT INTO `{$this->table}` ($colNames) VALUES ($placeholders)",
+            );
             $stmt->bind_param($types, ...$vals);
         }
         return $stmt->execute();
@@ -63,7 +67,7 @@ class GenericModel
     public function where($field, $value)
     {
         $stmt = $this->conn->prepare("SELECT * FROM `{$this->table}` WHERE `$field` = ? LIMIT 1");
-        $stmt->bind_param("s", $value);
+        $stmt->bind_param('s', $value);
         $stmt->execute();
         return $stmt->get_result()->fetch_assoc();
     }
