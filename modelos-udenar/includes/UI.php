@@ -1,17 +1,19 @@
 <?php
 // includes/UI.php
 
-class UI {
+class UI
+{
     // Componente: Tabla Dinámica
-    public static function Table($headers, $data, $tableName) {
+    public static function Table($headers, $data, $tableName)
+    {
         $html = '<div class="table-responsive">';
         $html .= '<table class="table table-hover text-white-custom mb-0">';
         $html .= '<thead class="bg-void"><tr>';
-        
+
         foreach ($headers as $h) {
             $html .= '<th class="text-accent border-bottom-0">' . strtoupper($h) . '</th>';
         }
-        
+
         $html .= '<th class="text-center border-bottom-0">ACCIONES</th></tr></thead><tbody>';
 
         foreach ($data as $row) {
@@ -19,17 +21,17 @@ class UI {
             foreach ($headers as $h) {
                 $html .= '<td>' . htmlspecialchars($row[$h] ?? '') . '</td>';
             }
-            // Botones de acción dinámicos
+            // Dentro de UI::Table en includes/UI.php
             $html .= '<td class="text-center">
-                <button class="btn btn-xs btn-outline-brand mr-1" onclick="openEditModal(\''.$tableName.'\', '.$row['id'].')">
-                    <i class="fas fa-pen"></i>
-                </button>
-                <a href="index.php?table='.$tableName.'&action=delete&id='.$row['id'].'" 
-                   class="btn btn-xs btn-outline-danger" 
-                   onclick="return confirm(\'¿Eliminar?\')">
-                    <i class="fas fa-trash"></i>
-                </a>
-            </td></tr>';
+                        <button class="btn btn-xs btn-outline-brand mr-1" onclick="openEditModal(\'' . $tableName . '\', ' . $row['id'] . ')">
+                            <i class="fas fa-pen"></i>
+                        </button>
+                        <a href="' . BASE_URL . $tableName . '/delete/' . $row['id'] . '" 
+                        class="btn btn-xs btn-outline-danger" 
+                        onclick="return confirm(\'¿Eliminar?\')">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                    </td>';
         }
 
         $html .= '</tbody></table></div>';
@@ -37,7 +39,8 @@ class UI {
     }
 
     // Componente: Card de Contenedor
-    public static function Card($title, $content, $tools = "") {
+    public static function Card($title, $content, $tools = "")
+    {
         return "
         <div class='card bg-surface border-glass shadow-glow'>
             <div class='card-header d-flex align-items-center'>

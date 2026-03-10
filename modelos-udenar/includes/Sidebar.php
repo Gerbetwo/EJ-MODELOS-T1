@@ -1,25 +1,19 @@
 <?php
-// includes/sidebar.php
+// includes/Sidebar.php
 $inspector = new DatabaseInspector($conn);
 $tables = $inspector->getTables();
 ?>
 <aside class="main-sidebar sidebar-dark-primary bg-transparent elevation-4 sidebar-mini">
-    <!-- Brand Logo -->
-    <a href="index.php" class="brand-link">
-        <img
-            src="../../favicon.ico"
-            alt="Logo"
-            class="brand-image img-circle elevation-3"
-            style="opacity: 0.9" />
+    <a href="<?= BASE_URL ?>" class="brand-link">
+        <img src="<?= BASE_URL ?>favicon.ico" alt="Logo" class="brand-image img-circle elevation-3" style="opacity: 0.9" />
         <span class="brand-text font-weight-light">Gestión Udenar</span>
     </a>
 
-    <!-- Sidebar -->
     <div class="sidebar">
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column">
                 <li class="nav-item">
-                    <a href="index.php" class="nav-link <?= !isset($_GET['table']) ? 'active' : '' ?>">
+                    <a href="<?= BASE_URL ?>" class="nav-link <?= (!isset($_GET['url']) || $_GET['url'] == 'dashboard') ? 'active' : '' ?>">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>Dashboard</p>
                     </a>
@@ -27,10 +21,10 @@ $tables = $inspector->getTables();
 
                 <li class="nav-header text-muted">BASE DE DATOS</li>
 
-                <?php foreach ($tablas as $t): ?>
+                <?php foreach ($tables as $t): ?>
                     <li class="nav-item">
-                        <a href="index.php?table=<?= $t['name'] ?>"
-                            class="nav-link <?= (($_GET['table'] ?? '') === $t['name']) ? 'active' : '' ?>">
+                        <a href="<?= BASE_URL . strtolower($t['name']) ?>"
+                            class="nav-link <?= (strpos(($_GET['url'] ?? ''), strtolower($t['name'])) !== false) ? 'active' : '' ?>">
                             <i class="nav-icon fas fa-database text-accent"></i>
                             <p><?= ucfirst($t['name']) ?></p>
                         </a>

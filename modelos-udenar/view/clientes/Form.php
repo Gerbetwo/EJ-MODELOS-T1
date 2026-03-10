@@ -3,7 +3,8 @@
 // props: $columnsMeta, $rowData (si es editar)
 
 $isEdit = isset($rowData);
-$actionUrl = "index.php?table=$tableName&action=" . ($isEdit ? 'update' : 'create');
+// URL Limpia: /modelos-udenar/tabla/create  o  /modelos-udenar/tabla/update
+$actionUrl = BASE_URL . $tableName . ($isEdit ? '/update' : '/create');
 ?>
 
 <form action="<?= $actionUrl ?>" method="POST" class="p-3">

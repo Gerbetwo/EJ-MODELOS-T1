@@ -9,10 +9,9 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
-    <link rel="stylesheet" href="assets/css/vendor/adminlte.min.css" />
-    <link rel="stylesheet" href="assets/css/vendor/all.min.css" />
-    
-    <link rel="stylesheet" href="assets/css/custom/main.css" />
+    <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/vendor/adminlte.min.css" />
+    <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/vendor/all.min.css" />
+    <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/custom/main.css" />
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -21,7 +20,7 @@
     </div>
 
     <div class="wrapper">
-        <?php include 'includes/Navbar.php'; ?> 
+        <?php include 'includes/Navbar.php'; ?>
         <?php include 'includes/Sidebar.php'; ?>
 
         <div class="content-wrapper">
@@ -39,7 +38,7 @@
 
             <section class="content">
                 <div class="container-fluid">
-                    <?php include 'includes/Alerts.php'; ?> 
+                    <?php include 'includes/Alerts.php'; ?>
                     <?= $content ?>
                 </div>
             </section>
@@ -51,8 +50,9 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/js/adminlte.min.js"></script>
-    
-    <script src="assets/scripts/scripts.js"></script>
-    <script src="assets/scripts/neural-background.js"></script>
+
+    <script src="<?= BASE_URL ?>assets/scripts/scripts.js"></script>
+    <script src="<?= BASE_URL ?>assets/scripts/neural-background.js"></script>
 </body>
+
 </html>

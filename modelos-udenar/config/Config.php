@@ -2,7 +2,8 @@
 // config/Config.php
 error_reporting(E_ALL);
 // --- 1. CARGADOR DE VARIABLES .ENV ---
-function loadEnv($path) {
+function loadEnv($path)
+{
     if (!file_exists($path)) return;
     $lines = file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
     foreach ($lines as $line) {
@@ -28,18 +29,10 @@ define('BASE_URL', '/modelos-udenar/');
 
 // --- 3. AUTOLOADER PSR-4 (El fin de los "includes" manuales) ---
 spl_autoload_register(function ($className) {
-    // Carpetas donde el sistema buscará las clases automáticamente
-    $directories = [
-        'controllers',
-        'models',
-        'config',
-        'includes'
-    ];
-
+    $directories = ['controllers', 'models', 'config', 'includes'];
     foreach ($directories as $dir) {
-        // Construimos la ruta absoluta: /ruta/al/proyecto/carpeta/Clase.php
+        // Usamos rutas absolutas para evitar fallos en Linux
         $file = __DIR__ . '/../' . $dir . '/' . $className . '.php';
-        
         if (file_exists($file)) {
             require_once $file;
             return;
