@@ -5,12 +5,11 @@ require_once __DIR__ . '/../config/Config.php';
 class ClienteModel
 {
     private $conn;
-    private $table;
+    private $table = 'clientes';
 
     public function __construct($mysqli)
     {
         $this->conn = $mysqli;
-        $this->table = TABLE_CLIENTES;
     }
 
     public function getAll($buscar = '')
