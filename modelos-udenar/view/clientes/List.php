@@ -1,17 +1,13 @@
 <?php
 // view/clientes/List.php
-// Aquí recibimos las "props": $data (filas) y $columnsMeta (columnas)
+// Aquí recibimos las props: $data, $columnsMeta, $tableName
 
-$headers = array_column($columnsMeta, 'name'); // Extraemos solo los nombres de columnas
+$headers = array_column($columnsMeta, 'name');
 
-// Definimos el botón de "Nuevo" como una herramienta para la Card
-$tools = '<button class="btn btn-brand btn-sm" data-toggle="modal" data-target="#modalNuevo">
-            <i class="fas fa-plus mr-1"></i> Nuevo Cliente
-          </button>';
-
-// Renderizamos el componente Card que adentro tiene el componente Table
+// NO definas $tools manualmente con HTML. 
+// Simplemente pasa el $tableName a UI::Card y él hará el resto.
 echo UI::Card(
-    "<i class='fas fa-users mr-2'></i> Listado de Clientes",
+    "<i class='fas fa-users mr-2'></i> Listado de " . ucfirst($tableName),
     UI::Table($headers, $data, $tableName),
-    $tools
+    $tableName // Pasamos el slug 'clientes' aquí
 );

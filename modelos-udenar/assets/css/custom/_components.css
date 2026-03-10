@@ -29,3 +29,20 @@
     color: var(--ui-text-main) !important;
     border: 1px solid var(--ui-border) !important;
 }
+
+/* Eliminar el resaltado azul de las celdas al hacer click */
+#dynamicTable td {
+    outline: none !important;
+    user-select: none;
+}
+
+/* Efecto suave en la fila */
+#dynamicTable tbody tr:hover {
+    background-color: rgba(168, 85, 247, 0.05) !important;
+    box-shadow: inset 4px 0 0 var(--brand-purple); /* Línea neón lateral al pasar el mouse */
+}
+
+/* Personalización del Buscador */
+#tableSearch::placeholder {
+    color: rgba(255,255,255,0.3);
+}

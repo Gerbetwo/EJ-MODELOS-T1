@@ -1,51 +1,62 @@
-// assets/scripts/scripts.js
 document.addEventListener('DOMContentLoaded', function () {
-  // attach click handlers to edit buttons (works for dynamically generated rows)
+
+  // 1. Delegación de eventos para botones dinámicos
   document.body.addEventListener('click', function (e) {
-    if (e.target.closest('.btn-edit')) {
-      const btn = e.target.closest('.btn-edit');
-      const id = btn.dataset.id;
-      openEditModal(id);
+    // Lógica para EDITAR
+    const btnEdit = e.target.closest('.btn-edit-js');
+    if (btnEdit) {
+      const id = btnEdit.dataset.id;
+      const table = btnEdit.dataset.table;
+      loadModalForm(table, id);
+    }
+
+    // Lógica para NUEVO
+    const btnNew = e.target.closest('.btn-new-js');
+    if (btnNew) {
+      const table = btnNew.dataset.table;
+      loadModalForm(table, null);
     }
   });
+
+  // 2. Buscador en tiempo real
+  const searchInput = document.getElementById('tableSearch');
+  if (searchInput) {
+    searchInput.addEventListener('keyup', function () {
+      const value = this.value.toLowerCase();
+      const rows = document.querySelectorAll('#tableBody tr');
+      rows.forEach(row => {
+        row.style.display = row.innerText.toLowerCase().includes(value) ? '' : 'none';
+      });
+    });
+  }
 });
 
-function openEditModal(id) {
-  fetch(`index.php?module=clientes&action=get&id=${id}`)
-    .then((r) => r.json())
-    .then((data) => {
-      if (!data || Object.keys(data).length === 0) {
-        alert('No se encontró el registro');
-        return;
-      }
-      // rellenar campos
-      const container = document.getElementById('edit_fields');
-      container.innerHTML = '';
-      for (const [key, val] of Object.entries(data)) {
-        if (key === 'id') {
-          document.getElementById('edit_id').value = val;
-          continue;
-        }
-        const div = document.createElement('div');
-        div.className = 'col-md-6 mb-3';
-        const label = document.createElement('label');
-        label.className = 'form-label';
-        label.textContent = key.charAt(0).toUpperCase() + key.slice(1);
-        const input = document.createElement('input');
-        input.className = 'form-control';
-        input.name = key;
-        input.value = val ?? '';
-        div.appendChild(label);
-        div.appendChild(input);
-        container.appendChild(div);
-      }
-      // show modal (Bootstrap handles via data-bs-toggle but ensure modal is shown)
-      const modalEl = document.getElementById('modalEditar');
-      const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
-      modal.show();
+function loadModalForm(table, id) {
+  const modal = $('#modalGenérico');
+  const modalBody = $('#modalBody');
+  const modalTitle = $('#modalTitle');
+
+  modalTitle.text(id ? 'Actualizar Registro' : 'Crear Nuevo Registro');
+  modalBody.html('<div class="text-center p-5"><i class="fas fa-circle-notch fa-spin fa-2x text-brand"></i></div>');
+
+  // Mostramos el modal de inmediato con el loader
+  modal.modal('show');
+
+  // Construimos la URL profesional: /modelos-udenar/tabla/get/id
+  // Si id es null, la URL queda: /modelos-udenar/tabla/get
+  // El Router ahora interpreta esto correctamente como 'Crear'
+  const url = id ? `${CONFIG.baseUrl}${table}/get/${id}` : `${CONFIG.baseUrl}${table}/get`;
+
+  fetch(url)
+    .then(response => {
+      if (!response.ok) throw new Error('Error ' + response.status);
+      return response.text();
     })
-    .catch((err) => {
-      console.error(err);
-      alert('Error al obtener datos del servidor');
+    .then(html => {
+      modalBody.html(html);
+    })
+    .catch(err => {
+      console.error('Error AJAX:', err);
+      modalBody.html('<div class="alert alert-danger">No se pudo cargar el formulario.</div>');
     });
 }

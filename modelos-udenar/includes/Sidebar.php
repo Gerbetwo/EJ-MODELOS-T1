@@ -4,7 +4,6 @@ $currentUrl = $_GET['url'] ?? 'dashboard';
 ?>
 <aside class="main-sidebar sidebar-dark-primary bg-transparent elevation-4 sidebar-mini">
     <a href="<?= BASE_URL ?>" class="brand-link">
-        <img src="<?= BASE_URL ?>favicon.ico" alt="Logo" class="brand-image img-circle elevation-3" />
         <span class="brand-text font-weight-light">Gestión Udenar</span>
     </a>
 
