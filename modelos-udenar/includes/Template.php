@@ -6,21 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Udenar | Gestión Modular</title>
 
-    <!-- Fonts -->
-    <link
-        rel="stylesheet"
-        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback" />
-    <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
-    <!-- 1. Vendor CSS (AdminLTE incluye Bootstrap) -->
-    <link
-        rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css" />
-
-    <!-- 2. Tus estilos personalizados (sobrescriben) -->
-    <link rel="stylesheet" href="./assets/css/custom/main.css" />
+    <link rel="stylesheet" href="assets/css/vendor/adminlte.min.css" />
+    <link rel="stylesheet" href="assets/css/vendor/all.min.css" />
+    
+    <link rel="stylesheet" href="assets/css/custom/main.css" />
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -29,7 +21,8 @@
     </div>
 
     <div class="wrapper">
-        <?php include './modelos-udenar/includes/Navbar.php'; ?> <?php include './modelos-udenar/includes/Sidebar.php'; ?>
+        <?php include 'includes/Navbar.php'; ?> 
+        <?php include 'includes/Sidebar.php'; ?>
 
         <div class="content-wrapper">
             <div class="content-header">
@@ -37,7 +30,7 @@
                     <div class="row mb-2">
                         <div class="col-sm-6">
                             <h1 class="m-0 text-white" style="text-shadow: 2px 2px 4px">
-                                <?= ucfirst($module) ?>
+                                <?= ucfirst($tableName ?? 'Dashboard') ?>
                             </h1>
                         </div>
                     </div>
@@ -46,19 +39,20 @@
 
             <section class="content">
                 <div class="container-fluid">
-                    <?php include './modelos-udenar/includes/Alerts.php'; ?> <?= $content ?>
+                    <?php include 'includes/Alerts.php'; ?> 
+                    <?= $content ?>
                 </div>
             </section>
         </div>
 
-        <?php include './modelos-udenar/includes/Footer.php'; ?>
+        <?php include 'includes/Footer.php'; ?>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/js/adminlte.min.js"></script>
-    <script src="./assets/scripts/scripts.js"></script>
-    <script src="./assets/scripts/neural-background.js"></script>
+    
+    <script src="assets/scripts/scripts.js"></script>
+    <script src="assets/scripts/neural-background.js"></script>
 </body>
-
 </html>

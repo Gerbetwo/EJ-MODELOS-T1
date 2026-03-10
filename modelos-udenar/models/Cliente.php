@@ -1,6 +1,6 @@
 <?php
 // models/clientes.php
-require_once __DIR__ . '../../config/config.php';
+require_once __DIR__ . '/../config/Config.php';
 
 class ClienteModel
 {
@@ -10,7 +10,7 @@ class ClienteModel
     public function __construct($mysqli)
     {
         $this->conn = $mysqli;
-        $this->table = defined('TABLE_CLIENTES') ? TABLE_CLIENTES : 'Clientes';
+        $this->table = TABLE_CLIENTES;
     }
 
     public function getAll($buscar = '')
