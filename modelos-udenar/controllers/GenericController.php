@@ -19,10 +19,22 @@ class GenericController
 
     // En controllers/GenericController.php
 
-    public function store($data)
+    public function store($rawData)
     {
-        $this->secureValidate($data);
-        return $this->model->save($data);
+        $rules = TableRegistry::getRules($this->tableName);
+        $dto = new RequestDTO($rawData, $rules);
+
+        if (!$dto->isValid()) {
+            // Respuesta profesional para AJAX
+            http_response_code(422);
+            header('Content-Type: application/json');
+            echo json_encode(['errors' => $dto->errors]);
+            exit;
+        }
+
+        $success = $this->model->save($dto->data);
+        echo json_encode(['success' => $success]);
+        exit;
     }
 
     private function secureValidate($data)

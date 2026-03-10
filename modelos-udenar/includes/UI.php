@@ -51,11 +51,12 @@ class UI
     {
         // Botón de nuevo registro integrado en la Card
         $btnNuevo = "";
-        if ($tableName && $tableName !== 'dashboard') {
+        // Solo si hay una tabla válida y no es el dashboard, mostramos el botón "Nuevo"
+        if (!empty($tableName) && $tableName !== 'dashboard') {
             $btnNuevo = "
-        <button class='btn btn-brand btn-sm ml-2 btn-new-js' data-table='$tableName'>
-            <i class='fas fa-plus mr-1'></i> Nuevo
-        </button>";
+            <button class='btn btn-brand btn-sm ml-2 btn-new-js' data-table='{$tableName}'>
+                <i class='fas fa-plus mr-1'></i> Nuevo
+            </button>";
         }
         // Buscador ultra-limpio con estilo Glass
         $searchBar = '
@@ -80,4 +81,27 @@ class UI
                 <div class='card-body p-0'>$content</div>
             </div>";
     }
+    /**
+     * Componente: Botón Estilizado
+     */
+    public static function Button($text, $type = "submit", $class = "btn-brand", $icon = "")
+    {
+        $iconHtml = $icon ? "<i class='$icon mr-2'></i>" : "";
+        return "<button type='$type' class='btn $class px-4 shadow-sm' style='border-radius: 8px; font-weight: 600; transition: all 0.3s ease;'>
+                    $iconHtml $text
+                </button>";
+    }
+
+    public static function ExceptionBox() {
+    return '
+    <div id="exception-container" class="d-none animate__animated animate__fadeIn">
+        <div class="alert bg-glass-dark-custom border-danger text-white d-flex align-items-start" style="border-radius: 12px; border-left: 5px solid #ff4d4d !important;">
+            <i class="fas fa-exclamation-circle text-danger mt-1 mr-3" style="font-size: 1.2rem;"></i>
+            <div>
+                <strong class="text-danger d-block mb-1">¡Ups! Revisa lo siguiente:</strong>
+                <ul id="exception-list" class="mb-0 pl-3 small text-white-50"></ul>
+            </div>
+        </div>
+    </div>';
+}
 }

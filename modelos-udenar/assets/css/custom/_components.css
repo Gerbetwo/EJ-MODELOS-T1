@@ -1,48 +1,120 @@
 /* assets/css/custom/_components.css */
 
-/* SIDEBAR: Ahora es "ciega" al color, solo sigue órdenes */
+/* SIDEBAR: Sin auto-expand y con colores limpios */
 .main-sidebar {
     background: var(--ui-bg-card) !important;
     border-right: 1px solid var(--ui-border) !important;
+    backdrop-filter: blur(10px);
 }
 
 .nav-sidebar .nav-link.active {
     background: var(--brand-primary) !important;
-    box-shadow: var(--ui-glow) !important;
+    box-shadow: 0 0 15px rgba(168, 85, 247, 0.4) !important;
+    color: #fff !important;
 }
 
-/* CARDS */
+/* CARDS: Glassmorphism */
 .card {
     background: var(--ui-bg-card) !important;
     border: 1px solid var(--ui-border) !important;
     color: var(--ui-text-main);
+    border-radius: 12px;
 }
 
 .card-header {
     color: var(--brand-primary);
     border-bottom: 1px solid var(--ui-border);
+    font-weight: 700;
 }
 
-/* INPUTS */
-.form-control {
+/* INPUTS & SELECTS: Unificados */
+.form-control, .form-select, select.form-control {
     background: var(--ui-bg-input) !important;
     color: var(--ui-text-main) !important;
     border: 1px solid var(--ui-border) !important;
+    border-radius: 8px;
+    transition: all 0.3s ease;
 }
 
-/* Eliminar el resaltado azul de las celdas al hacer click */
-#dynamicTable td {
-    outline: none !important;
-    user-select: none;
+.form-control:focus, select.form-control:focus {
+    border-color: var(--brand-primary) !important;
+    box-shadow: 0 0 8px rgba(168, 85, 247, 0.3) !important;
+    outline: none;
 }
 
-/* Efecto suave en la fila */
+/* Estilo para las opciones del SELECT (Nativo del sistema) */
+select option {
+    background: #1a1a1a; /* Fondo oscuro para que sea legible */
+    color: #fff;
+}
+
+/* TABLA: Hover Neon */
 #dynamicTable tbody tr:hover {
     background-color: rgba(168, 85, 247, 0.05) !important;
-    box-shadow: inset 4px 0 0 var(--brand-purple); /* Línea neón lateral al pasar el mouse */
+    box-shadow: inset 4px 0 0 var(--brand-primary);
 }
 
-/* Personalización del Buscador */
-#tableSearch::placeholder {
-    color: rgba(255,255,255,0.3);
+/* assets/css/custom/_components.css */
+
+.form-floating-custom {
+    position: relative;
+    margin-bottom: 1.5rem;
+    background: var(--ui-bg-input);
+    border-radius: 8px;
+    border: 1px solid var(--ui-border);
+    transition: all 0.3s ease;
+}
+
+/* El input debe tener un placeholder transparente para engañar al CSS */
+.form-floating-custom .form-control {
+    padding: 1.6rem 0.75rem 0.6rem 0.75rem !important;
+    height: 3.8rem !important;
+    background: transparent !important;
+    border: none !important;
+    color: #fff !important;
+    font-size: 1rem;
+}
+
+/* Ocultar el placeholder real mientras el label está abajo */
+.form-floating-custom .form-control::placeholder {
+    color: transparent;
+    transition: color 0.2s ease;
+}
+
+/* Mostrar el placeholder real SOLO cuando el label ya subió (al tener foco) */
+.form-floating-custom .form-control:focus::placeholder {
+    color: rgba(255, 255, 255, 0.3);
+}
+
+/* ESTILO DEL LABEL (EL TITULO QUE FLOTA) */
+.form-floating-custom label {
+    position: absolute;
+    top: 50%;
+    left: 0.75rem;
+    transform: translateY(-50%);
+    margin-bottom: 0;
+    pointer-events: none;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.95rem;
+    font-weight: 500;
+    text-transform: none; /* Se ve más moderno sin todo en mayúsculas */
+}
+
+/* LÓGICA DE VUELO: Cuando hay foco o tiene texto */
+.form-floating-custom .form-control:focus ~ label,
+.form-floating-custom .form-control:not(:placeholder-shown) ~ label,
+.form-floating-custom select.form-control:valid ~ label {
+    top: 0.2rem;
+    transform: translateY(0) scale(0.75);
+    left: 0.5rem;
+    color: var(--brand-primary) !important;
+    font-weight: 700;
+    text-shadow: 0 0 8px rgba(168, 85, 247, 0.4);
+}
+
+/* Resaltar el contenedor al hacer foco */
+.form-floating-custom:focus-within {
+    border-color: var(--brand-primary) !important;
+    box-shadow: 0 0 15px rgba(168, 85, 247, 0.15);
 }

@@ -1,49 +1,72 @@
 <?php
 // view/clientes/Form.php
+
+// 1. SOLUCIÓN AL ERROR 403: Definir la URL de acción
+$actionUrl = BASE_URL . $tableName . ($isEdit ? "/update" : "/create");
+
 $rules = TableRegistry::getRules($tableName);
+$isEdit = isset($rowData);
 ?>
-<form action="<?= $actionUrl ?>" method="POST" class="p-3" id="dynamicForm">
-    <div class="row">
+
+<form id="form-registro-dinamico" action="<?= $actionUrl ?>" method="POST" class="p-2">
+    <?= UI::ExceptionBox() ?>
+
+    <div class="row mt-4">
+        <?php if($isEdit): ?> <input type="hidden" name="id" value="<?= $rowData['id'] ?>"> <?php endif; ?>
+
         <?php foreach ($columnsMeta as $col): 
-            $name = $col['name'];
-            if ($name === 'id') continue;
+            $rawName = $col['name']; // Nombre real de DB: "Nombre"
+            if (strtolower($rawName) === 'id') continue;
             
-            $rule = $rules[$name] ?? [];
-            $val = isset($rowData) ? htmlspecialchars($rowData[$name]) : '';
+            // 2. SOLUCIÓN AL FALLO DE VALIDACIÓN: Normalizar llave para el TableRegistry
+            $ruleKey = strtolower($rawName);
+            $rule = $rules[$ruleKey] ?? [];
             
-            // Renderizado condicional por tipo de regla
-            if (($rule['type'] ?? '') === 'relation'): ?>
-                <div class="col-md-6 form-group">
-                    <label class="text-accent"><?= ucfirst($name) ?></label>
-                    <select name="<?= $name ?>" class="form-control form-control-custom" required>
-                        <option value="">Seleccione...</option>
-                        <?php 
-                        $ref = $rule['references'];
-                        $db = (new Database())->getConnection();
-                        $realRef = TableRegistry::getRealTableName($ref);
-                        $res = $db->query("SELECT id, nombre FROM $realRef");
-                        while($opt = $res->fetch_assoc()): ?>
-                            <option value="<?= $opt['id'] ?>" <?= $val == $opt['id'] ? 'selected' : '' ?>>
-                                <?= $opt['nombre'] ?>
-                            </option>
-                        <?php endwhile; ?>
-                    </select>
+            $val = $isEdit ? htmlspecialchars($rowData[$rawName]) : '';
+            $placeholder = $rule['placeholder'] ?? 'Escriba aquí...';
+        ?>
+            <div class="col-md-6">
+                <div class="form-floating-custom">
+                    
+                    <?php if (($rule['type'] ?? '') === 'relation'): ?>
+                        <select name="<?= $rawName ?>" id="field-<?= $rawName ?>" class="form-control" required>
+                            <option value="" disabled <?= !$isEdit ? 'selected' : '' ?>></option>
+                            <?php 
+                            $db = (new Database())->getConnection();
+                            $realTarget = TableRegistry::getRealTableName($rule['references']);
+                            $displayCol = $rule['display'];
+                            $res = $db->query("SELECT id, $displayCol FROM $realTarget");
+                            while($opt = $res->fetch_assoc()): ?>
+                                <option value="<?= $opt['id'] ?>" <?= ($val == $opt['id']) ? 'selected' : '' ?>>
+                                    <?= htmlspecialchars($opt[$displayCol]) ?>
+                                </option>
+                            <?php endwhile; ?>
+                        </select>
+                        <label for="field-<?= $rawName ?>"><?= str_replace('_', ' ', $rawName) ?></label>
+
+                    <?php else: ?>
+                        <input 
+                            type="<?= $rule['type'] ?? 'text' ?>" 
+                            name="<?= $rawName ?>" 
+                            id="field-<?= $rawName ?>"
+                            value="<?= $val ?>"
+                            class="form-control"
+                            placeholder=" " 
+                            pattern="<?= $rule['regex'] ?? '.*' ?>"
+                            title="<?= $rule['error'] ?? '' ?>"
+                            <?= ($col['null'] === 'NO') ? 'required' : '' ?>
+                        >
+                        <label for="field-<?= $rawName ?>"><?= str_replace('_', ' ', $rawName) ?></label>
+                    <?php endif; ?>
+                    
+                    <small class="text-danger error-msg" id="error-<?= $rawName ?>"></small>
                 </div>
-            <?php else: ?>
-                <div class="col-md-6 form-group">
-                    <label class="text-accent"><?= ucfirst($name) ?></label>
-                    <input 
-                        type="<?= $rule['type'] ?? 'text' ?>" 
-                        name="<?= $name ?>" 
-                        value="<?= $val ?>"
-                        pattern="<?= $rule['pattern'] ?? '.*' ?>"
-                        title="<?= $rule['title'] ?? '' ?>"
-                        min="<?= $rule['min'] ?? '' ?>"
-                        class="form-control form-control-custom"
-                        required
-                    >
-                </div>
-            <?php endif; ?>
+            </div>
         <?php endforeach; ?>
     </div>
-    </form>
+
+    <div class="modal-footer border-0 px-0 pb-0 mt-2">
+        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cancelar</button>
+        <?= UI::Button($isEdit ? "Actualizar Registro" : "Crear Registro", "submit", "btn-brand", "fas fa-check-circle") ?>
+    </div>
+</form>

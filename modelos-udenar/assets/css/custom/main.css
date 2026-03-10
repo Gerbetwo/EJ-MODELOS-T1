@@ -66,3 +66,13 @@ html, body {
 ::-webkit-scrollbar-thumb:hover {
     background: var(--brand-primary);
 }
+
+/* Asegura que los iconos no se muevan al estar colapsado */
+.sidebar-mini.sidebar-collapse .nav-sidebar .nav-link {
+    width: inherit;
+}
+
+/* Opcional: Si quieres que el colapso sea instantáneo y no tenga animaciones lentas */
+.main-sidebar, .main-sidebar::before {
+    transition: margin-left .3s ease-in-out, width .3s ease-in-out !important;
+}
