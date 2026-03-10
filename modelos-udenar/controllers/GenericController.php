@@ -10,17 +10,12 @@ class GenericController {
         $this->model = new GenericModel($mysqli, $tableName);
     }
 
-    /**
-     * MÉTODO FALTANTE: Retorna todos los registros para la tabla
-     */
     public function index() {
         return $this->model->getAll();
     }
 
-    /**
-     * Procesa la creación y actualización con validación DTO
-     */
-    public function store($rawData) {
+    // --- LOGICA PARA CREAR ---
+    public function create($rawData) {
         $rules = TableRegistry::getRules($this->tableName);
         $dto = new RequestDTO($rawData, $rules);
 
@@ -28,30 +23,39 @@ class GenericController {
             $this->sendResponse(422, ['errors' => $dto->errors]);
         }
 
+        $success = $this->model->save($dto->data); // Sin ID = INSERT
+        $this->sendResponse(200, ['success' => $success, 'message' => 'Registro creado con éxito']);
+    }
+
+    // --- LOGICA PARA ACTUALIZAR ---
+    public function update($rawData) {
         $id = $rawData['id'] ?? null;
-        $data = $dto->data;
-        unset($data['id']); 
+        if (!$id) $this->sendResponse(400, ['errors' => ['ID no proporcionado']]);
 
-        // Guardar (Si hay ID hace UPDATE, si no hace INSERT)
-        $success = $this->model->save($data, $id);
+        $rules = TableRegistry::getRules($this->tableName);
+        $dto = new RequestDTO($rawData, $rules);
 
-        if ($success) {
-            $this->sendResponse(200, [
-                'success' => true, 
-                'message' => $id ? 'Registro actualizado' : 'Registro creado'
-            ]);
-        } else {
-            $this->sendResponse(500, ['errors' => ['Error en la base de datos']]);
+        if (!$dto->isValid()) {
+            $this->sendResponse(422, ['errors' => $dto->errors]);
         }
+
+        $data = $dto->data;
+        unset($data['id']); // Limpiamos para no intentar actualizar el ID mismo
+
+        $success = $this->model->save($data, $id); // Con ID = UPDATE
+        $this->sendResponse(200, ['success' => $success, 'message' => 'Registro actualizado correctamente']);
     }
 
-    public function delete($id) {
-        return $this->model->delete($id);
+    // El método store ahora solo actúa como un "Traffic Cop"
+    public function store($rawData) {
+        if (isset($rawData['id']) && !empty($rawData['id'])) {
+            return $this->update($rawData);
+        }
+        return $this->create($rawData);
     }
 
-    public function getItem($id) {
-        return $this->model->getById($id);
-    }
+    public function getItem($id) { return $this->model->getById($id); }
+    public function delete($id) { return $this->model->delete($id); }
 
     protected function sendResponse($code, $data) {
         http_response_code($code);

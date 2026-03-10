@@ -28,7 +28,7 @@ class Router
     public function resolve()
     {
         if ($this->tableName === 'dashboard') {
-            // Pasamos explícitamente la conexión
+            // AQUÍ PASAMOS LA VARIABLE $conn A LA VISTA
             return $this->renderView('Dashboard', ['conn' => $this->conn]);
         }
 
@@ -101,7 +101,7 @@ class Router
 
     private function renderView($viewName, $props = [])
     {
-        extract($props);
+        extract($props); // Esto convierte ['conn' => $db] en $conn
         ob_start();
         $file = "view/{$viewName}/List.php";
 
