@@ -1,18 +1,21 @@
 <?php
 // config/Router.php
 
-class Router {
+class Router
+{
     private $conn;
     private $tableName;
     private $action;
     private $id;
 
-    public function __construct($mysqli) {
+    public function __construct($mysqli)
+    {
         $this->conn = $mysqli;
         $this->parseUrl();
     }
 
-    private function parseUrl() {
+    private function parseUrl()
+    {
         $url = $_GET['url'] ?? 'dashboard';
         $parts = explode('/', rtrim($url, '/'));
 
@@ -22,9 +25,10 @@ class Router {
         $this->id        = $parts[2] ?? null;
     }
 
-    public function resolve() {
+    public function resolve()
+    {
         if ($this->tableName === 'dashboard') {
-            return $this->renderView('Dashboard');
+            return $this->renderView('Dashboard', ['conn' => $this->conn]);
         }
 
         // 1. Determinar Controlador (Específico vs Genérico)
@@ -52,7 +56,8 @@ class Router {
         ]);
     }
 
-    private function handleActions($controller) {
+    private function handleActions($controller)
+    {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($this->action === 'create') {
                 $controller->store($_POST);
@@ -73,10 +78,11 @@ class Router {
         }
     }
 
-    private function renderView($viewName, $props = []) {
+    private function renderView($viewName, $props = [])
+    {
         // Extraemos las "props" para que sean variables simples en la vista
         extract($props);
-        
+
         ob_start();
         $file = "view/{$viewName}/List.php";
         if (file_exists($file)) {

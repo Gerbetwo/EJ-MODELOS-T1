@@ -24,7 +24,7 @@ $tables = $inspector->getTables();
                 <?php foreach ($tables as $t): ?>
                     <li class="nav-item">
                         <a href="<?= BASE_URL . strtolower($t['name']) ?>"
-                            class="nav-link <?= (strpos(($_GET['url'] ?? ''), strtolower($t['name'])) !== false) ? 'active' : '' ?>">
+                            class="nav-link <?= (isset($_GET['url']) && strpos($_GET['url'], strtolower($t['name'])) !== false) ? 'active' : '' ?>">
                             <i class="nav-icon fas fa-database text-accent"></i>
                             <p><?= ucfirst($t['name']) ?></p>
                         </a>
