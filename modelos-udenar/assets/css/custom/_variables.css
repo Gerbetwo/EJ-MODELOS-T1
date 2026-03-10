@@ -1,51 +1,29 @@
 /* assets/css/custom/_variables.css */
 :root {
-    /* Paleta principal (inspirada en estilo AMD) */
-    --red-primary: #E03A3A;
-    /* Rojo vibrante pero elegante */
-    --red-dark: #B22222;
-    /* Rojo más oscuro para hover */
-    --black-primary: #0A0A0A;
-    /* Negro profundo */
-    --black-secondary: #1E1E1E;
-    /* Negro ligeramente más claro */
-    --gold-primary: #C5A028;
-    /* Dorado sobrio y metálico */
-    --gold-light: #E5B73B;
-    /* Dorado más brillante para hover */
-    --gray-light: #F5F5F5;
-    /* Gris muy claro para texto sobre fondo oscuro */
-    --gray-medium: #AAAAAA;
-    /* Gris medio */
-    --gray-dark: #333333;
-    /* Gris oscuro para bordes */
+    /* Fondos - Escala de Oscuridad */
+    --bg-void: #0b0c10;           /* Fondo más profundo */
+    --bg-panel: #12141d;          /* Fondo de Sidebar y Cards */
+    --bg-surface: #1f232d;        /* Fondo de elementos flotantes/inputs */
+    
+    /* Colores de Acento (Neon/Cyber vibe) */
+    --primary-purple: #7d5fff;    /* Violeta vibrante */
+    --primary-dark: #6741d9;
+    --accent-cyan: #18dcff;       /* Cian para detalles de info */
+    
+    /* Texto */
+    --text-high: #f1f2f6;         /* Títulos */
+    --text-med: #a4b0be;          /* Párrafos */
+    --text-muted: #57606f;        /* Desactivados/Placeholders */
 
-    /* Sistema de colores semánticos */
-    --color-primary: var(--red-primary);
-    --color-secondary: var(--black-primary);
-    --color-accent: var(--gold-primary);
-    --color-success: #28a745;
-    /* Mantenemos algunos de Bootstrap */
-    --color-info: #17a2b8;
-    --color-warning: #ffc107;
-    --color-danger: #dc3545;
-    --color-light: var(--gray-light);
-    --color-dark: var(--black-primary);
+    /* Glassmorphism Oscuro */
+    --glass-bg: rgba(255, 255, 255, 0.02);
+    --glass-border: rgba(255, 255, 255, 0.05);
+    --glass-blur: blur(15px);
 
-    /* Tipografía Unificada */
-    --font-main: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    --font-weight-bold: 700;
-    --font-weight-medium: 500;
-    --font-letter-spacing: 0.5px;
-
-    /* Glassmorphism Refinado */
-    --glass-bg: rgba(255, 255, 255, 0.05);
-    --glass-bg-dark: rgba(0, 0, 0, 0.6);
-    --glass-border: rgba(255, 255, 255, 0.1);
-    --glass-blur: blur(12px);
-    /* Valor maestro para el desenfoque */
-
-    /* Sombras */
-    --shadow-soft: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-
+    /* Efectos de Brillo */
+    --glow-purple: 0 0 15px rgba(125, 95, 255, 0.4);
+    --glow-cyan: 0 0 15px rgba(24, 220, 255, 0.3);
+    
+    --radius-custom: 10px;
+    --transition-smooth: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }

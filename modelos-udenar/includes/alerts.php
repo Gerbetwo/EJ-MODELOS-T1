@@ -23,6 +23,13 @@ if (isset($_GET['msg'])) {
             break;
     }
     if ($txt !== '') {
-        echo "<div class='container'><div class='alert $class alert-dismissible fade show' role='alert'>$txt<button type='button' class='btn-close' data-bs-dismiss='alert'></button></div></div>";
+        // Estructura BS4: se usa data-dismiss (sin el -bs-) y la clase 'close'
+        echo "
+        <div class='alert $class alert-dismissible fade show alert-custom' role='alert'>
+            $txt
+            <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
+                <span aria-hidden='true' style='color: white;'>&times;</span>
+            </button>
+        </div>";
     }
 }

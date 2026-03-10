@@ -5,7 +5,7 @@
     <!-- Brand Logo -->
     <a href="index.php" class="brand-link">
         <img
-            src="adminlte/dist/assets/img/AdminLTELogo.png"
+            src="../../favicon.ico"
             alt="Logo"
             class="brand-image img-circle elevation-3"
             style="opacity: 0.9" />

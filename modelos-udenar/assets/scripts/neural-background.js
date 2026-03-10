@@ -2,17 +2,16 @@
 (function () {
   'use strict';
 
-  // --- CONFIGURACIÓN DE COLORES (Rojo, Negro, Dorado) ---
   const SETTINGS = {
-    density: 0.00005,
-    maxParticles: 80,
-    viscosity: 0.92,
-    spring: 0.004,
-    connectionDist: 150,
-    mouseRadius: 160,
-    // Colores en RGB (sin comillas)
-    colorPrimary: { r: 230, g: 0, b: 0 },     // Rojo principal
-    colorSecondary: { r: 255, g: 215, b: 0 }, // Dorado
+    density: 0.00004, // Un poco menos denso para no sobrecargar
+    maxParticles: 70,
+    viscosity: 0.94,
+    spring: 0.005,
+    connectionDist: 160,
+    mouseRadius: 180,
+    // Sincronizado con _variables.css
+    colorPrimary: { r: 88, g: 101, b: 242 },     // Púrpura Nebula
+    colorSecondary: { r: 0, g: 175, b: 244 },    // Cian Eléctrico
   };
 
   let canvas, ctx, container;
@@ -25,117 +24,104 @@
     container = document.querySelector('.neural-background');
     if (!container) return;
 
+    // Limpiamos el contenedor por si acaso hay un canvas previo
+    container.innerHTML = '';
     canvas = document.createElement('canvas');
-    canvas.className = 'neural-canvas';
+    canvas.style.position = 'absolute'; // Importante para evitar que empuje el layout
+    canvas.style.top = '0';
+    canvas.style.left = '0';
     container.appendChild(canvas);
 
     ctx = canvas.getContext('2d', { alpha: true });
-    if (!ctx) return;
 
-    // Observador de cambio de tamaño
-    const resizeObserver = new ResizeObserver((entries) => {
-      for (const entry of entries) {
-        const { width, height } = entry.contentRect;
-        const dpr = window.devicePixelRatio || 1;
-        canvas.width = width * dpr;
-        canvas.height = height * dpr;
-        ctx.scale(dpr, dpr);
-        syncParticles(width, height);
-      }
-    });
-    resizeObserver.observe(container);
+    const updateSize = () => {
+      // Usamos el tamaño de la ventana para evitar el bug de crecimiento infinito
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+      const dpr = window.devicePixelRatio || 1;
 
-    // Eventos de mouse
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
+      canvas.style.width = width + 'px';
+      canvas.style.height = height + 'px';
+
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      syncParticles(width, height);
+    };
+
+    window.addEventListener('resize', updateSize);
+    updateSize();
+
     window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('mouseleave', () => {
-      mouse.active = false;
-    });
+    window.addEventListener('mouseleave', () => { mouse.active = false; });
 
     render();
-
-    window.addEventListener('beforeunload', () => {
-      if (animationFrame) cancelAnimationFrame(animationFrame);
-      resizeObserver.disconnect();
-    });
   }
 
   function handleMouseMove(e) {
-    const rect = canvas.getBoundingClientRect();
-    mouse = {
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
-      active: true,
-    };
+    mouse = { x: e.clientX, y: e.clientY, active: true };
   }
 
   function syncParticles(width, height) {
-    const area = width * height;
-    const targetCount = Math.min(Math.floor(area * SETTINGS.density), SETTINGS.maxParticles);
+    const targetCount = Math.min(Math.floor((width * height) * SETTINGS.density), SETTINGS.maxParticles);
 
-    if (Math.abs(particles.length - targetCount) > 10 || particles.length === 0) {
-      const newParticles = [];
+    // Si la diferencia es mucha, regeneramos
+    if (Math.abs(particles.length - targetCount) > 15 || particles.length === 0) {
+      particles = [];
       for (let i = 0; i < targetCount; i++) {
         const x = Math.random() * width;
         const y = Math.random() * height;
-        newParticles.push({
-          x,
-          y,
-          originX: x,
-          originY: y,
-          vx: 0,
-          vy: 0,
-          size: Math.random() * 1.5 + 0.5,
-          phase: Math.random() * Math.PI * 2,
+        particles.push({
+          x, y, originX: x, originY: y,
+          vx: 0, vy: 0,
+          size: Math.random() * 2 + 1,
+          phase: Math.random() * Math.PI * 2
         });
       }
-      particles = newParticles;
     }
   }
 
   function render() {
-    time += 0.015;
-    const width = canvas.width / (window.devicePixelRatio || 1);
-    const height = canvas.height / (window.devicePixelRatio || 1);
+    time += 0.01;
+    const width = window.innerWidth;
+    const height = window.innerHeight;
 
     ctx.clearRect(0, 0, width, height);
 
-    const pArr = particles;
-    const { r: r1, g: g1, b: b1 } = SETTINGS.colorPrimary;   // Rojo
-    const { r: r2, g: g2, b: b2 } = SETTINGS.colorSecondary; // Dorado
+    const { r: r1, g: g1, b: b1 } = SETTINGS.colorPrimary;
+    const { r: r2, g: g2, b: b2 } = SETTINGS.colorSecondary;
 
-    // Dibujar conexiones (color dorado)
+    // 1. Dibujar conexiones (Dorado elegante)
     ctx.beginPath();
-    ctx.lineWidth = 0.6;
-    for (let i = 0; i < pArr.length; i++) {
-      for (let j = i + 1; j < pArr.length; j++) {
-        const dx = pArr[i].x - pArr[j].x;
-        const dy = pArr[i].y - pArr[j].y;
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
         const distSq = dx * dx + dy * dy;
         const limitSq = SETTINGS.connectionDist * SETTINGS.connectionDist;
 
         if (distSq < limitSq) {
-          const opacity = (1 - distSq / limitSq) * 0.2; // Opacidad máxima 0.2
+          const opacity = (1 - distSq / limitSq) * 0.15;
           ctx.strokeStyle = `rgba(${r2}, ${g2}, ${b2}, ${opacity})`;
-          ctx.moveTo(pArr[i].x, pArr[i].y);
-          ctx.lineTo(pArr[j].x, pArr[j].y);
+          ctx.lineWidth = 0.5;
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
         }
       }
     }
     ctx.stroke();
 
-    // Actualizar y dibujar partículas
-    pArr.forEach((p) => {
-      // Física de retorno al origen
+    // 2. Actualizar Partículas
+    particles.forEach(p => {
       p.vx += (p.originX - p.x) * SETTINGS.spring;
       p.vy += (p.originY - p.y) * SETTINGS.spring;
 
-      // Interacción con el mouse
       if (mouse.active) {
         const dxM = p.x - mouse.x;
         const dyM = p.y - mouse.y;
         const distM = Math.sqrt(dxM * dxM + dyM * dyM);
-        if (distM < SETTINGS.mouseRadius && distM > 0.01) {
-          const force = (1 - distM / SETTINGS.mouseRadius) * 0.8;
+        if (distM < SETTINGS.mouseRadius) {
+          const force = (1 - distM / SETTINGS.mouseRadius) * 1.2;
           p.vx += (dxM / distM) * force;
           p.vy += (dyM / distM) * force;
         }
@@ -146,30 +132,25 @@
       p.x += p.vx;
       p.y += p.vy;
 
-      // Pulsación
-      const pulse = Math.sin(time + p.phase) * 0.3 + 0.7;
+      const pulse = Math.sin(time + p.phase) * 0.4 + 0.6;
 
-      // Nodo principal (color rojo con opacidad variable)
-      ctx.fillStyle = `rgba(${r1}, ${g1}, ${b1}, ${0.7 * pulse})`;
+      // Brillo dorado exterior (solo si está "activo")
+      if (pulse > 0.8) {
+        ctx.shadowBlur = 10 * pulse;
+        ctx.shadowColor = `rgba(${r2}, ${g2}, ${b2}, 0.3)`;
+      } else {
+        ctx.shadowBlur = 0;
+      }
+
+      // El núcleo es Rojo
+      ctx.fillStyle = `rgba(${r1}, ${g1}, ${b1}, ${0.8 * pulse})`;
       ctx.beginPath();
       ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
       ctx.fill();
-
-      // Glow (color dorado tenue)
-      if (pulse > 0.8) {
-        ctx.fillStyle = `rgba(${r2}, ${g2}, ${b2}, ${0.1 * pulse})`;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size * 5, 0, Math.PI * 2);
-        ctx.fill();
-      }
     });
 
     animationFrame = requestAnimationFrame(render);
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    init();
-  }
+  init();
 })();

@@ -4,61 +4,29 @@
 @import '_utilities.css';
 
 body {
-    font-family: var(--font-main);
-    background-color: var(--color-dark);
-    color: var(--color-light);
-    letter-spacing: var(--font-letter-spacing);
+    background-color: var(--bg-void);
+    color: var(--text-med);
+    font-family: 'Source Sans Pro', sans-serif;
 }
 
-/* Forzar transparencia en los contenedores de AdminLTE */
-.content-wrapper {
+/* Eliminar fondos grises de AdminLTE */
+.content-wrapper, .main-header, .main-footer {
     background: transparent !important;
-    backdrop-filter: var(--glass-blur);
+    border: none !important;
 }
 
-.wrapper,
-.main-sidebar,
-.main-header {
-    background: transparent !important;
+/* Scrollbar Cyberpunk */
+::-webkit-scrollbar {
+    width: 8px;
 }
-
-/* assets/css/custom/main.css */
-
-html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden;
+::-webkit-scrollbar-track {
+    background: var(--bg-void);
 }
-
-/* El wrapper debe ser el contenedor maestro */
-.wrapper {
-    min-height: 100%;
-    display: flex;
-    flex-direction: column;
+::-webkit-scrollbar-thumb {
+    background: var(--bg-surface);
+    border-radius: 10px;
+    border: 2px solid var(--bg-void);
 }
-
-/* Evita que AdminLTE fuerce alturas extrañas */
-.content-wrapper {
-    background: transparent !important;
-    flex: 1; /* Esto hace que el contenido ocupe el espacio sobrante sin crecer de más */
-    display: flex;
-    flex-direction: column;
-}
-
-/* Fix para el canvas neural */
-.neural-background {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: -1; /* Forzar al fondo total */
-    pointer-events: none;
-}
-
-.neural-canvas {
-    display: block;
-    width: 100%;
-    height: 100%;
+::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-purple);
 }
