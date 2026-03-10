@@ -118,3 +118,19 @@ select option {
     border-color: var(--brand-primary) !important;
     box-shadow: 0 0 15px rgba(168, 85, 247, 0.15);
 }
+/* Estado de Error en el Modal */
+.border-error-neon {
+    border: 1px solid #ff4d4d !important;
+    box-shadow: 0 0 15px rgba(255, 77, 77, 0.2) !important;
+}
+
+#exception-list li {
+    margin-bottom: 5px;
+    padding-left: 10px;
+    border-left: 2px solid var(--brand-primary);
+}
+
+/* Contenedor de carga en la actualización */
+.bg-glass-dark {
+    background: rgba(0, 0, 0, 0.4);
+}

@@ -10,52 +10,65 @@ class GenericController {
         $this->model = new GenericModel($mysqli, $tableName);
     }
 
-    public function index() {
-        return $this->model->getAll();
+    public function index() { 
+        return $this->model->getAll(); 
     }
 
-    // --- LOGICA PARA CREAR ---
-    public function create($rawData) {
-        $rules = TableRegistry::getRules($this->tableName);
-        $dto = new RequestDTO($rawData, $rules);
-
-        if (!$dto->isValid()) {
-            $this->sendResponse(422, ['errors' => $dto->errors]);
-        }
-
-        $success = $this->model->save($dto->data); // Sin ID = INSERT
-        $this->sendResponse(200, ['success' => $success, 'message' => 'Registro creado con éxito']);
+    /**
+     * Mapeo relacional para ver nombres en lugar de IDs (útil para Pedidos)
+     */
+    public function indexRelational($tableB, $fk, $display) {
+        return $this->model->getAllRelational($tableB, $fk, $display);
     }
 
-    // --- LOGICA PARA ACTUALIZAR ---
-    public function update($rawData) {
-        $id = $rawData['id'] ?? null;
-        if (!$id) $this->sendResponse(400, ['errors' => ['ID no proporcionado']]);
-
-        $rules = TableRegistry::getRules($this->tableName);
-        $dto = new RequestDTO($rawData, $rules);
-
-        if (!$dto->isValid()) {
-            $this->sendResponse(422, ['errors' => $dto->errors]);
-        }
-
-        $data = $dto->data;
-        unset($data['id']); // Limpiamos para no intentar actualizar el ID mismo
-
-        $success = $this->model->save($data, $id); // Con ID = UPDATE
-        $this->sendResponse(200, ['success' => $success, 'message' => 'Registro actualizado correctamente']);
-    }
-
-    // El método store ahora solo actúa como un "Traffic Cop"
+    /**
+     * Punto de entrada único para guardado
+     */
     public function store($rawData) {
-        if (isset($rawData['id']) && !empty($rawData['id'])) {
+        if (!empty($rawData['id'])) {
             return $this->update($rawData);
         }
         return $this->create($rawData);
     }
 
-    public function getItem($id) { return $this->model->getById($id); }
+    private function create($rawData) {
+        $rules = TableRegistry::getRules($this->tableName);
+        $dto = new RequestDTO($rawData, $rules);
+
+        if (!$dto->isValid()) {
+            $this->sendResponse(422, ['success' => false, 'errors' => $dto->errors]);
+        }
+
+        $success = $this->model->save($dto->data);
+        $this->sendResponse(200, [
+            'success' => $success, 
+            'message' => '¡Registro creado exitosamente!',
+            'title' => 'Éxito'
+        ]);
+    }
+
+    private function update($rawData) {
+        $id = $rawData['id'];
+        $rules = TableRegistry::getRules($this->tableName);
+        $dto = new RequestDTO($rawData, $rules);
+
+        if (!$dto->isValid()) {
+            $this->sendResponse(422, ['success' => false, 'errors' => $dto->errors]);
+        }
+
+        $data = $dto->data;
+        unset($data['id']); // Seguridad: no actualizar el ID
+
+        $success = $this->model->save($data, $id);
+        $this->sendResponse(200, [
+            'success' => $success, 
+            'message' => 'Los cambios se han guardado correctamente.',
+            'title' => 'Actualización Exitosa'
+        ]);
+    }
+
     public function delete($id) { return $this->model->delete($id); }
+    public function getItem($id) { return $this->model->getById($id); }
 
     protected function sendResponse($code, $data) {
         http_response_code($code);

@@ -2,30 +2,37 @@
 // view/clientes/Form.php
 $rules = TableRegistry::getRules($tableName);
 $isEdit = isset($rowData);
-// Definir actionUrl para evitar el error 403
 $actionUrl = BASE_URL . $tableName . ($isEdit ? "/update" : "/create");
+$formId = $isEdit ? 'form-update-dinamico' : 'form-create-dinamico';
 ?>
 
-<form id="form-registro-dinamico" action="<?= $actionUrl ?>" method="POST" class="p-2">
+<form id="<?= $formId ?>" action="<?= $actionUrl ?>" method="POST" class="p-2">
     <?= UI::ExceptionBox() ?>
 
     <div class="row mt-4">
-        <?php if($isEdit): ?> <input type="hidden" name="id" value="<?= $rowData['id'] ?>"> <?php endif; ?>
+        <?php if($isEdit): ?> 
+            <input type="hidden" name="id" value="<?= $rowData['id'] ?>"> 
+        <?php endif; ?>
 
         <?php foreach ($columnsMeta as $col): 
-            $rawName = $col['name']; // Nombre real DB: "Nombre"
+            $rawName = $col['name'];
             if (strtolower($rawName) === 'id') continue;
             
             $ruleKey = strtolower($rawName);
             $rule = $rules[$ruleKey] ?? [];
             $val = $isEdit ? htmlspecialchars($rowData[$rawName]) : '';
-            $required = ($col['null'] === 'NO') ? 'required' : '';
+            
+            // Lógica de tipos para activar calendario/teclado numérico
+            $type = $rule['type'] ?? 'text';
+            $htmlType = ($type === 'date') ? 'date' : (($type === 'number') ? 'number' : (($type === 'email') ? 'email' : 'text'));
+            
+            // Formatear fecha para el input date nativo
+            if($type === 'date' && !empty($val)) $val = date('Y-m-d', strtotime($val));
         ?>
             <div class="col-md-6">
                 <div class="form-floating-custom">
-                    
-                    <?php if (($rule['type'] ?? '') === 'relation'): ?>
-                        <select name="<?= $rawName ?>" id="field-<?= $rawName ?>" class="form-control" <?= $required ?>>
+                    <?php if ($type === 'relation'): ?>
+                        <select name="<?= $rawName ?>" id="field-<?= $rawName ?>" class="form-control" required>
                             <option value="" disabled <?= !$isEdit ? 'selected' : '' ?>></option>
                             <?php 
                             $db = (new Database())->getConnection();
@@ -38,21 +45,12 @@ $actionUrl = BASE_URL . $tableName . ($isEdit ? "/update" : "/create");
                                 </option>
                             <?php endwhile; ?>
                         </select>
-                        <label for="field-<?= $rawName ?>"><?= ucfirst($rawName) ?></label>
-
                     <?php else: ?>
-                        <input 
-                            type="<?= $rule['type'] ?? 'text' ?>" 
-                            name="<?= $rawName ?>" 
-                            id="field-<?= $rawName ?>"
-                            value="<?= $val ?>"
-                            class="form-control"
-                            placeholder=" " 
-                            <?= $required ?>
-                        >
-                        <label for="field-<?= $rawName ?>"><?= ucfirst($rawName) ?></label>
+                        <input type="<?= $htmlType ?>" name="<?= $rawName ?>" id="field-<?= $rawName ?>" 
+                               value="<?= $val ?>" class="form-control" placeholder=" " required>
                     <?php endif; ?>
                     
+                    <label for="field-<?= $rawName ?>"><?= ucfirst($rawName) ?></label>
                     <small class="text-danger error-msg" id="error-<?= $rawName ?>"></small>
                 </div>
             </div>
@@ -61,6 +59,6 @@ $actionUrl = BASE_URL . $tableName . ($isEdit ? "/update" : "/create");
 
     <div class="modal-footer border-0 px-0 pb-0 mt-2">
         <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cancelar</button>
-        <?= UI::Button($isEdit ? "Actualizar Datos" : "Guardar Registro", "submit", "btn-brand", "fas fa-save") ?>
+        <?= UI::Button($isEdit ? "Actualizar" : "Guardar", "submit", "btn-brand", "fas fa-save") ?>
     </div>
 </form>
