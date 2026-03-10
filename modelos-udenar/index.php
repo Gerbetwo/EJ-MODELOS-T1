@@ -1,7 +1,9 @@
 <?php
 // index.php - Front Controller
+// 0. Mostrat Errores (Quitar en Producción).
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
+
 // 1. Iniciador del sistema (Carga .env, Constantes y Autoloader)
 require_once 'config/Config.php';
 

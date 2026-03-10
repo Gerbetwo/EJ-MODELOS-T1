@@ -22,10 +22,10 @@ function loadEnv($path)
 loadEnv(__DIR__ . '/../.env');
 
 // --- 2. DEFINICIÓN DE CONSTANTES (Credenciales y Rutas) ---
-define('DB_HOST', $_ENV['DB_HOST'] ?? 'localhost');
-define('DB_USER', $_ENV['DB_USER'] ?? 'Gebert');
-define('DB_PASS', $_ENV['DB_PASS'] ?? '');
-define('DB_NAME', $_ENV['DB_NAME'] ?? 'db_modelos_udenar');
+define('DB_HOST', $_ENV['DB_HOST']);
+define('DB_USER', $_ENV['DB_USER']);
+define('DB_PASS', $_ENV['DB_PASS']);
+define('DB_NAME', $_ENV['DB_NAME']);
 
 // URL Base para assets (CSS/JS)
 define('BASE_URL', '/modelos-udenar/');
