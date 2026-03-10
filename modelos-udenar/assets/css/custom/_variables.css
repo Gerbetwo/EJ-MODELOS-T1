@@ -1,29 +1,28 @@
 /* assets/css/custom/_variables.css */
 :root {
-    /* Fondos - Escala de Oscuridad */
-    --bg-void: #0b0c10;           /* Fondo más profundo */
-    --bg-panel: #12141d;          /* Fondo de Sidebar y Cards */
-    --bg-surface: #1f232d;        /* Fondo de elementos flotantes/inputs */
-    
-    /* Colores de Acento (Neon/Cyber vibe) */
-    --primary-purple: #7d5fff;    /* Violeta vibrante */
-    --primary-dark: #6741d9;
-    --accent-cyan: #18dcff;       /* Cian para detalles de info */
-    
-    /* Texto */
-    --text-high: #f1f2f6;         /* Títulos */
-    --text-med: #a4b0be;          /* Párrafos */
-    --text-muted: #57606f;        /* Desactivados/Placeholders */
+    /* --- BLOQUE 1: PALETA (Solo cambias esto para un nuevo tema) --- */
+    --p-main: #7d5fff;      /* Tu morado/violeta */
+    --p-main-soft: rgba(125, 95, 255, 0.15);
+    --p-accent: #18dcff;    /* Tu cian */
+    --p-dark-1: #0b0c10;    /* Fondo vacío */
+    --p-dark-2: #12141d;    /* Fondo paneles */
+    --p-dark-3: #1f232d;    /* Fondo inputs/superficies */
+    --p-white: #f1f2f6;
+    --p-gray: #a4b0be;
 
-    /* Glassmorphism Oscuro */
-    --glass-bg: rgba(255, 255, 255, 0.02);
-    --glass-border: rgba(255, 255, 255, 0.05);
-    --glass-blur: blur(15px);
-
-    /* Efectos de Brillo */
-    --glow-purple: 0 0 15px rgba(125, 95, 255, 0.4);
-    --glow-cyan: 0 0 15px rgba(24, 220, 255, 0.3);
+    /* --- BLOQUE 2: ROLES SEMÁNTICOS (Esto no se toca casi nunca) --- */
+    /* Estos nombres describen PARA QUÉ sirven, no qué color son */
     
-    --radius-custom: 10px;
-    --transition-smooth: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    --brand-primary: var(--p-main);
+    --brand-accent: var(--p-accent);
+    
+    --ui-bg-body: var(--p-dark-1);
+    --ui-bg-card: var(--p-dark-2);
+    --ui-bg-input: var(--p-dark-3);
+    
+    --ui-text-main: var(--p-white);
+    --ui-text-muted: var(--p-gray);
+    
+    --ui-border: rgba(255, 255, 255, 0.05);
+    --ui-glow: 0 0 15px var(--p-main-soft);
 }

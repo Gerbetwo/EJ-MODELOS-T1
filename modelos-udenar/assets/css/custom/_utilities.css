@@ -1,28 +1,49 @@
 /* assets/css/custom/_utilities.css */
 
-.btn-primary-custom {
-    background-color: var(--primary-purple);
+/* --- TEXTOS --- */
+.text-brand  { color: var(--brand-primary) !important; }
+.text-accent { color: var(--brand-accent) !important; }
+.text-main   { color: var(--ui-text-main) !important; }
+.text-muted  { color: var(--ui-text-muted) !important; }
+
+/* --- FONDOS --- */
+.bg-void    { background-color: var(--ui-bg-body) !important; }
+.bg-surface { background-color: var(--ui-bg-card) !important; }
+.bg-brand   { background-color: var(--brand-primary) !important; }
+
+/* --- BOTONES PERSONALIZADOS --- */
+.btn-brand {
+    background-color: var(--brand-primary);
     border: none;
-    color: white;
-    box-shadow: var(--glow-purple);
+    color: #fff !important;
     transition: var(--transition-smooth);
+    box-shadow: var(--ui-glow);
 }
 
-.btn-primary-custom:hover {
-    background-color: var(--primary-dark);
-    transform: translateY(-2px);
-    box-shadow: 0 5px 20px rgba(125, 95, 255, 0.6);
+.btn-brand:hover {
+    filter: brightness(1.2);
+    transform: translateY(-1px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
 }
 
-.form-control-custom {
-    background: var(--bg-surface) !important;
+.btn-outline-brand {
+    background: transparent;
+    border: 1px solid var(--brand-primary);
+    color: var(--brand-primary) !important;
+}
+
+.btn-outline-brand:hover {
+    background: var(--brand-primary);
+    color: #fff !important;
+}
+
+/* --- EFECTOS --- */
+.glass-panel {
+    background: var(--glass-bg) !important;
+    backdrop-filter: var(--glass-blur);
     border: 1px solid var(--glass-border) !important;
-    color: var(--text-high) !important;
 }
 
-.form-control-custom:focus {
-    border-color: var(--primary-purple) !important;
-    box-shadow: 0 0 0 3px rgba(125, 95, 255, 0.2) !important;
+.shadow-glow {
+    box-shadow: var(--ui-glow) !important;
 }
-
-.text-accent-custom { color: var(--accent-cyan) !important; }

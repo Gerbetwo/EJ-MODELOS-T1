@@ -1,7 +1,17 @@
 // assets/scripts/neural-background.js
 (function () {
   'use strict';
+  // En neural-background.js, busca la parte de SETTINGS
+  const style = getComputedStyle(document.documentElement);
 
+  // Extraemos el color de la variable CSS --p-main
+  const primaryHex = style.getPropertyValue('--p-main').trim();
+
+  // Función simple para convertir Hex a RGB (puedes poner esto fuera)
+  function hexToRgb(hex) {
+    const bigint = parseInt(hex.slice(1), 16);
+    return { r: (bigint >> 16) & 255, g: (bigint >> 8) & 255, b: bigint & 255 };
+  }
   const SETTINGS = {
     density: 0.00004, // Un poco menos denso para no sobrecargar
     maxParticles: 70,
@@ -10,8 +20,8 @@
     connectionDist: 160,
     mouseRadius: 180,
     // Sincronizado con _variables.css
-    colorPrimary: { r: 88, g: 101, b: 242 },     // Púrpura Nebula
-    colorSecondary: { r: 0, g: 175, b: 244 },    // Cian Eléctrico
+    colorPrimary: hexToRgb(primaryHex || "#7d5fff"),
+    colorSecondary: hexToRgb(style.getPropertyValue('--p-accent').trim() || "#18dcff"),
   };
 
   let canvas, ctx, container;

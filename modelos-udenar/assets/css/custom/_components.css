@@ -1,60 +1,31 @@
 /* assets/css/custom/_components.css */
 
-/* --- SIDEBAR --- */
+/* SIDEBAR: Ahora es "ciega" al color, solo sigue órdenes */
 .main-sidebar {
-    background: var(--bg-panel) !important;
-    border-right: 1px solid var(--glass-border) !important;
+    background: var(--ui-bg-card) !important;
+    border-right: 1px solid var(--ui-border) !important;
 }
 
-.nav-sidebar .nav-item > .nav-link {
-    color: var(--text-med);
-    margin: 4px 10px;
-    border-radius: var(--radius-custom);
+.nav-sidebar .nav-link.active {
+    background: var(--brand-primary) !important;
+    box-shadow: var(--ui-glow) !important;
 }
 
-.nav-sidebar .nav-item > .nav-link:hover {
-    background: rgba(125, 95, 255, 0.1) !important;
-    color: var(--primary-purple) !important;
-}
-
-.nav-sidebar .nav-item > .nav-link.active {
-    background: var(--primary-purple) !important;
-    color: #fff !important;
-    box-shadow: var(--glow-purple) !important;
-}
-
-.nav-sidebar .nav-link i {
-    color: var(--accent-cyan); /* Iconos resaltan en cian */
-}
-
-/* --- CARDS Y CONTENEDORES --- */
+/* CARDS */
 .card {
-    background: var(--bg-panel) !important;
-    border: 1px solid var(--glass-border) !important;
-    border-radius: var(--radius-custom);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    background: var(--ui-bg-card) !important;
+    border: 1px solid var(--ui-border) !important;
+    color: var(--ui-text-main);
 }
 
 .card-header {
-    border-bottom: 1px solid var(--glass-border);
-    color: var(--primary-purple);
-    font-weight: 600;
+    color: var(--brand-primary);
+    border-bottom: 1px solid var(--ui-border);
 }
 
-/* --- TABLAS OSCURAS --- */
-.table {
-    background: transparent;
-    color: var(--text-med);
-}
-
-.table thead th {
-    background: rgba(0,0,0,0.2);
-    color: var(--accent-cyan);
-    border-bottom: 2px solid var(--primary-purple) !important;
-    text-transform: uppercase;
-    font-size: 0.8rem;
-}
-
-.table-hover tbody tr:hover {
-    background-color: rgba(125, 95, 255, 0.05) !important;
+/* INPUTS */
+.form-control {
+    background: var(--ui-bg-input) !important;
+    color: var(--ui-text-main) !important;
+    border: 1px solid var(--ui-border) !important;
 }
