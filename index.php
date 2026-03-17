@@ -1,11 +1,7 @@
 <?php
-if (!empty($_SERVER['HTTPS']) && 'on' == $_SERVER['HTTPS']) {
-    $uri = 'https://';
-} else {
-    $uri = 'http://';
+if (empty($_SERVER['HTTPS']) || $_SERVER['HTTPS'] === 'off') {
+    header('Location: https://' . $_SERVER['HTTP_HOST'] . '/modelos-udenar/');
+    exit;
 }
-$uri .= $_SERVER['HTTP_HOST'];
-header('Location: ' . $uri . '/modelos-udenar/');
-exit();
-?>
-Something is wrong with the XAMPP installation :-(
+header('Location: /modelos-udenar/');
+exit;
