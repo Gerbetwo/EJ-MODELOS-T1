@@ -5,5 +5,4 @@ class ClientesController extends GenericController
     {
         parent::__construct($mysqli, 'clientes');
     }
-    // Aquí puedes añadir métodos específicos para clientes después
 }
