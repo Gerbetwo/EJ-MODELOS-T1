@@ -65,9 +65,23 @@ class Router
         $inspector = new DatabaseInspector($this->conn);
         $columnsMeta = $inspector->getTableMetadata($realTable);
 
-        // Lógica especial para Pedidos (Cargar nombres de clientes en vez de IDs)
-        if ($this->tableName === 'pedidos') {
-            $data = $controller->indexRelational('clientes', 'cliente_id', 'Nombre');
+        // NUEVA LÓGICA: Detectar dinámicamente las relaciones desde TableRegistry
+        $rules = TableRegistry::getRules($this->tableName);
+        $relationConfig = null;
+        $foreignKey = null;
+
+        foreach ($rules as $field => $rule) {
+            if (($rule['type'] ?? '') === 'relation') {
+                $relationConfig = $rule;
+                $foreignKey = $field;
+                break; // Tomamos la primera relación para mostrar en el listado principal
+            }
+        }
+
+        // Si encontramos una relación en las reglas, usamos indexRelational
+        if ($relationConfig) {
+            $referenceTable = TableRegistry::getRealTableName($relationConfig['references']) ?? $relationConfig['references'];
+            $data = $controller->indexRelational($referenceTable, $foreignKey, $relationConfig['display']);
         } else {
             $data = $controller->index();
         }
