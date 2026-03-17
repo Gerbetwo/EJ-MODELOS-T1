@@ -2,8 +2,8 @@
 class TableRegistry
 {
     private static $map = [
-        'Clientes' => [
-            'table' => 'Clientes',
+        'clientes' => [
+            'table' => 'clientes',
             'rules' => [
                 'nombre' => [
                     'type' => 'text',
@@ -30,8 +30,8 @@ class TableRegistry
                 ],
             ],
         ],
-        'Pedidos' => [
-            'table' => 'Pedidos',
+        'pedidos' => [
+            'table' => 'pedidos',
             'rules' => [
                 'id_cliente' => [
                     'type' => 'relation',

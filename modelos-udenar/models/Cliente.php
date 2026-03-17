@@ -3,13 +3,13 @@ class Cliente extends GenericModel
 {
     public function __construct($mysqli)
     {
-        parent::__construct($mysqli, 'Clientes');
+        parent::__construct($mysqli, 'clientes');
     }
 
     public function searchCustom($termino)
     {
         $termino = $this->conn->real_escape_string($termino);
-        $sql = "SELECT * FROM Clientes WHERE nombre LIKE '%$termino%'";
+        $sql = "SELECT * FROM clientes WHERE nombre LIKE '%$termino%'";
         return $this->conn->query($sql)->fetch_all(MYSQLI_ASSOC);
     }
 }

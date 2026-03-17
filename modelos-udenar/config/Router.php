@@ -67,7 +67,7 @@ class Router
 
         // Lógica especial para Pedidos (Cargar nombres de clientes en vez de IDs)
         if ($this->tableName === 'pedidos') {
-            $data = $controller->indexRelational('Clientes', 'cliente_id', 'Nombre');
+            $data = $controller->indexRelational('clientes', 'cliente_id', 'Nombre');
         } else {
             $data = $controller->index();
         }
