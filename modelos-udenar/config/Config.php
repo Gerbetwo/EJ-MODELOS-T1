@@ -19,7 +19,7 @@ function loadEnv($path)
 }
 
 // Ejecutamos la carga (ajustando la ruta a la raíz del proyecto)
-loadEnv(__DIR__ . '/../.env');
+loadEnv(__DIR__ . '/.env');
 
 // --- 2. DEFINICIÓN DE CONSTANTES (Credenciales y Rutas) ---
 define('DB_HOST', $_ENV['DB_HOST']);
