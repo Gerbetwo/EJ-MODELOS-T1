@@ -2,27 +2,27 @@
 class TableRegistry
 {
     private static $map = [
-        'clientes' => [
+        'Clientes' => [
             'table' => 'Clientes',
             'rules' => [
-                'Nombre' => [
+                'nombre' => [
                     'type' => 'text',
                     'placeholder' => 'Nombre completo',
                     'regex' => '/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/',
                     'error' => 'Solo letras.',
                 ],
-                'Correo' => [
+                'email' => [
                     'type' => 'email',
                     'placeholder' => 'ejemplo@correo.com',
                     'error' => 'Correo inválido.',
                 ],
-                'Telefono' => [
+                'telefono' => [
                     'type' => 'tel',
                     'placeholder' => '300 123 4567',
                     'regex' => '/^[0-9+]{7,15}$/',
                     'error' => 'Mínimo 7 números.',
                 ],
-                'Ciudad' => [
+                'ciudad' => [
                     'type' => 'text',
                     'placeholder' => 'Pasto',
                     'regex' => '/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/',
@@ -30,10 +30,10 @@ class TableRegistry
                 ],
             ],
         ],
-        'pedidos' => [
+        'Pedidos' => [
             'table' => 'Pedidos',
             'rules' => [
-                'cliente_id' => [
+                'id_cliente' => [
                     'type' => 'relation',
                     'references' => 'clientes',
                     'display' => 'Nombre',
@@ -50,7 +50,7 @@ class TableRegistry
                     'placeholder' => 'Nombre del producto',
                     'minlength' => 3,
                 ],
-                'fecha' => ['type' => 'date', 'placeholder' => 'Fecha de entrega'],
+                'fecha_pedido' => ['type' => 'date', 'placeholder' => 'Fecha de entrega'],
             ],
         ],
     ];
