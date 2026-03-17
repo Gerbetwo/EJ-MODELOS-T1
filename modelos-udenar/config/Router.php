@@ -80,8 +80,14 @@ class Router
 
         // Si encontramos una relación en las reglas, usamos indexRelational
         if ($relationConfig) {
-            $referenceTable = TableRegistry::getRealTableName($relationConfig['references']) ?? $relationConfig['references'];
-            $data = $controller->indexRelational($referenceTable, $foreignKey, $relationConfig['display']);
+            $referenceTable =
+                TableRegistry::getRealTableName($relationConfig['references']) ??
+                $relationConfig['references'];
+            $data = $controller->indexRelational(
+                $referenceTable,
+                $foreignKey,
+                $relationConfig['display'],
+            );
         } else {
             $data = $controller->index();
         }

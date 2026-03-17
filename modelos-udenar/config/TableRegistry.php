@@ -7,7 +7,7 @@ class TableRegistry
             'rules' => [
                 'nombre' => [
                     'type' => 'text',
-                    'placeholder' => 'Nombre completo',
+                    'placeholder' => 'Nombre CLiente',
                     'regex' => '/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/',
                     'error' => 'Solo letras.',
                 ],
@@ -37,7 +37,7 @@ class TableRegistry
                     'type' => 'relation',
                     'references' => 'clientes',
                     'display' => 'Nombre',
-                    'placeholder' => 'Seleccione un cliente',
+                    'placeholder' => 'Seleccione un cliente porfavor',
                 ],
                 'cantidad' => [
                     'type' => 'number',

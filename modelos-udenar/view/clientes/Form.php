@@ -30,7 +30,7 @@ $formId = $isEdit ? 'form-update-dinamico' : 'form-create-dinamico';
             // Lógica para tipos de input (Arregla el calendario)
             $type = $rule['type'] ?? 'text';
             $htmlType = 'text';
-            
+
             if ($type === 'email') {
                 $htmlType = 'email';
             } elseif ($type === 'number') {
@@ -47,17 +47,25 @@ $formId = $isEdit ? 'form-update-dinamico' : 'form-create-dinamico';
                     
                     <?php if ($type === 'relation'): ?>
                         <select name="<?= $rawName ?>" class="form-control" required>
-                            <option value="" disabled <?= !$isEdit ? 'selected' : '' ?>>Seleccione...</option>
+                            <option value="" disabled <?= !$isEdit
+                                ? 'selected'
+                                : '' ?>>Seleccione...</option>
                             <?php
                             // LÓGICA LIMPIA: Pedimos los datos al controlador mediante la función que agregamos
                             $displayCol = $rule['display'];
-                            $options = $controller->getExternalData($rule['references'], $displayCol);
-                            
+                            $options = $controller->getExternalData(
+                                $rule['references'],
+                                $displayCol,
+                            );
+
                             foreach ($options as $opt): ?>
-                                <option value="<?= $opt['id'] ?>" <?= ($val == $opt['id']) ? 'selected' : '' ?>>
+                                <option value="<?= $opt['id'] ?>" <?= $val == $opt['id']
+    ? 'selected'
+    : '' ?>>
                                     <?= htmlspecialchars($opt[$displayCol]) ?>
                                 </option>
-                            <?php endforeach; ?>
+                            <?php endforeach;
+                            ?>
                         </select>
                     <?php else: ?>
                         <input type="<?= $htmlType ?>" name="<?= $rawName ?>" value="<?= $val ?>" class="form-control" placeholder=" " required>
@@ -67,7 +75,8 @@ $formId = $isEdit ? 'form-update-dinamico' : 'form-create-dinamico';
                     <small class="text-danger error-msg" id="error-<?= $rawName ?>"></small>
                 </div>
             </div>
-        <?php endforeach; ?>
+        <?php
+        endforeach; ?>
     </div>
 
     <div class="modal-footer border-0 px-0 pb-0 mt-2">
@@ -76,7 +85,7 @@ $formId = $isEdit ? 'form-update-dinamico' : 'form-create-dinamico';
             $isEdit ? 'Actualizar Registro' : 'Crear Registro',
             'submit',
             'btn-brand',
-            'fas fa-save'
+            'fas fa-save',
         ) ?>
     </div>
 </form>

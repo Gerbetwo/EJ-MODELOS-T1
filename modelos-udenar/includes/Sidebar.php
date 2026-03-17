@@ -13,7 +13,9 @@ $activeModule = $urlParams[0];
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
                 <li class="nav-item">
-                    <a href="<?= BASE_URL ?>" class="nav-link <?= ($activeModule == 'dashboard') ? 'active shadow-primary' : '' ?>">
+                    <a href="<?= BASE_URL ?>" class="nav-link <?= $activeModule == 'dashboard'
+    ? 'active shadow-primary'
+    : '' ?>">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>Dashboard</p>
                     </a>
@@ -24,7 +26,9 @@ $activeModule = $urlParams[0];
                 <?php foreach ($modulos as $m): ?>
                     <li class="nav-item">
                         <a href="<?= BASE_URL . $m ?>" 
-                           class="nav-link <?= ($activeModule === $m) ? 'active shadow-primary' : '' ?>">
+                           class="nav-link <?= $activeModule === $m
+                               ? 'active shadow-primary'
+                               : '' ?>">
                             <i class="nav-icon fas fa-database"></i>
                             <p><?= ucfirst($m) ?></p>
                         </a>

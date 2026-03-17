@@ -91,7 +91,9 @@ class GenericController
         // Usamos el modelo para traer datos de otra tabla de forma limpia
         $db = $this->model->getConnection();
         $realTable = TableRegistry::getRealTableName($tableName) ?? $tableName;
-        $res = $db->query("SELECT id, $displayColumn FROM `$realTable` ORDER BY `$displayColumn` ASC");
+        $res = $db->query(
+            "SELECT id, $displayColumn FROM `$realTable` ORDER BY `$displayColumn` ASC",
+        );
         return $res->fetch_all(MYSQLI_ASSOC);
     }
 }
