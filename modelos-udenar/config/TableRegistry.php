@@ -2,10 +2,10 @@
 class TableRegistry
 {
     private static $map = [
-        'clientes' => [
-            'table' => 'clientes',
+        'clients' => [
+            'table' => 'clients',
             'rules' => [
-                'nombre' => [
+                'name' => [
                     'type' => 'text',
                     'placeholder' => 'Nombre CLiente',
                     'regex' => '/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/',
@@ -16,13 +16,13 @@ class TableRegistry
                     'placeholder' => 'ejemplo@correo.com',
                     'error' => 'Correo inválido.',
                 ],
-                'telefono' => [
+                'telephone' => [
                     'type' => 'tel',
                     'placeholder' => '300 123 4567',
                     'regex' => '/^[0-9+]{7,15}$/',
                     'error' => 'Mínimo 7 números.',
                 ],
-                'ciudad' => [
+                'city' => [
                     'type' => 'text',
                     'placeholder' => 'Pasto',
                     'regex' => '/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/',
@@ -30,27 +30,27 @@ class TableRegistry
                 ],
             ],
         ],
-        'pedidos' => [
-            'table' => 'pedidos',
+        'orders' => [
+            'table' => 'orders',
             'rules' => [
-                'id_cliente' => [
+                'id_client' => [
                     'type' => 'relation',
-                    'references' => 'clientes',
-                    'display' => 'Nombre',
+                    'references' => 'clients',
+                    'display' => 'name',
                     'placeholder' => 'Seleccione un cliente porfavor',
                 ],
-                'cantidad' => [
+                'stock' => [
                     'type' => 'number',
                     'placeholder' => 'Cantidad (1-999)',
                     'min' => 1,
                     'max' => 999,
                 ],
-                'producto' => [
+                'product' => [
                     'type' => 'text',
                     'placeholder' => 'Nombre del producto',
                     'minlength' => 3,
                 ],
-                'fecha_pedido' => ['type' => 'date', 'placeholder' => 'Fecha de entrega'],
+                'order_date' => ['type' => 'date', 'placeholder' => 'Fecha de entrega'],
             ],
         ],
     ];

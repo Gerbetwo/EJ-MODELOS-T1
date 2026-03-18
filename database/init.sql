@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS orders (
     -- Definición de la llave foránea
     CONSTRAINT fk_cliente
         FOREIGN KEY (id_client) 
-        REFERENCES clientes(id) 
+        REFERENCES clients(id) 
         ON DELETE CASCADE 
         ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
