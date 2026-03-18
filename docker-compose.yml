@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  # SERVICIO 1: Tu aplicación PHP + Apache
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: app_web
+    ports:
+      - "${APP_PORT:-8000}:80" # Expone el puerto 80 del contenedor al puerto local
+    volumes:
+      - ./:/var/www/html # Sincronización mágica: tus cambios se reflejan al instante
+    environment:
+      - DB_HOST=db # Apunta al nombre del servicio de abajo
+      - DB_USER=${DB_USER}
+      - DB_PASS=${DB_PASS}
+      - DB_NAME=${DB_NAME}
+    depends_on:
+      db:
+        condition: service_healthy # Espera a que MySQL esté 100% listo
+
+  # SERVICIO 2: Base de Datos MariaDB (Reemplazo ideal para MySQL de XAMPP)
+  db:
+    image: mariadb:10.11
+    container_name: app_db
+    restart: unless-stopped
+    ports:
+      - "${DB_PORT:-3306}:3306"
+    environment:
+      MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASS}
+      MARIADB_DATABASE: ${DB_NAME}
+      MARIADB_USER: ${DB_USER}
+      MARIADB_PASSWORD: ${DB_PASS}
+    volumes:
+      - db_data:/var/lib/mysql # Persistencia: Si borras el contenedor, los datos no se pierden
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${DB_ROOT_PASS}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # SERVICIO 3: phpMyAdmin (Opcional pero muy útil)
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: app_pma
+    ports:
+      - "8080:80"
+    environment:
+      PMA_HOST: db
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASS}
+    depends_on:
+      - db
+
+# Declaramos el volumen nombrado para la persistencia
+volumes:
+  db_data:

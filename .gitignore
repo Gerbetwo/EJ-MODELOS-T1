@@ -20,3 +20,16 @@ adminlte
 
 .vscode
 code.txt
+
+# Archivos de entorno y credenciales (NUNCA SUBIR A GIT)
+.env
+
+# Directorios de dependencias (Si decides usar Composer más adelante)
+vendor/
+
+# Archivos del sistema operativo
+.DS_Store
+Thumbs.db
+
+# Ignorar la carpeta de logs de docker (si la creas)
+logs/
