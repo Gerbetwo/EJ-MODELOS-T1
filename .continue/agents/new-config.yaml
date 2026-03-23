@@ -1,0 +1,25 @@
+name: Mi Configuración Local Udenar
+version: 1.0.0
+schema: v1
+
+models:
+  - name: Ollama Autodetect
+    provider: ollama
+    model: AUTODETECT
+    roles:
+      - chat
+      - edit
+# Esto lo dejamos FIJO para que siempre sea veloz al teclear
+tabAutocompleteModel:
+  name: Autocomplete Rápido
+  provider: ollama
+  model: qwen2.5-coder:1.5b
+
+embeddingsProvider:
+  provider: ollama
+  model: nomic-embed-text
+# REGLAS PERSONALIZADAS (Para tu formación como Ingeniero)
+rules:
+  - "Responde siempre en español de forma concisa."
+  - "Para PHP, prioriza siempre PSR-12, tipado estricto y seguridad (Prepared Statements)."
+  - "Si sugieres cambios en el Router, explica el porqué arquitectónico."

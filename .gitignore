@@ -33,3 +33,4 @@ Thumbs.db
 
 # Ignorar la carpeta de logs de docker (si la creas)
 logs/
+php.txt
