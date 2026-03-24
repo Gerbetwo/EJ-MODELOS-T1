@@ -1,10 +1,21 @@
 /* layouts/_sidebar.css */
 
 /* SIDEBAR: Sin auto-expand y con colores limpios */
+.main-sidebar,
+.main-sidebar .sidebar,
+.main-sidebar .os-host,
+.main-sidebar .os-padding,
+.main-sidebar .os-viewport,
+.main-sidebar .os-content {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
 .main-sidebar {
   background: var(--ui-bg-card) !important;
   border-right: 1px solid var(--ui-border) !important;
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
 }
 
 .nav-sidebar .nav-link.active {
