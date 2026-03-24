@@ -56,6 +56,9 @@ final class Router
 
         // Dashboard — caso especial
         if ($this->slug === 'dashboard') {
+            if ($this->action === 'stats') {
+                return $this->handleDashboardStats();
+            }
             return $this->handleDashboard();
         }
 
@@ -105,6 +108,31 @@ final class Router
         $content = (string) ob_get_clean();
 
         return Response::html($content);
+    }
+
+    /**
+     * Retorna estadísticas del dashboard como JSON (para Chart.js).
+     */
+    private function handleDashboardStats(): Response
+    {
+        $inspector = new DatabaseInspector($this->pdo);
+        $tablas = $inspector->getTables();
+
+        $labels = [];
+        $counts = [];
+        $total = 0;
+
+        foreach ($tablas as $t) {
+            $labels[] = ucfirst($t['name']);
+            $counts[] = $t['count'];
+            $total += $t['count'];
+        }
+
+        return Response::json([
+            'labels' => $labels,
+            'counts' => $counts,
+            'total'  => $total,
+        ]);
     }
 
     /**

@@ -88,8 +88,12 @@ class GenericController
             $data = $this->service->listAll();
         }
 
+        // Extract column names for the table headers
+        $headers = array_map(fn(array $col) => $col['name'], $columnsMeta);
+
         $content = $this->renderView('list', [
             'data'        => $data,
+            'headers'     => $headers,
             'columnsMeta' => $columnsMeta,
             'tableName'   => $this->slug,
             'basePath'    => '/',
