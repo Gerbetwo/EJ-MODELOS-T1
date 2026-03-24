@@ -2,19 +2,21 @@
 /**
  * Vista del Dashboard — Muestra resumen de todas las tablas.
  *
- * **Antes:** Esta vista recibía $conn (mysqli) y creaba el DatabaseInspector dentro.
- * **Ahora:** Recibe $pdo inyectado y usa el DatabaseInspector refactorizado (PDO).
+ * **ANTES (violación de Clean Architecture):**
+ * ```php
+ * $inspector = new DatabaseInspector($pdo);
+ * $tablas = $inspector->getTables();
+ * ```
+ * La vista creaba un objeto de infraestructura y accedía a la BD directamente.
+ *
+ * **AHORA:** Recibe $tablas ya procesado desde el Router/Controller.
+ * La vista SOLO renderiza HTML con los datos que le pasan.
  *
  * Variables disponibles:
- * @var \PDO   $pdo      Conexión PDO
- * @var string $basePath Ruta base
+ * @var array  $tablas    Lista de tablas [{name, count}, ...]
+ * @var string $basePath  Ruta base
  */
 declare(strict_types=1);
-
-use App\Infrastructure\DatabaseInspector;
-
-$inspector = new DatabaseInspector($pdo);
-$tablas = $inspector->getTables();
 ?>
 
 <div class="row">
