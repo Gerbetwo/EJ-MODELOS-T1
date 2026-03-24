@@ -30,65 +30,8 @@ $title = match (true) {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Error <?= $safeCode ?> | Gestión Udenar</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, #0a0a1a 0%, #1a0a2e 50%, #0a0a1a 100%);
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            color: #fff;
-        }
-        .error-container {
-            text-align: center;
-            padding: 2rem;
-            max-width: 500px;
-        }
-        .error-code {
-            font-size: 8rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #a855f7, #6366f1);
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            color: transparent;
-            line-height: 1;
-            margin-bottom: 1rem;
-        }
-        .error-icon {
-            font-size: 3rem;
-            color: #a855f7;
-            margin-bottom: 1.5rem;
-            opacity: 0.7;
-        }
-        .error-title {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-        .error-message {
-            color: rgba(255,255,255,0.6);
-            margin-bottom: 2rem;
-            line-height: 1.6;
-        }
-        .btn-home {
-            display: inline-block;
-            padding: 0.75rem 2rem;
-            background: linear-gradient(135deg, #a855f7, #6366f1);
-            color: white;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: 600;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        .btn-home:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(168, 85, 247, 0.3);
-            color: white;
-        }
-    </style>
+    <!-- Importar estilos desde assets/css -->
+    <link rel="stylesheet" href="/assets/css/error.css" />
 </head>
 <body>
     <div class="error-container">
@@ -102,3 +45,6 @@ $title = match (true) {
     </div>
 </body>
 </html>
+
+
+
