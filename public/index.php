@@ -107,14 +107,18 @@ try {
 } catch (DatabaseException $e) {
     error_log('[DatabaseException] ' . $e->getMessage());
     $statusCode = 500;
-    $errorMessage = 'Error interno del servidor. Por favor, intente más tarde.';
+    $errorMessage = (($_ENV['APP_ENV'] ?? 'development') === 'development')
+        ? '[DatabaseException] ' . $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine()
+        : 'Error interno del servidor. Por favor, intente más tarde.';
     http_response_code(500);
     include __DIR__ . '/../views/error.phtml';
 
 } catch (\Throwable $e) {
     error_log('[UnhandledException] ' . $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine());
     $statusCode = 500;
-    $errorMessage = 'Ha ocurrido un error inesperado.';
+    $errorMessage = (($_ENV['APP_ENV'] ?? 'development') === 'development')
+        ? '[UnhandledException] ' . $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine() . "\nTrace:\n" . $e->getTraceAsString()
+        : 'Ha ocurrido un error inesperado.';
     http_response_code(500);
     include __DIR__ . '/../views/error.phtml';
 }
