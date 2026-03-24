@@ -16,7 +16,7 @@ class ViewRenderer
      * @param string $viewsDir El directorio base donde se encuentran las vistas.
      */
     public function __construct(
-        private readonly string $viewsDir = __DIR__ . '/../../../../views'
+        private readonly string $viewsDir = __DIR__ . '/../../../views'
     ) {
     }
 
