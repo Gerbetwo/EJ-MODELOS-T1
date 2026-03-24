@@ -1,0 +1,82 @@
+/* assets/css/custom/main.css */
+
+@import "_variables.css";
+@import "_components.css";
+@import "_utilities.css";
+
+/* --- CORRECCIÓN CRÍTICA DE CAPAS --- */
+html,
+body {
+  height: 100% !important;
+  margin: 0;
+  /* El body DEBE ser transparente para que se vea el z-index -1 */
+  background-color: transparent !important;
+}
+
+/* El color "Void" lo ponemos aquí, que es el contenedor del canvas */
+.neural-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -2; /* Un nivel más atrás */
+  background-color: var(--ui-bg-body); /* Aquí vive el color oscuro */
+  pointer-events: none;
+}
+
+.neural-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1; /* Delante del color, detrás del contenido */
+}
+
+/* --- FORZAR TRANSPARENCIA EN ADMINLTE --- */
+/* A veces AdminLTE aplica colores a niveles muy profundos, estos selectores los "limpian" todos */
+.wrapper,
+.content-wrapper,
+.main-header,
+.main-footer,
+.main-sidebar,
+.content,
+.content-header,
+.container-fluid {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+}
+
+/* Evitar que el color por defecto de AdminLTE en el texto se pierda */
+.content-wrapper {
+  min-height: 100vh !important;
+  color: var(--ui-text-main);
+}
+
+/* --- SCROLLBAR SEMÁNTICA --- */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--ui-bg-body);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--ui-bg-input);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--brand-primary);
+}
+
+/* Asegura que los iconos no se muevan al estar colapsado */
+.sidebar-mini.sidebar-collapse .nav-sidebar .nav-link {
+  width: inherit;
+}
+
+/* Opcional: Si quieres que el colapso sea instantáneo y no tenga animaciones lentas */
+.main-sidebar,
+.main-sidebar::before {
+  transition:
+    margin-left 0.3s ease-in-out,
+    width 0.3s ease-in-out !important;
+}
