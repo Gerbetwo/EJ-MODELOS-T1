@@ -69,8 +69,10 @@ final readonly class Response
         // Las respuestas JSON, redirects, y errores no necesitan layout
         $contentType = $this->headers['Content-Type'] ?? '';
         $isRedirect = $this->statusCode >= 300 && $this->statusCode < 400;
+        $isFragment = isset($this->headers['X-Fragment']) && $this->headers['X-Fragment'] === '1';
 
         return !$isRedirect
+            && !$isFragment
             && !str_contains($contentType, 'application/json')
             && $this->body !== '';
     }

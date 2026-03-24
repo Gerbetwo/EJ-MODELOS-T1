@@ -14,8 +14,8 @@
 .main-sidebar {
   background: var(--ui-bg-card) !important;
   border-right: 1px solid var(--ui-border) !important;
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(1px);
+  -webkit-backdrop-filter: blur(1px);
 }
 
 .nav-sidebar .nav-link.active {
