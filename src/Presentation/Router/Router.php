@@ -13,6 +13,7 @@ use App\Infrastructure\Persistence\GenericRepository;
 use App\Infrastructure\Registry\ModelRegistry;
 use App\Presentation\Controller\GenericController;
 use App\Presentation\Middleware\CsrfMiddleware;
+use App\Presentation\View\ViewRenderer;
 
 /**
  * Router: parsea la URL y despacha al controlador apropiado.
@@ -41,6 +42,7 @@ final class Router
         private readonly \PDO $pdo,
         private readonly ModelRegistry $registry,
         private readonly CsrfMiddleware $csrf,
+        private readonly ViewRenderer $renderer,
     ) {
     }
 
@@ -80,7 +82,7 @@ final class Router
 
         // Resolver controlador específico o usar genérico
         $controller = $this->resolveController(
-            $service, $inspector, $realTable, $rules,
+            $service, $inspector, $this->renderer, $realTable, $rules,
         );
 
         // Despachar acción
@@ -153,13 +155,14 @@ final class Router
     private function resolveController(
         CrudService $service,
         DatabaseInspector $inspector,
+        ViewRenderer $renderer,
         string $tableName,
         array $rules,
     ): GenericController {
         $specific = 'App\\Presentation\\Controller\\' . ucfirst($this->slug) . 'Controller';
 
         if (class_exists($specific)) {
-            return new $specific($service, $inspector, $this->registry, $this->csrf, $rules);
+            return new $specific($service, $inspector, $this->registry, $this->csrf, $renderer, $rules);
         }
 
         return new GenericController(
@@ -167,6 +170,7 @@ final class Router
             inspector: $inspector,
             registry: $this->registry,
             csrf: $this->csrf,
+            renderer: $renderer,
             tableName: $tableName,
             slug: $this->slug,
             rules: $rules,

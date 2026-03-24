@@ -43,6 +43,7 @@ use App\Infrastructure\Persistence\PdoConnection;
 use App\Infrastructure\Registry\ModelRegistry;
 use App\Presentation\Middleware\CsrfMiddleware;
 use App\Presentation\Router\Router;
+use App\Presentation\View\ViewRenderer;
 
 // ─── 3. TRY-CATCH GLOBAL ────────────────────────────────────
 try {
@@ -60,9 +61,10 @@ try {
     );
 
     $csrf = new CsrfMiddleware();
+    $renderer = new ViewRenderer();
 
     // 3c. Router — recibe todas las dependencias ensambladas
-    $router = new Router($pdo, $modelRegistry, $csrf);
+    $router = new Router($pdo, $modelRegistry, $csrf, $renderer);
 
     // 3d. Despachar la petición → obtener Response
     $response = $router->dispatch($request);

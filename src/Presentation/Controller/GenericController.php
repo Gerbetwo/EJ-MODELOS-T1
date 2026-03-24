@@ -10,6 +10,7 @@ use App\Application\Service\CrudService;
 use App\Infrastructure\Persistence\DatabaseInspector;
 use App\Infrastructure\Registry\ModelRegistry;
 use App\Presentation\Middleware\CsrfMiddleware;
+use App\Presentation\View\ViewRenderer;
 
 /**
  * Controlador genérico que traduce HTTP ↔ dominio.
@@ -49,6 +50,7 @@ class GenericController
         protected readonly DatabaseInspector $inspector,
         protected readonly ModelRegistry $registry,
         protected readonly CsrfMiddleware $csrf,
+        protected readonly ViewRenderer $renderer,
         protected readonly string $tableName,
         protected readonly string $slug,
         protected readonly array $rules = [],
@@ -164,26 +166,10 @@ class GenericController
     }
 
     /**
-     * Renderiza una vista .phtml con variables inyectadas.
+     * Renderiza una vista .phtml delegando al ViewRenderer para cumplir con SRP.
      */
     protected function renderView(string $template, array $props = []): string
     {
-        extract($props);
-        ob_start();
-
-        $viewsDir = dirname(__DIR__, 2) . '/../views';
-        $specificView = "{$viewsDir}/{$this->slug}/{$template}.phtml";
-        $genericView = "{$viewsDir}/generic/{$template}.phtml";
-        $fallbackView = "{$viewsDir}/clientes/{$template}.phtml";
-
-        if (file_exists($specificView)) {
-            include $specificView;
-        } elseif (file_exists($genericView)) {
-            include $genericView;
-        } elseif (file_exists($fallbackView)) {
-            include $fallbackView;
-        }
-
-        return (string) ob_get_clean();
+        return $this->renderer->render($this->slug, $template, $props);
     }
 }

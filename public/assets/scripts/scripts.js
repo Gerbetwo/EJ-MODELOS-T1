@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', function () {
       const modalTitle = document.getElementById('crudModalTitle').querySelector('span');
 
       modalTitle.textContent = id ? 'Editar Registro' : 'Nuevo Registro';
-      modalBody.innerHTML = '<div class="text-center p-5"><i class="fas fa-sync fa-spin fa-3x text-brand"></i><p class="mt-3 text-muted">Cargando formulario...</p></div>';
+      modalBody.innerHTML = '<div class="text-center p-5 animate__animated animate__pulse animate__infinite"><i class="fas fa-circle-notch fa-spin fa-3x text-brand"></i><p class="mt-3 text-muted" style="letter-spacing: 1px;">Cargando interfaz...</p></div>';
       
       modal.showModal();
 
@@ -68,11 +68,23 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
-  // --- 2.1 CERRAR NATIVE MODAL ---
+  // --- 2.1 CERRAR NATIVE MODAL (Animado) ---
+  function closePremiumModal(modal) {
+      if (!modal) return;
+      modal.style.opacity = '0';
+      modal.style.transform = 'scale(0.95) translateY(-20px)';
+      setTimeout(() => {
+          modal.close();
+          // Reset styles to let CSS class take over on next open
+          modal.style.opacity = '';
+          modal.style.transform = '';
+      }, 350);
+  }
+
   document.body.addEventListener('click', function(e) {
       if (e.target.closest('.crud-close-btn')) {
           const modal = document.getElementById('crudModal');
-          if (modal) modal.close();
+          closePremiumModal(modal);
       }
   });
 
@@ -87,7 +99,7 @@ document.addEventListener('DOMContentLoaded', function () {
             e.clientY < dialogDimensions.top ||
             e.clientY > dialogDimensions.bottom
           ) {
-            crudModal.close();
+            closePremiumModal(crudModal);
           }
       });
   }

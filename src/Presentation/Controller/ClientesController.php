@@ -8,6 +8,7 @@ use App\Application\Service\CrudService;
 use App\Infrastructure\Persistence\DatabaseInspector;
 use App\Infrastructure\Registry\ModelRegistry;
 use App\Presentation\Middleware\CsrfMiddleware;
+use App\Presentation\View\ViewRenderer;
 
 /**
  * Controlador específico para Clientes.
@@ -21,6 +22,7 @@ class ClientesController extends GenericController
         DatabaseInspector $inspector,
         ModelRegistry $registry,
         CsrfMiddleware $csrf,
+        ViewRenderer $renderer,
         array $rules = [],
     ) {
         parent::__construct(
@@ -28,6 +30,7 @@ class ClientesController extends GenericController
             inspector: $inspector,
             registry: $registry,
             csrf: $csrf,
+            renderer: $renderer,
             tableName: 'clients',
             slug: 'clients',
             rules: $rules,
