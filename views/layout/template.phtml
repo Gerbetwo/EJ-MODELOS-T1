@@ -18,42 +18,41 @@ declare(strict_types=1);
 $pageTitle = htmlspecialchars(ucfirst($tableName ?? 'Dashboard'), ENT_QUOTES, 'UTF-8');
 $safeBasePath = htmlspecialchars($basePath ?? '/', ENT_QUOTES, 'UTF-8');
 
-// Configuración de rutas relativas al Document Root
-$vendorRelPath = ltrim($safeBasePath, '/') . 'assets/css/vendor/';
-$vendorDir = $_SERVER['DOCUMENT_ROOT'] . '/' . $vendorRelPath;
+// 1. Definición de rutas
 $fileName = "adminlte.min.css";
-$localFullPath = $vendorDir . $fileName;
 $remoteUrl = "https://cdn.jsdelivr.net/npm/admin-lte@3.2.0/dist/css/adminlte.min.css";
-$cssUrl = $safeBasePath . "assets/css/vendor/" . $fileName;
+$vendorRelPath = "assets/css/vendor/";
+$vendorDir = $_SERVER['DOCUMENT_ROOT'] . '/' . ltrim($safeBasePath, '/') . $vendorRelPath;
+$localFullPath = $vendorDir . $fileName;
 
-// Lógica de "Auto-descarga" inteligente
-if (!file_exists($localFullPath) || filesize($localFullPath) < 1000) { 
-    // Si el archivo no existe o pesa menos de 1KB (está corrupto), intentamos descargarlo
+// 2. Variable por defecto (Asumimos local, pero cambiaremos si falla)
+$cssUrl = $safeBasePath . $vendorRelPath . $fileName;
+
+// 3. Lógica de verificación y descarga
+if (!file_exists($localFullPath) || filesize($localFullPath) < 1000) {
     
+    // Intentar crear el directorio si no existe
     if (!is_dir($vendorDir)) {
         @mkdir($vendorDir, 0777, true);
     }
 
-    // Configuración de contexto para evitar bloqueos básicos de la CDN
     $context = stream_context_create([
-        "http" => [
-            "header" => "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64)\r\n"
-        ]
+        "http" => ["header" => "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64)\r\n"]
     ]);
 
-    $content = @file_get_contents($remoteUrl, false, $context);
+    // Intentar descargar
+    $downloadedContent = @file_get_contents($remoteUrl, false, $context);
     
-    // Verificamos que se descargó algo y que parece ser un archivo CSS real (AdminLTE pesa mucho más de 10KB)
-    if ($content !== false && strlen($content) > 10000) {
-        @file_put_contents($localFullPath, $content);
-        $cssUrl = $safeBasePath . "assets/css/vendor/" . $fileName;
+    // Validamos: ¿Descargó algo? ¿Es contenido real de AdminLTE (> 10KB)?
+    if ($downloadedContent !== false && strlen($downloadedContent) > 10000) {
+        // Intentar guardar. Si falla el guardado (por permisos), usamos CDN.
+        if (!@file_put_contents($localFullPath, $downloadedContent)) {
+            $cssUrl = $remoteUrl;
+        }
     } else {
-        // Si falla la descarga o descarga basura, forzamos a usar la CDN directamente
+        // Si falla la descarga o el contenido es muy pequeño (error 404 de la CDN, etc)
         $cssUrl = $remoteUrl;
     }
-} else {
-    // Si ya existe y es un archivo sano localmente
-    $cssUrl = $safeBasePath . "assets/css/vendor/" . $fileName;
 }
 ?>
 <!DOCTYPE html>
