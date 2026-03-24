@@ -137,3 +137,151 @@ select option {
 .bg-glass-dark {
   background: rgba(0, 0, 0, 0.4);
 }
+
+.btn-submit {
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+/* --- DATA TABLES --- */
+.data-table-search {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  border: 1px solid rgba(168, 85, 247, 0.3);
+  padding: 2px 8px;
+}
+
+.data-table-search input {
+  box-shadow: none;
+}
+
+.data-table-search .input-group-text i {
+  font-size: 0.8rem;
+}
+
+.data-table-wrapper {
+  border-radius: 0 0 12px 12px;
+  overflow: hidden;
+}
+
+.data-table {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.data-table thead {
+  background: rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid rgba(168, 85, 247, 0.2);
+}
+
+.data-table th {
+  letter-spacing: 1px;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.data-table tbody tr {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  transition: all 0.2s ease;
+}
+
+.data-table tbody td {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.9rem;
+}
+
+/* --- ACTION BUTTONS --- */
+.action-btn {
+  border-radius: 6px;
+  width: 32px;
+  height: 32px;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+}
+
+/* --- NATIVE CRUD MODAL --- */
+.crud-modal {
+  margin: auto;
+  padding: 0;
+  border: none;
+  border-radius: 16px;
+  background: var(--ui-bg-card);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  color: var(--ui-text-main);
+  width: 90%;
+  max-width: 600px;
+  opacity: 0;
+  transform: scale(0.95);
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  /* Fix for older browsers to ensure it behaves block-like when open */
+  display: none;
+}
+
+.crud-modal[open] {
+  display: block;
+  opacity: 1;
+  transform: scale(1);
+}
+
+.crud-modal::backdrop {
+  background: rgba(18, 20, 29, 0.8);
+  backdrop-filter: blur(8px);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.crud-modal[open]::backdrop {
+  opacity: 1;
+}
+
+.crud-modal-header {
+  padding: 1.5rem;
+  border-bottom: 1px solid var(--ui-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.crud-modal-body {
+  padding: 1.5rem;
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.crud-modal-footer {
+  padding: 1rem 1.5rem;
+  border-top: 1px solid var(--ui-border);
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+
+/* Exception box */
+.exception-box {
+  border-radius: 12px;
+  border-left: 5px solid #ff4d4d !important;
+}
+.exception-box i {
+  font-size: 1.2rem;
+}
+
+/* --- LAYOUT FIXES (FOOTER STICKY) --- */
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.content-wrapper {
+  flex: 1; /* Pushes footer down */
+}
+
+/* Page titles */
+.shadow-title {
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}

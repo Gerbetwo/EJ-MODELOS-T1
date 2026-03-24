@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  // --- 2. APERTURA DE MODALES CON SWEETALERT2 ---
+  // --- 2. APERTURA DE MODAL NATIVO ---
   document.body.addEventListener('click', function (e) {
     const btn = e.target.closest('.btn-edit-js, .btn-new-js');
     if (btn) {
@@ -48,29 +48,49 @@ document.addEventListener('DOMContentLoaded', function () {
       const table = btn.dataset.table;
       const id = btn.dataset.id || null;
 
-      SwalThemed.fire({
-        title: id ? 'Editar Registro' : 'Nuevo Registro',
-        html: '<div class="text-center p-5"><i class="fas fa-sync fa-spin fa-3x text-brand"></i><p class="mt-3 text-muted">Cargando formulario...</p></div>',
-        showConfirmButton: false,
-        showCloseButton: true,
-        allowOutsideClick: false,
-        width: '800px',
-        didOpen: () => {
-          const swalContent = Swal.getHtmlContainer();
-          fetch(`${CONFIG.baseUrl}${table}/get${id ? '/' + id : ''}`)
-            .then((r) => r.text())
-            .then((html) => {
-              swalContent.innerHTML = html;
-              const closeBtn = swalContent.querySelector('.swal2-close-btn, [data-dismiss="modal"]');
-              if (closeBtn) closeBtn.addEventListener('click', () => Swal.close());
-            })
-            .catch(() => {
-              swalContent.innerHTML = '<div class="text-center p-5"><i class="fas fa-exclamation-triangle fa-3x text-danger mb-3"></i><p class="text-muted">Error al cargar el formulario.</p></div>';
-            });
-        }
-      });
+      const modal = document.getElementById('crudModal');
+      const modalBody = document.getElementById('crudModalBody');
+      const modalTitle = document.getElementById('crudModalTitle').querySelector('span');
+
+      modalTitle.textContent = id ? 'Editar Registro' : 'Nuevo Registro';
+      modalBody.innerHTML = '<div class="text-center p-5"><i class="fas fa-sync fa-spin fa-3x text-brand"></i><p class="mt-3 text-muted">Cargando formulario...</p></div>';
+      
+      modal.showModal();
+
+      fetch(`${CONFIG.baseUrl}${table}/get${id ? '/' + id : ''}`)
+        .then((r) => r.text())
+        .then((html) => {
+          modalBody.innerHTML = html;
+        })
+        .catch(() => {
+          modalBody.innerHTML = '<div class="text-center p-5"><i class="fas fa-exclamation-triangle fa-3x text-danger mb-3"></i><p class="text-muted">Error al cargar el formulario.</p></div>';
+        });
     }
   });
+
+  // --- 2.1 CERRAR NATIVE MODAL ---
+  document.body.addEventListener('click', function(e) {
+      if (e.target.closest('.crud-close-btn')) {
+          const modal = document.getElementById('crudModal');
+          if (modal) modal.close();
+      }
+  });
+
+  // Cerrar al hacer click en el ::backdrop
+  const crudModal = document.getElementById('crudModal');
+  if (crudModal) {
+      crudModal.addEventListener('click', function(e) {
+          const dialogDimensions = crudModal.getBoundingClientRect();
+          if (
+            e.clientX < dialogDimensions.left ||
+            e.clientX > dialogDimensions.right ||
+            e.clientY < dialogDimensions.top ||
+            e.clientY > dialogDimensions.bottom
+          ) {
+            crudModal.close();
+          }
+      });
+  }
 
   // --- 3. ELIMINACIÓN CON SWEETALERT2 ---
   document.body.addEventListener('click', function (e) {
@@ -142,7 +162,7 @@ async function procesarFormulario(form, isUpdate, SwalThemed, Toast) {
 
       btn.disabled = false;
       btn.innerHTML = originalText;
-      const formContainer = form.closest('.swal2-html-container') || document.querySelector('.modal-body');
+      const formContainer = document.querySelector('.crud-modal-body');
       if (formContainer) formContainer.scrollTop = 0;
     } else if (response.ok && data.success) {
       // ÉXITO — Animación en modal + Toast
