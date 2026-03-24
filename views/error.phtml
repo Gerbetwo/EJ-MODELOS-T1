@@ -1,0 +1,102 @@
+<?php
+/**
+ * Vista de error HTTP genérica (404, 500, etc.)
+ *
+ * Variables disponibles:
+ * @var int    $statusCode   Código HTTP (404, 500, etc.)
+ * @var string $errorMessage Mensaje descriptivo del error
+ */
+declare(strict_types=1);
+
+$safeMessage = htmlspecialchars($errorMessage ?? 'Ha ocurrido un error.', ENT_QUOTES, 'UTF-8');
+$safeCode = (int) ($statusCode ?? 500);
+
+$icon = match (true) {
+    $safeCode === 404 => 'fa-compass',
+    $safeCode >= 500  => 'fa-exclamation-triangle',
+    default           => 'fa-times-circle',
+};
+
+$title = match (true) {
+    $safeCode === 404 => 'Página No Encontrada',
+    $safeCode >= 500  => 'Error del Servidor',
+    default           => 'Error',
+};
+?>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Error <?= $safeCode ?> | Gestión Udenar</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #0a0a1a 0%, #1a0a2e 50%, #0a0a1a 100%);
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            color: #fff;
+        }
+        .error-container {
+            text-align: center;
+            padding: 2rem;
+            max-width: 500px;
+        }
+        .error-code {
+            font-size: 8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #a855f7, #6366f1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1;
+            margin-bottom: 1rem;
+        }
+        .error-icon {
+            font-size: 3rem;
+            color: #a855f7;
+            margin-bottom: 1.5rem;
+            opacity: 0.7;
+        }
+        .error-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        .error-message {
+            color: rgba(255,255,255,0.6);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+        .btn-home {
+            display: inline-block;
+            padding: 0.75rem 2rem;
+            background: linear-gradient(135deg, #a855f7, #6366f1);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .btn-home:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(168, 85, 247, 0.3);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <div class="error-code"><?= $safeCode ?></div>
+        <i class="fas <?= $icon ?> error-icon"></i>
+        <h1 class="error-title"><?= htmlspecialchars($title, ENT_QUOTES, 'UTF-8') ?></h1>
+        <p class="error-message"><?= $safeMessage ?></p>
+        <a href="/" class="btn-home">
+            <i class="fas fa-home mr-2"></i> Volver al Inicio
+        </a>
+    </div>
+</body>
+</html>

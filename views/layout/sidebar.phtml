@@ -1,0 +1,45 @@
+<?php
+/**
+ * Sidebar: menú lateral con módulos dinámicos.
+ *
+ * **Antes:** Usaba TableRegistry::getAllModules() (clase estática con array centralizado).
+ * **Ahora:** Recibe $moduleSlugs directamente desde index.php, que los obtiene del
+ * Router. El Router los descubre vía Atributos PHP 8 en las clases de Modelo.
+ *
+ * @var array  $moduleSlugs Lista de slugs de módulos registrados
+ * @var string $safeBasePath Ruta base escapada
+ */
+$urlParams = explode('/', trim($_GET['url'] ?? 'dashboard', '/'));
+$activeModule = $urlParams[0];
+?>
+<aside class="main-sidebar sidebar-dark-primary bg-transparent elevation-4 sidebar-mini sidebar-no-expand">
+    <a href="<?= $safeBasePath ?>" class="brand-link border-glass">
+        <img src="/favicon.ico" alt="Logo" />
+        <span class="brand-text font-weight-light text-accent-custom ml-3">Gestión Udenar</span>
+    </a>
+
+    <div class="sidebar">
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
+                <li class="nav-item">
+                    <a href="<?= $safeBasePath ?>" class="nav-link <?= $activeModule === 'dashboard' ? 'active shadow-primary' : '' ?>">
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <p>Dashboard</p>
+                    </a>
+                </li>
+
+                <li class="nav-header text-muted small">BASES DE DATOS</li>
+
+                <?php foreach ($moduleSlugs ?? [] as $m): ?>
+                    <li class="nav-item">
+                        <a href="<?= $safeBasePath . htmlspecialchars($m, ENT_QUOTES, 'UTF-8') ?>"
+                           class="nav-link <?= $activeModule === $m ? 'active shadow-primary' : '' ?>">
+                            <i class="nav-icon fas fa-database"></i>
+                            <p><?= htmlspecialchars(ucfirst($m), ENT_QUOTES, 'UTF-8') ?></p>
+                        </a>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        </nav>
+    </div>
+</aside>
