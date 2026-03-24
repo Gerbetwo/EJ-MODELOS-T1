@@ -3,6 +3,7 @@
 @import "_variables.css";
 @import "_components.css";
 @import "_utilities.css";
+@import "dashboard.css";
 
 /* --- CORRECCIÓN CRÍTICA DE CAPAS --- */
 html,

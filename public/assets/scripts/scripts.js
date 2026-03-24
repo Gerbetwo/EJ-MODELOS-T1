@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  // --- 2. APERTURA DE MODALES (DELEGACIÓN) ---
+  // --- 2. APERTURA DE MODALES CON SWEETALERT2 ---
   document.body.addEventListener('click', function (e) {
     const btn = e.target.closest('.btn-edit-js, .btn-new-js');
     if (btn) {
@@ -48,20 +48,27 @@ document.addEventListener('DOMContentLoaded', function () {
       const table = btn.dataset.table;
       const id = btn.dataset.id || null;
 
-      const modalBody = $('#modalBody');
-      modalBody.html(
-        '<div class="text-center p-5"><i class="fas fa-sync fa-spin fa-3x text-brand"></i></div>'
-      );
-      $('#modalGenérico').modal('show');
-
-      fetch(`${CONFIG.baseUrl}${table}/get${id ? '/' + id : ''}`)
-        .then((r) => r.text())
-        .then((html) => modalBody.html(html))
-        .catch(() =>
-          modalBody.html(
-            '<div class="text-center p-5"><i class="fas fa-exclamation-triangle fa-3x text-danger mb-3"></i><p class="text-muted">Error al cargar el formulario.</p></div>'
-          )
-        );
+      SwalThemed.fire({
+        title: id ? 'Editar Registro' : 'Nuevo Registro',
+        html: '<div class="text-center p-5"><i class="fas fa-sync fa-spin fa-3x text-brand"></i><p class="mt-3 text-muted">Cargando formulario...</p></div>',
+        showConfirmButton: false,
+        showCloseButton: true,
+        allowOutsideClick: false,
+        width: '800px',
+        didOpen: () => {
+          const swalContent = Swal.getHtmlContainer();
+          fetch(`${CONFIG.baseUrl}${table}/get${id ? '/' + id : ''}`)
+            .then((r) => r.text())
+            .then((html) => {
+              swalContent.innerHTML = html;
+              const closeBtn = swalContent.querySelector('.swal2-close-btn, [data-dismiss="modal"]');
+              if (closeBtn) closeBtn.addEventListener('click', () => Swal.close());
+            })
+            .catch(() => {
+              swalContent.innerHTML = '<div class="text-center p-5"><i class="fas fa-exclamation-triangle fa-3x text-danger mb-3"></i><p class="text-muted">Error al cargar el formulario.</p></div>';
+            });
+        }
+      });
     }
   });
 
@@ -135,7 +142,8 @@ async function procesarFormulario(form, isUpdate, SwalThemed, Toast) {
 
       btn.disabled = false;
       btn.innerHTML = originalText;
-      document.querySelector('.modal-body').scrollTop = 0;
+      const formContainer = form.closest('.swal2-html-container') || document.querySelector('.modal-body');
+      if (formContainer) formContainer.scrollTop = 0;
     } else if (response.ok && data.success) {
       // ÉXITO — Animación en modal + Toast
       const icon = isUpdate ? 'fa-check-double text-brand' : 'fa-check-circle text-success';
