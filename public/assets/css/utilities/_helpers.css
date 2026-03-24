@@ -1,0 +1,76 @@
+/* utilities/_helpers.css */
+
+/* --- TEXTOS --- */
+.text-brand { color: var(--brand-primary) !important; }
+.text-accent { color: var(--brand-accent) !important; }
+.text-main { color: var(--ui-text-main) !important; }
+.text-muted { color: var(--ui-text-muted) !important; }
+
+/* --- FONDOS --- */
+.bg-void { background-color: var(--ui-bg-body) !important; }
+.bg-surface { background-color: var(--ui-bg-card) !important; }
+.bg-brand { background-color: var(--brand-primary) !important; }
+
+/* --- BOTONES PERSONALIZADOS --- */
+.btn-brand {
+  background-color: var(--brand-primary);
+  border: none;
+  color: #fff !important;
+  transition: all 0.3s ease;
+  box-shadow: var(--ui-glow);
+}
+
+.btn-brand:hover {
+  filter: brightness(1.2);
+  transform: translateY(-1px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.btn-outline-brand {
+  background: transparent;
+  border: 1px solid var(--brand-primary);
+  color: var(--brand-primary) !important;
+}
+
+.btn-outline-brand:hover {
+  background: var(--brand-primary);
+  color: #fff !important;
+}
+
+/* --- EFECTOS --- */
+.glass-panel {
+  background: rgba(18, 20, 29, 0.8) !important;
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--ui-border) !important;
+}
+
+.shadow-glow { box-shadow: var(--ui-glow) !important; }
+
+/* --- ACTION BUTTONS --- */
+.action-btn {
+  border-radius: 6px;
+  width: 32px;
+  height: 32px;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Exception box */
+.exception-box {
+  border-radius: 12px;
+  border-left: 5px solid #ff4d4d !important;
+}
+.exception-box i { font-size: 1.2rem; }
+
+#exception-list li {
+  margin-bottom: 5px;
+  padding-left: 10px;
+  border-left: 2px solid var(--brand-primary);
+}
+
+/* Contenedor de carga en la actualización */
+.bg-glass-dark { background: rgba(0, 0, 0, 0.4); }
+
+/* Page titles */
+.shadow-title { text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }

@@ -1,0 +1,26 @@
+/* base/_variables.css */
+:root {
+  /* --- PALETTE --- */
+  --p-main: #7d5fff;
+  --p-main-soft: rgba(125, 95, 255, 0.15);
+  --p-accent: #18dcff;
+  --p-dark-1: #0b0c10;
+  --p-dark-2: #12141d;
+  --p-dark-3: #1f232d;
+  --p-white: #f1f2f6;
+  --p-gray: #a4b0be;
+
+  /* --- SEMANTIC ROLES --- */
+  --brand-primary: var(--p-main);
+  --brand-accent: var(--p-accent);
+
+  --ui-bg-body: var(--p-dark-1);
+  --ui-bg-card: var(--p-dark-2);
+  --ui-bg-input: var(--p-dark-3);
+
+  --ui-text-main: var(--p-white);
+  --ui-text-muted: var(--p-gray);
+
+  --ui-border: rgba(255, 255, 255, 0.05);
+  --ui-glow: 0 0 15px var(--p-main-soft);
+}

@@ -1,0 +1,26 @@
+/* layouts/_sidebar.css */
+
+/* SIDEBAR: Sin auto-expand y con colores limpios */
+.main-sidebar {
+  background: var(--ui-bg-card) !important;
+  border-right: 1px solid var(--ui-border) !important;
+  backdrop-filter: blur(10px);
+}
+
+.nav-sidebar .nav-link.active {
+  background: var(--brand-primary) !important;
+  box-shadow: 0 0 15px rgba(168, 85, 247, 0.4) !important;
+  color: #fff !important;
+}
+
+/* Asegura que los iconos no se muevan al estar colapsado */
+.sidebar-mini.sidebar-collapse .nav-sidebar .nav-link {
+  width: inherit;
+}
+
+.main-sidebar,
+.main-sidebar::before {
+  transition:
+    margin-left 0.3s ease-in-out,
+    width 0.3s ease-in-out !important;
+}

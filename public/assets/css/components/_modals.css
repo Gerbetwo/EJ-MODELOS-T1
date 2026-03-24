@@ -1,0 +1,61 @@
+/* components/_modals.css */
+
+/* --- NATIVE CRUD MODAL --- */
+.crud-modal {
+  margin: auto;
+  padding: 0;
+  border: 1px solid rgba(168, 85, 247, 0.4);
+  border-radius: 16px;
+  background: rgba(18, 20, 29, 0.85); /* Glassmorphism background */
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 0 40px rgba(125, 95, 255, 0.2), 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  color: var(--ui-text-main);
+  width: 90%;
+  max-width: 600px;
+  opacity: 0;
+  transform: scale(0.95) translateY(-20px);
+  transition: opacity 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  display: none;
+}
+
+.crud-modal[open] {
+  display: block;
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+
+.crud-modal::backdrop {
+  background: rgba(18, 20, 29, 0.8);
+  backdrop-filter: blur(8px);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.crud-modal[open]::backdrop {
+  opacity: 1;
+}
+
+.crud-modal-header {
+  padding: 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background: linear-gradient(135deg, rgba(125, 95, 255, 0.1) 0%, transparent 100%);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 16px 16px 0 0;
+}
+
+.crud-modal-body {
+  padding: 1.5rem;
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.crud-modal-footer {
+  padding: 1rem 1.5rem;
+  border-top: 1px solid var(--ui-border);
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+}

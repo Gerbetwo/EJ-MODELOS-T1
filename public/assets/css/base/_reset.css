@@ -1,0 +1,72 @@
+/* base/_reset.css */
+
+/* --- CRITICAL LAYERS CORRECTION --- */
+html,
+body {
+  height: 100% !important;
+  margin: 0;
+  background-color: transparent !important;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Background canvas */
+.neural-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -2;
+  background-color: var(--ui-bg-body);
+  pointer-events: none;
+}
+
+.neural-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+
+/* --- FORCE TRANSPARENCY IN ADMINLTE --- */
+.wrapper,
+.content-wrapper,
+.main-header,
+.main-footer,
+.main-sidebar,
+.content,
+.content-header,
+.container-fluid {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+}
+
+.content-wrapper {
+  min-height: 100vh !important;
+  color: var(--ui-text-main);
+  flex: 1; /* Pushes footer down */
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+/* --- SCROLLBAR --- */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--ui-bg-body);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--ui-bg-input);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--brand-primary);
+}

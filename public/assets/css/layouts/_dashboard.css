@@ -1,4 +1,4 @@
-/* assets/css/custom/dashboard.css */
+/* layouts/_dashboard.css */
 
 /* Dashboard Cards */
 .dashboard-card {
@@ -76,8 +76,3 @@
 .bg-surface { background: rgba(255, 255, 255, 0.03) !important; }
 .text-brand { color: var(--brand-primary); }
 .text-accent { color: var(--brand-accent); }
-
-/* Progress bar animation */
-.progress-bar {
-    transition: width 1s ease-in-out;
-}

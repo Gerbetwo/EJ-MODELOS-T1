@@ -36,14 +36,11 @@ class ViewRenderer
 
         $specificView = "{$this->viewsDir}/{$moduleSlug}/{$template}.phtml";
         $genericView = "{$this->viewsDir}/generic/{$template}.phtml";
-        $fallbackView = "{$this->viewsDir}/clientes/{$template}.phtml"; // El sistema antiguo lo usaba como fallback principal
 
         if (file_exists($specificView)) {
             include $specificView;
         } elseif (file_exists($genericView)) {
             include $genericView;
-        } elseif (file_exists($fallbackView)) {
-            include $fallbackView;
         } else {
             // Limpiamos el buffer si no se encontró nada para evitar salidas raras
             ob_end_clean();

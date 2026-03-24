@@ -1,0 +1,53 @@
+/* components/_tables.css */
+
+/* TABLA: Hover Neon */
+#dynamicTable tbody tr:hover {
+  background-color: rgba(168, 85, 247, 0.05) !important;
+  box-shadow: inset 4px 0 0 var(--brand-primary);
+}
+
+/* --- DATA TABLES --- */
+.data-table-search {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  border: 1px solid rgba(168, 85, 247, 0.3);
+  padding: 2px 8px;
+}
+
+.data-table-search input {
+  box-shadow: none;
+}
+
+.data-table-search .input-group-text i {
+  font-size: 0.8rem;
+}
+
+.data-table-wrapper {
+  border-radius: 0 0 12px 12px;
+  overflow: hidden;
+}
+
+.data-table {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.data-table thead {
+  background: rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid rgba(168, 85, 247, 0.2);
+}
+
+.data-table th {
+  letter-spacing: 1px;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.data-table tbody tr {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  transition: all 0.2s ease;
+}
+
+.data-table tbody td {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.9rem;
+}

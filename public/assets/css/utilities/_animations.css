@@ -1,0 +1,6 @@
+/* utilities/_animations.css */
+
+/* Progress bar animation */
+.progress-bar {
+    transition: width 1s ease-in-out;
+}
